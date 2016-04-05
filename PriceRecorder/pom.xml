@@ -15,6 +15,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
         </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -24,9 +29,9 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <!-- DO NOT include log4j.properties file in your Jar -->
-                    <excludes>
+                    <!--<excludes>
                         <exclude>**/log4j.properties</exclude>
-                    </excludes>
+                    </excludes>-->
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
