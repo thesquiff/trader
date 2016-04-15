@@ -1,21 +1,18 @@
 package com.futurewebdynamics.trader.common;
 
-import com.futurewebdynamics.trader.trainer.NormalisedPriceInformation;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.stream.Stream;
 
 /**
  * Created by 52con on 14/04/2016.
  */
 public class DataWindow {
 
-
-    private final static int WINDOW_SIZE = 24*60;
+    private int windowSize;
 
     private ArrayList<NormalisedPriceInformation> buffer;
     private int bufferSize;
@@ -24,19 +21,16 @@ public class DataWindow {
 
     private int bufferPointer = 0;
 
-    public DataWindow(ArrayList<NormalisedPriceInformation> buffer, int windowSize) {
-
-        this.buffer = buffer;
-        this.bufferSize = buffer.size();
-
+    public DataWindow(int windowSize) {
+        this.windowSize = windowSize;
         window = new CircularFifoQueue(windowSize);
     }
 
-    public boolean primeWindow() {
+    /*public boolean primeWindow() {
 
         ListIterator izzy = buffer.listIterator();
 
-        for (int i = 0; i < WINDOW_SIZE; i++) {
+        for (int i = 0; i < this.windowSize; i++) {
 
             if (!izzy.hasNext()) {
                 //there is not enough data for a window of this size
@@ -49,19 +43,33 @@ public class DataWindow {
         }
 
         return true;
-    }
+    }*/
 
-    public boolean tick() {
-        if (bufferPointer < buffer.size() - 1 ) {
+    public void tick(NormalisedPriceInformation tickData) {
+        window.add(tickData);
+        /*if (bufferPointer < buffer.size() - 1 ) {
             window.add(buffer.get(bufferPointer++));
             return true;
         }
 
-        return false;
+        return false;*/
     }
 
     public List<NormalisedPriceInformation> getData() {
-        return Arrays.asList(window.toArray());
+        NormalisedPriceInformation[] priceArray = (NormalisedPriceInformation[])window.toArray();
+
+        List<NormalisedPriceInformation> list = Arrays.asList(priceArray);
+
+        return list;
+    }
+
+    public int getWindowSize() {
+        return windowSize;
+    }
+
+    public boolean hasGaps() {
+        List<NormalisedPriceInformation> data = this.getData();
+        return (data.stream().filter(p->p == null).count() > 0);
     }
 
 }

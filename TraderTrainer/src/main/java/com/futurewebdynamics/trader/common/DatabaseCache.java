@@ -1,4 +1,4 @@
-package com.futurewebdynamics.trader.trainer;
+package com.futurewebdynamics.trader.common;
 
 import org.apache.log4j.Logger;
 
@@ -27,10 +27,10 @@ public class DatabaseCache {
     }
 
     public void loadData() {
-        refreshConnection();
+        DatabaseUtils.refreshConnection(connection, connectionString);
 
         try {
-            ResultSet resultSet = connection.createStatement().executeQuery("SELECT COIUNT(*) FROM price");
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT COUNT(*) FROM price");
             resultSet.next();
             int count = resultSet.getInt(0);
             cache = new ArrayList<PriceInformation>(count);
@@ -53,19 +53,5 @@ public class DatabaseCache {
         return cache;
     }
 
-    private void refreshConnection() {
-        try {
-            while (connection == null || connection.isClosed() || !connection.isValid(2)) {
-                logger.info("Database connection lost - retrying");
-                try {
-                    connection = DriverManager.getConnection(connectionString);
-                } catch (SQLException e) {
-                    logger.debug(e.getMessage());
-                }
-            }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        }
-    }
 
 }

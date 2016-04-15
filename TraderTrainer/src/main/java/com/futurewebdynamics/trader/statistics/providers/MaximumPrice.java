@@ -6,17 +6,18 @@ import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import java.util.List;
 
 /**
- * Created by 52con on 14/04/2016.
+ * Created by 52con on 15/04/2016.
  */
-public class MinimumPrice extends IStatisticProvider {
+public class MaximumPrice extends IStatisticProvider{
 
-    public MinimumPrice() {
+
+    public MaximumPrice() {
         super();
     }
 
     @Override
     public String getName() {
-        return "MinimumPrice";
+        return "MaximumPrice";
     }
 
     @Override
@@ -32,6 +33,6 @@ public class MinimumPrice extends IStatisticProvider {
     @Override
     public Object getResult() {
         List<NormalisedPriceInformation> data = dataWindow.getData();
-        return data.stream().mapToInt(p->p.getPrice()).min();
+        return data.stream().mapToInt(p->p.getPrice()).max();
     }
 }

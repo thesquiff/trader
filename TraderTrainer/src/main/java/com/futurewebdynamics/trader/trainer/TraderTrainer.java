@@ -1,5 +1,12 @@
 package com.futurewebdynamics.trader.trainer;
 
+import com.futurewebdynamics.trader.analysers.IAnalyserProvider;
+import com.futurewebdynamics.trader.analysers.providers.PercentageDropBounce;
+import com.futurewebdynamics.trader.common.*;
+import com.futurewebdynamics.trader.datasources.IDataSource;
+import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
+import com.futurewebdynamics.trader.positions.PositionsManager;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,43 +19,36 @@ import java.util.Properties;
 public class TraderTrainer {
 
     public static void main(String args[]) {
+        IDataSource dataSource = new ReplayDataSource();
+        dataSource.init(args[0]);
 
-        Properties prop = new Properties();
-        InputStream input = null;
-        String dbHost = "";
-        String dbUsername = "";
-        String dbPassword = "";
+        AnalyserRegistry analysers = new AnalyserRegistry();
+        analysers.addAnalyser(new PercentageDropBounce(3, 2.0));
 
-        try {
-            input = new FileInputStream(args[0]);
+        DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
+        for (IAnalyserProvider analyser : analysers.getAnalysers()) {
 
-            prop.load(input);
-
-            dbHost = prop.getProperty("dbhost");
-            dbUsername = prop.getProperty("dbusername");
-            dbPassword = prop.getProperty("dbpassword");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.exit(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
         }
 
-        String connectionString = "jdbc:mysql://" + dbHost + "/trader?user=" + dbUsername + "&password=" + dbPassword;
 
-        DatabaseCache databaseCache = new DatabaseCache(connectionString);
-        databaseCache.loadData();
-
-        TimeNormalisedDataCache dataCache = new TimeNormalisedDataCache(databaseCache.getCache());
+        PositionsManager positionsManager = new PositionsManager();
 
 
+        while(true) {
 
+            try {
+                Thread.currentThread().sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            NormalisedPriceInformation tickData = dataSource.getTickData();
+            positionsManager.tick(tickData);
 
+            for (IAnalyserProvider analyser : analysers.getAnalysers()) {
+                analyser.tick();
+            }
+
+        }
 
     }
-
-
-
 }

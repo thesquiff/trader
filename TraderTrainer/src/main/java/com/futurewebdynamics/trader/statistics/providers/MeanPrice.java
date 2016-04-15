@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * Created by 52con on 14/04/2016.
  */
-public class MinimumPrice extends IStatisticProvider {
+public class MeanPrice extends IStatisticProvider {
 
-    public MinimumPrice() {
+    public MeanPrice() {
         super();
     }
 
@@ -32,6 +32,6 @@ public class MinimumPrice extends IStatisticProvider {
     @Override
     public Object getResult() {
         List<NormalisedPriceInformation> data = dataWindow.getData();
-        return data.stream().mapToInt(p->p.getPrice()).min();
+        return (int)Math.round(data.stream().mapToInt(p->p.getPrice()).average().getAsDouble());
     }
 }

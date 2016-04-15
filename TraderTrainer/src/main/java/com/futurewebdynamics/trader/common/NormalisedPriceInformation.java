@@ -1,4 +1,6 @@
-package com.futurewebdynamics.trader.trainer;
+package com.futurewebdynamics.trader.common;
+
+import com.futurewebdynamics.trader.common.PriceInformation;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -6,6 +8,7 @@ package com.futurewebdynamics.trader.trainer;
 public class NormalisedPriceInformation extends PriceInformation {
 
     private int correctedTimestamp;
+
 
     public NormalisedPriceInformation(int timestamp, int price, int correctedTimestamp) {
         super(timestamp, price);

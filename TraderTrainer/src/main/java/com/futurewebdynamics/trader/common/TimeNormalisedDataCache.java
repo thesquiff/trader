@@ -1,4 +1,7 @@
-package com.futurewebdynamics.trader.trainer;
+package com.futurewebdynamics.trader.common;
+
+import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.common.PriceInformation;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -7,6 +10,8 @@ import java.util.stream.Collectors;
  * Created by 52con on 14/04/2016.
  */
 public class TimeNormalisedDataCache {
+
+
 
 
     private NormalisedPriceInformation minutePrices[];
@@ -60,6 +65,16 @@ public class TimeNormalisedDataCache {
     }
 
 
+    public NormalisedPriceInformation[] getMinutePrices() {
+        return minutePrices;
+    }
 
+    public void setMinutePrices(NormalisedPriceInformation[] minutePrices) {
+        this.minutePrices = minutePrices;
+    }
+
+    public int getCacheSize() {
+        return this.minutePrices.length;
+    }
 
 }

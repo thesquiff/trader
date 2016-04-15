@@ -1,4 +1,4 @@
-package com.futurewebdynamics.trader.trainer;
+package com.futurewebdynamics.trader.common;
 
 /**
  * Created by 52con on 14/04/2016.
