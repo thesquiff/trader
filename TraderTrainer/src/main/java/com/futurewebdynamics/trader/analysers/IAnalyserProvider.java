@@ -2,6 +2,9 @@ package com.futurewebdynamics.trader.analysers;
 
 import com.futurewebdynamics.trader.common.DataWindow;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.positions.Position;
+import com.futurewebdynamics.trader.positions.PositionStatus;
+import com.futurewebdynamics.trader.positions.PositionsManager;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 
 import java.util.ArrayList;
@@ -11,30 +14,19 @@ import java.util.ArrayList;
  */
 public abstract class IAnalyserProvider {
 
-    public IAnalyserProvider(int dataWindowSize) {
-        this.dataWindowSize = dataWindowSize;
-    }
-
     private int dataWindowSize;
-
     private String name;
-
     private int majorVersion;
-
     private int minorVersion;
-
-    private ISellConditionProvider sellConditionProvider;
-
     protected ArrayList statisticProviders;
-
     protected DataWindow dataWindow;
+    private PositionsManager manager;
+    private NormalisedPriceInformation tickData;
 
-    public ISellConditionProvider getSellConditionProvider() {
-        return sellConditionProvider;
-    }
-
-    public void setSellConditionProvider(ISellConditionProvider sellConditionProvider) {
-        this.sellConditionProvider = sellConditionProvider;
+    public IAnalyserProvider(DataWindow dataWindow, int dataWindowSize, PositionsManager manager) {
+        this.dataWindowSize = dataWindowSize;
+        this.dataWindow = dataWindow;
+        this.manager = manager;
     }
 
     public DataWindow getDataWindow() {
@@ -69,9 +61,14 @@ public abstract class IAnalyserProvider {
         this.minorVersion = minorVersion;
     }
 
-    public abstract void tick();
+    public int getRequiredDataWindowSize() {
+        return this.dataWindowSize;
+    }
+
+    public abstract void tick(NormalisedPriceInformation tickData);
 
     public void buy() {
+        this.manager.openPosition(tickData.getPrice());
 
     }
 

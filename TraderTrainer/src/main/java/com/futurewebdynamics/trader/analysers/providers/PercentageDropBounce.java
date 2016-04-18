@@ -1,6 +1,10 @@
 package com.futurewebdynamics.trader.analysers.providers;
 
 import com.futurewebdynamics.trader.analysers.IAnalyserProvider;
+import com.futurewebdynamics.trader.common.DataWindow;
+import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.positions.PositionsManager;
+import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.statistics.providers.IsRising;
 import com.futurewebdynamics.trader.statistics.providers.PercentageDrop;
 
@@ -14,8 +18,8 @@ public class PercentageDropBounce extends IAnalyserProvider {
     private PercentageDrop percentageDropStatistic;
     private IsRising isRisingStatistic;
 
-    public PercentageDropBounce(int dataWindowSize, double triggerPercentage) {
-        super(dataWindowSize);
+    public PercentageDropBounce(DataWindow dataWindow, int dataWindowSize, PositionsManager positionManager, double triggerPercentage) {
+        super(dataWindow, dataWindowSize, positionManager);
         percentageDropStatistic = new PercentageDrop();
         percentageDropStatistic.setDataWindow(dataWindow);
 
@@ -27,7 +31,7 @@ public class PercentageDropBounce extends IAnalyserProvider {
     }
 
     @Override
-    public void tick() {
+    public void tick(NormalisedPriceInformation tickData) {
         if (this.dataWindow.hasGaps()) return;
 
         Double drop = (Double)percentageDropStatistic.getResult();

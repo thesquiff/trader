@@ -1,6 +1,7 @@
 package com.futurewebdynamics.trader.common;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -21,7 +22,21 @@ public class DataWindowRegistry {
         DataWindow existing = dataWindows.get(new Integer(length));
         if (existing != null) return existing;
 
-        DataWindow newDataWindow = new DataWindow();
+        DataWindow newDataWindow = new DataWindow(length);
+
+        dataWindows.put(length, newDataWindow);
+
+        return newDataWindow;
+    }
+
+    public void tick(NormalisedPriceInformation tickData) {
+        Iterator izzy = this.dataWindows.entrySet().iterator();
+
+        while(izzy.hasNext()) {
+            ((DataWindow)izzy.next()).tick(tickData);
+        }
+
+
     }
 
 }

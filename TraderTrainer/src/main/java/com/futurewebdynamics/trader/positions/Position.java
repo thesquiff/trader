@@ -1,8 +1,12 @@
 package com.futurewebdynamics.trader.positions;
 
+import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.trader.ITrader;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -19,11 +23,21 @@ public class Position {
     private Calendar timeClosed;
     private int leverage;
 
+    public ArrayList<ISellConditionProvider> sellConditions;
+
     public Position() {
     }
 
     public PositionStatus getStatus() {
         return status;
+    }
+
+    public ArrayList<ISellConditionProvider> getSellConditions() {
+        return sellConditions;
+    }
+
+    public void addSellCondition(ISellConditionProvider sellCondition) {
+        this.sellConditions.add(sellCondition);
     }
 
     public void setStatus(PositionStatus status) {
@@ -94,6 +108,11 @@ public class Position {
         this.leverage = leverage;
     }
 
-
+    public void tick(NormalisedPriceInformation tickData) {
+        Iterator izzy = sellConditions.iterator();
+        while(izzy.hasNext()) {
+            ((ISellConditionProvider)izzy.next()).tick(tickData);
+        }
+    }
 
 }

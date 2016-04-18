@@ -6,11 +6,14 @@ import com.futurewebdynamics.trader.common.*;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
 import com.futurewebdynamics.trader.positions.PositionsManager;
+import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
+import com.futurewebdynamics.trader.sellconditions.providers.TakeProfit;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -22,17 +25,19 @@ public class TraderTrainer {
         IDataSource dataSource = new ReplayDataSource();
         dataSource.init(args[0]);
 
-        AnalyserRegistry analysers = new AnalyserRegistry();
-        analysers.addAnalyser(new PercentageDropBounce(3, 2.0));
-
         DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
+
+        AnalyserRegistry analysers = new AnalyserRegistry();
+        analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(3), 3, 2.0));
+
         for (IAnalyserProvider analyser : analysers.getAnalysers()) {
+            int requiredSize = analyser.getRequiredDataWindowSize();
+            dataWindowRegistry.getWindowOfLength(requiredSize);
+
 
         }
 
-
         PositionsManager positionsManager = new PositionsManager();
-
 
         while(true) {
 
@@ -41,12 +46,17 @@ public class TraderTrainer {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             NormalisedPriceInformation tickData = dataSource.getTickData();
-            positionsManager.tick(tickData);
+
+            dataWindowRegistry.tick(tickData);
 
             for (IAnalyserProvider analyser : analysers.getAnalysers()) {
                 analyser.tick();
             }
+
+            positionsManager.tick(tickData);
+
 
         }
 
