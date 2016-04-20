@@ -22,6 +22,9 @@ public class Position {
     private Calendar timeOpened;
     private Calendar timeClosed;
     private int leverage;
+    private PositionsManager positionsManager;
+
+    private long uniqueId;
 
     public ArrayList<ISellConditionProvider> sellConditions;
 
@@ -108,6 +111,22 @@ public class Position {
         this.leverage = leverage;
     }
 
+    public PositionsManager getPositionsManager() {
+        return positionsManager;
+    }
+
+    public void setPositionsManager(PositionsManager positionsManager) {
+        this.positionsManager = positionsManager;
+    }
+
+    public long getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(long uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
     public void tick(NormalisedPriceInformation tickData) {
         Iterator izzy = sellConditions.iterator();
         while(izzy.hasNext()) {
@@ -115,4 +134,7 @@ public class Position {
         }
     }
 
+    public void sell(int targetSellPrice) {
+        this.positionsManager.sellPosition(this, targetSellPrice);
+    }
 }

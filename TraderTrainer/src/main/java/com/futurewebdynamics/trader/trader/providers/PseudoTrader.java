@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -62,17 +63,40 @@ public class PseudoTrader implements ITrader {
 
     @Override
     public boolean openPosition(Position position) {
+
+        DatabaseUtils.refreshConnection(connection, connectionString);
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO pseudopositions (status, timeopened, targetpriceopened, actualpriceopened, leverage, quantity) VALUES(" + position.getStatus().getValue() +", FROM_UNIXTIME(" + position.getTimeOpened().getTimeInMillis()/1000 + "), " + position.getTargetOpenPrice() + ", " + position.getTargetOpenPrice() + ", 1, 100)", Statement.RETURN_GENERATED_KEYS);
+
+            ResultSet keys = statement.getGeneratedKeys();
+            keys.next();
+            position.setUniqueId(keys.getLong(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean checkPosition(Position position) {
         return false;
     }
 
     @Override
-    public boolean checkPosition() {
-        return false;
-    }
+    public boolean closePosition(Position position) {
+        try {
+            connection.createStatement().executeUpdate("UPDATE pseudopositions SET status=" + PositionStatus.CLOSED.getValue() + ", timeclosed=FROM_UNIXTIME(" + position.getTimeClosed() + ", targetpriceclosed="+position.getTargetSellPrice() + ", actualpriceclosed=" + position.getTargetSellPrice() + " WHERE pseudopositions.index=" + position.getUniqueId() + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-    @Override
-    public boolean closePosition() {
-        return false;
+        return true;
     }
 
     @Override

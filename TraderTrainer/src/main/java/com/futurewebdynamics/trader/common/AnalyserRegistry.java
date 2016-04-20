@@ -27,11 +27,11 @@ public class AnalyserRegistry {
         this.analysers.add(analyser);
     }
 
-    public void tick() {
+    public void tick(NormalisedPriceInformation tickData) {
         ListIterator<IAnalyserProvider> izzy = analysers.listIterator();
 
         while(izzy.hasNext()) {
-            izzy.next().tick();
+            izzy.next().tick(tickData);
         }
     }
 

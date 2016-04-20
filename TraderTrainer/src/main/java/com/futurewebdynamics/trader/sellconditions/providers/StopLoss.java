@@ -1,5 +1,6 @@
 package com.futurewebdynamics.trader.sellconditions.providers;
 
+import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 
 /**
@@ -7,12 +8,26 @@ import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
  */
 public class StopLoss extends ISellConditionProvider {
 
-    private int buyPrice;
     private int decrease;
+    private int buyPrice;
 
-    public StopLoss(int buyPrice, int decrease) {
-        this.buyPrice = buyPrice;
+    public StopLoss (int buyPrice, int decrease) {
         this.decrease = decrease;
+        this.buyPrice = buyPrice;
+    }
+
+    public int getDecrease() {
+        return decrease;
+    }
+
+    public void setDecrease(int increase) {
+        this.decrease = decrease;
+    }
+
+    public void tick(NormalisedPriceInformation tick) {
+        if (tick.getPrice() <= (buyPrice - decrease)) {
+            sell(tick.getPrice());
+        }
     }
 
 

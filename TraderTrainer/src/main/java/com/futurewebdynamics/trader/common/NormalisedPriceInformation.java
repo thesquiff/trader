@@ -1,7 +1,5 @@
 package com.futurewebdynamics.trader.common;
 
-import com.futurewebdynamics.trader.common.PriceInformation;
-
 /**
  * Created by 52con on 14/04/2016.
  */

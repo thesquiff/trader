@@ -6,15 +6,6 @@ import com.futurewebdynamics.trader.common.*;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
 import com.futurewebdynamics.trader.positions.PositionsManager;
-import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
-import com.futurewebdynamics.trader.sellconditions.providers.TakeProfit;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -27,17 +18,15 @@ public class TraderTrainer {
 
         DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
 
+        PositionsManager positionsManager = new PositionsManager();
+
         AnalyserRegistry analysers = new AnalyserRegistry();
-        analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(3), 3, 2.0));
+        analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(3), 3, positionsManager, 2.0));
 
         for (IAnalyserProvider analyser : analysers.getAnalysers()) {
             int requiredSize = analyser.getRequiredDataWindowSize();
             dataWindowRegistry.getWindowOfLength(requiredSize);
-
-
         }
-
-        PositionsManager positionsManager = new PositionsManager();
 
         while(true) {
 
@@ -52,7 +41,7 @@ public class TraderTrainer {
             dataWindowRegistry.tick(tickData);
 
             for (IAnalyserProvider analyser : analysers.getAnalysers()) {
-                analyser.tick();
+                analyser.tick(tickData);
             }
 
             positionsManager.tick(tickData);

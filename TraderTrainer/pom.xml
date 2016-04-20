@@ -52,7 +52,7 @@
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
-                            <mainClass>com.futurewebdynamics.trader.Recorder</mainClass>
+                            <mainClass>com.futurewebdynamics.trader.trainer.TraderTrainer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

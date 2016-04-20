@@ -1,6 +1,6 @@
 package com.futurewebdynamics.trader.datasources.providers;
 
-import com.futurewebdynamics.trader.common.PriceInformation;
+import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 
 /**
@@ -9,7 +9,7 @@ import com.futurewebdynamics.trader.datasources.IDataSource;
 public class LiveDataSource implements IDataSource {
 
     @Override
-    public PriceInformation getTickData() {
+    public NormalisedPriceInformation getTickData() {
         return null;
     }
 

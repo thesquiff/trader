@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public interface ITrader {
 
     boolean openPosition(Position position);
-    boolean checkPosition();
-    boolean closePosition();
+    boolean checkPosition(Position position);
+    boolean closePosition(Position position);
 
     ArrayList<Position> getPositions();
 

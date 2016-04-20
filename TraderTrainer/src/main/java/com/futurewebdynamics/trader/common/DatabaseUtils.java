@@ -11,12 +11,13 @@ import java.sql.SQLException;
  */
 public class DatabaseUtils {
 
-    final static Logger logger = Logger.getLogger(DatabaseCache.class);
+    final static Logger logger = Logger.getLogger(DatabaseUtils.class);
 
     public static void refreshConnection(Connection connection, String connectionString) {
         try {
             while (connection == null || connection.isClosed() || !connection.isValid(2)) {
                 logger.info("Database connection lost - retrying");
+                logger.debug("Connection string " + connectionString);
                 try {
                     connection = DriverManager.getConnection(connectionString);
                 } catch (SQLException e) {
