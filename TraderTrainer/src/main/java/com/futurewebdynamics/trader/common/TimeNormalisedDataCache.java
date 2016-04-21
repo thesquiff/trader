@@ -60,9 +60,9 @@ public class TimeNormalisedDataCache {
                 minutePrices[tick] = null;
             } else {
                 PriceInformation unnormalised = selectedInfo.get(0);
-                logger.debug(new Date(minute*1000) + " : " + unnormalised.getPrice());
+                //logger.debug(new Date(minute*1000) + " : " + unnormalised.getPrice());
 
-                minutePrices[tick] = new NormalisedPriceInformation(unnormalised.getTimestamp(), unnormalised.getPrice(), (int)targetTime.getTimeInMillis() / 1000);
+                minutePrices[tick] = new NormalisedPriceInformation(unnormalised.getTimestamp(), unnormalised.getPrice(), (int)minute);
             }
 
             targetTime.add(Calendar.MINUTE, 1);

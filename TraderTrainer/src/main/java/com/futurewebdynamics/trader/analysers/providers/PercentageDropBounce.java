@@ -37,7 +37,7 @@ public class PercentageDropBounce extends IAnalyserProvider {
         Double drop = (Double)percentageDropStatistic.getResult();
 
         if (drop >= triggerPercentage && (Boolean)isRisingStatistic.getResult()) {
-            buy();
+            buy(tickData);
         }
 
     }

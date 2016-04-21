@@ -17,13 +17,17 @@ public class DataWindow {
     private ArrayList<NormalisedPriceInformation> buffer;
     private int bufferSize;
 
-    private CircularFifoQueue window;
+    private CircularFifoQueue<NormalisedPriceInformation> window;
 
     private int bufferPointer = 0;
 
     public DataWindow(int windowSize) {
         this.windowSize = windowSize;
         window = new CircularFifoQueue(windowSize);
+        for (int i = 0; i < this.windowSize; i++) {
+            window.add(new NormalisedPriceInformation(true));
+
+        }
     }
 
     /*public boolean primeWindow() {
@@ -56,9 +60,9 @@ public class DataWindow {
     }
 
     public List<NormalisedPriceInformation> getData() {
-        NormalisedPriceInformation[] priceArray = (NormalisedPriceInformation[])window.toArray();
+        Object[] objs = window.toArray();
 
-        List<NormalisedPriceInformation> list = Arrays.asList(priceArray);
+        List<NormalisedPriceInformation> list = Arrays.asList(Arrays.copyOf(objs, objs.length, NormalisedPriceInformation[].class));
 
         return list;
     }
@@ -69,7 +73,7 @@ public class DataWindow {
 
     public boolean hasGaps() {
         List<NormalisedPriceInformation> data = this.getData();
-        return (data.stream().filter(p->p == null).count() > 0);
+        return (data.stream().filter(p->p.isEmpty()).count() > 0);
     }
 
 }

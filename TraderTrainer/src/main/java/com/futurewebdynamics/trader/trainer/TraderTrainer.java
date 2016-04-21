@@ -6,6 +6,7 @@ import com.futurewebdynamics.trader.common.*;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
 import com.futurewebdynamics.trader.positions.PositionsManager;
+import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -19,6 +20,7 @@ public class TraderTrainer {
         DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
 
         PositionsManager positionsManager = new PositionsManager();
+        positionsManager.setTrader(new PseudoTrader());
 
         AnalyserRegistry analysers = new AnalyserRegistry();
         analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(3), 3, positionsManager, 2.0));
