@@ -13,13 +13,14 @@ public class DatabaseUtils {
 
     final static Logger logger = Logger.getLogger(DatabaseUtils.class);
 
-    public static void refreshConnection(Connection connection, String connectionString) {
+    public static Connection refreshConnection(Connection connection, String connectionString) {
         try {
             while (connection == null || connection.isClosed() || !connection.isValid(2)) {
                 logger.info("Database connection lost - retrying");
                 logger.debug("Connection string " + connectionString);
                 try {
                     connection = DriverManager.getConnection(connectionString);
+                    logger.info("Database connection established");
                 } catch (SQLException e) {
                     logger.debug(e.getMessage());
                 }
@@ -27,5 +28,7 @@ public class DatabaseUtils {
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
+
+        return connection;
     }
 }

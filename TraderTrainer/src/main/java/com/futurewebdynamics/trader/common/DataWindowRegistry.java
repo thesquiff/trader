@@ -2,6 +2,7 @@ package com.futurewebdynamics.trader.common;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -33,7 +34,10 @@ public class DataWindowRegistry {
         Iterator izzy = this.dataWindows.entrySet().iterator();
 
         while(izzy.hasNext()) {
-            ((DataWindow)izzy.next()).tick(tickData);
+
+            Map.Entry pair = (Map.Entry)izzy.next();
+
+            ((DataWindow)pair.getValue()).tick(tickData);
         }
 
 

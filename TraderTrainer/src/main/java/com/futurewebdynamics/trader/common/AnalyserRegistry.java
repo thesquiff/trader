@@ -13,6 +13,7 @@ public class AnalyserRegistry {
     private ArrayList<IAnalyserProvider> analysers;
 
     public AnalyserRegistry() {
+        this.analysers = new ArrayList<IAnalyserProvider>();
     }
 
     public ArrayList<IAnalyserProvider> getAnalysers() {

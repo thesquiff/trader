@@ -4,6 +4,7 @@ import com.futurewebdynamics.trader.common.DatabaseCache;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.common.TimeNormalisedDataCache;
 import com.futurewebdynamics.trader.datasources.IDataSource;
+import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,6 +20,8 @@ public class ReplayDataSource implements IDataSource {
     private TimeNormalisedDataCache dataCache;
 
     private int index = 0;
+
+    final static Logger logger = Logger.getLogger(ReplayDataSource.class);
 
     public void init(String propertiesFile) {
 
@@ -55,6 +58,9 @@ public class ReplayDataSource implements IDataSource {
 
 
     public NormalisedPriceInformation getTickData() {
+
+        logger.debug("Cache size: " + dataCache.getCacheSize());
+        logger.debug("index: " + index);
 
         if (index >= dataCache.getCacheSize()) return null;
 

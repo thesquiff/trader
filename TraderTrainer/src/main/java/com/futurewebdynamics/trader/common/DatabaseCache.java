@@ -3,9 +3,9 @@ package com.futurewebdynamics.trader.common;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -27,21 +27,30 @@ public class DatabaseCache {
     }
 
     public void loadData() {
-        DatabaseUtils.refreshConnection(connection, connectionString);
+        this.connection = DatabaseUtils.refreshConnection(this.connection, connectionString);
 
         try {
-            ResultSet resultSet = connection.createStatement().executeQuery("SELECT COUNT(*) FROM price");
+
+            Statement statement = this.connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM price");
             resultSet.next();
-            int count = resultSet.getInt(0);
+
+            int count = resultSet.getInt(1);
             cache = new ArrayList<PriceInformation>(count);
 
-            resultSet = connection.createStatement().executeQuery("SELECT * FROM price ORDER BY 'index'");
+            logger.info(count + " price records identified");
+
+            resultSet = connection.createStatement().executeQuery("SELECT UNIX_TIMESTAMP(price.timestamp), price FROM price ORDER BY 'index'");
 
             int index = 0;
             while (resultSet.next()) {
+
+                cache.add(new PriceInformation (resultSet.getInt(1),resultSet.getInt(2)));
                 index++;
-                cache.add(new PriceInformation (resultSet.getInt("timestamp"),resultSet.getInt("price")));
             }
+            logger.info(index + " price records cached");
+            logger.debug("Closing database connection");
+            this.connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
