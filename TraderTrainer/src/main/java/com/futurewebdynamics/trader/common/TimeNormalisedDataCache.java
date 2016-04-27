@@ -57,11 +57,9 @@ public class TimeNormalisedDataCache {
 
             if (selectedInfo.size() <= 0) {
                 logger.debug("No data found for " + new Date(minute*1000));
-                minutePrices[tick] = null;
+                minutePrices[tick] = new NormalisedPriceInformation(true);
             } else {
                 PriceInformation unnormalised = selectedInfo.get(0);
-                //logger.debug(new Date(minute*1000) + " : " + unnormalised.getPrice());
-
                 minutePrices[tick] = new NormalisedPriceInformation(unnormalised.getTimestamp(), unnormalised.getPrice(), (int)minute);
             }
 

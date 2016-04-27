@@ -2,7 +2,7 @@ package com.futurewebdynamics.trader.positions;
 
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
-import com.futurewebdynamics.trader.trader.ITrader;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +28,10 @@ public class Position {
 
     public ArrayList<ISellConditionProvider> sellConditions;
 
+    final static Logger logger = Logger.getLogger(Position.class);
+
     public Position() {
+        sellConditions = new ArrayList<ISellConditionProvider>();
     }
 
     public PositionStatus getStatus() {
@@ -135,6 +138,7 @@ public class Position {
     }
 
     public void sell(int targetSellPrice) {
+        logger.info("Selling at: " + targetSellPrice);
         this.positionsManager.sellPosition(this, targetSellPrice);
     }
 }

@@ -52,13 +52,14 @@ public class IsRising extends IStatisticProvider {
 
     @Override
     public Object getResult() {
+        dataWindow.debug();
 
         List<NormalisedPriceInformation> data = dataWindow.getData();
 
-        int lastValue = data.get(dataWindow.getWindowSize()-1).getPrice();
+        int lastValue = data.get(0).getPrice();
 
-        for (int i = 0; i < lookBack; i++) {
-            int testValue = data.get(dataWindow.getWindowSize()-1-i-1).getPrice();
+        for (int i = 1; i <= lookBack; i++) {
+            int testValue = data.get(lookBack).getPrice();
             if (testValue >= lastValue) return false;
             lastValue = testValue;
         }

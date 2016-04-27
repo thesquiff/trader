@@ -1,11 +1,10 @@
 package com.futurewebdynamics.trader.trader.providers;
 
-import com.futurewebdynamics.trader.common.DatabaseCache;
 import com.futurewebdynamics.trader.common.DatabaseUtils;
-import com.futurewebdynamics.trader.common.TimeNormalisedDataCache;
 import com.futurewebdynamics.trader.positions.Position;
 import com.futurewebdynamics.trader.positions.PositionStatus;
 import com.futurewebdynamics.trader.trader.ITrader;
+import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +28,8 @@ public class PseudoTrader implements ITrader {
 
     private String connectionString;
 
+    final static Logger logger = Logger.getLogger(PseudoTrader.class);
+
     public PseudoTrader() {
     }
 
@@ -44,9 +45,9 @@ public class PseudoTrader implements ITrader {
 
             prop.load(input);
 
-            dbHost = prop.getProperty("pseudodbhost");
-            dbUsername = prop.getProperty("pseudodbusername");
-            dbPassword = prop.getProperty("pseudodbpassword");
+            dbHost = prop.getProperty("dbhost");
+            dbUsername = prop.getProperty("dbusername");
+            dbPassword = prop.getProperty("dbpassword");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -56,19 +57,19 @@ public class PseudoTrader implements ITrader {
             System.exit(1);
         }
 
-        String connectionString = "jdbc:mysql://" + dbHost + "/trader?user=" + dbUsername + "&password=" + dbPassword;
-
+        this.connectionString = "jdbc:mysql://" + dbHost + "/trader?user=" + dbUsername + "&password=" + dbPassword;
+        logger.debug("Connection string: " + this.connectionString);
 
     }
 
     @Override
     public boolean openPosition(Position position) {
 
-        DatabaseUtils.refreshConnection(connection, connectionString);
+        connection = DatabaseUtils.refreshConnection(connection, this.connectionString);
 
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO pseudopositions (status, timeopened, targetpriceopened, actualpriceopened, leverage, quantity) VALUES(" + position.getStatus().getValue() +", FROM_UNIXTIME(" + position.getTimeOpened().getTimeInMillis()/1000 + "), " + position.getTargetOpenPrice() + ", " + position.getTargetOpenPrice() + ", 1, 100)", Statement.RETURN_GENERATED_KEYS);
+            statement.executeUpdate("INSERT INTO psuedopositions (status, timeopened, targetpriceopened, actualpriceopened, leverage, quantity) VALUES(" + position.getStatus().getValue() +", FROM_UNIXTIME(" + position.getTimeOpened().getTimeInMillis()/1000 + "), " + position.getTargetOpenPrice() + ", " + position.getTargetOpenPrice() + ", 1, 100)", Statement.RETURN_GENERATED_KEYS);
 
             ResultSet keys = statement.getGeneratedKeys();
             keys.next();
@@ -90,7 +91,7 @@ public class PseudoTrader implements ITrader {
     @Override
     public boolean closePosition(Position position) {
         try {
-            connection.createStatement().executeUpdate("UPDATE pseudopositions SET status=" + PositionStatus.CLOSED.getValue() + ", timeclosed=FROM_UNIXTIME(" + position.getTimeClosed() + ", targetpriceclosed="+position.getTargetSellPrice() + ", actualpriceclosed=" + position.getTargetSellPrice() + " WHERE pseudopositions.index=" + position.getUniqueId() + ";");
+            connection.createStatement().executeUpdate("UPDATE psuedopositions SET status=" + PositionStatus.CLOSED.getValue() + ", timeclosed=FROM_UNIXTIME(" + position.getTimeClosed() + ", targetpriceclosed="+position.getTargetSellPrice() + ", actualpriceclosed=" + position.getTargetSellPrice() + " WHERE pseudopositions.index=" + position.getUniqueId() + ";");
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

@@ -1,11 +1,12 @@
 package com.futurewebdynamics.trader.common;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -18,6 +19,8 @@ public class DataWindow {
     private int bufferSize;
 
     private CircularFifoQueue<NormalisedPriceInformation> window;
+
+    final static Logger logger = Logger.getLogger(TimeNormalisedDataCache.class);
 
     private int bufferPointer = 0;
 
@@ -74,6 +77,13 @@ public class DataWindow {
     public boolean hasGaps() {
         List<NormalisedPriceInformation> data = this.getData();
         return (data.stream().filter(p->p.isEmpty()).count() > 0);
+    }
+
+    public void debug() {
+        String prices = window.stream().map(p->p.getPrice()).map(p->p.toString()).collect(Collectors.joining("],["));
+
+        logger.debug("[" + prices + "]");
+
     }
 
 }
