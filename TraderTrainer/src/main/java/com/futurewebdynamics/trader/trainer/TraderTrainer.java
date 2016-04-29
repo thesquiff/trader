@@ -27,7 +27,7 @@ public class TraderTrainer {
         positionsManager.setTrader(trader);
 
         AnalyserRegistry analysers = new AnalyserRegistry();
-        analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(3), 3, positionsManager, 0.1,2));
+        analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(4), 4, positionsManager, 0.1,2));
 
         for (IAnalyserProvider analyser : analysers.getAnalysers()) {
             int requiredSize = analyser.getRequiredDataWindowSize();
@@ -43,6 +43,8 @@ public class TraderTrainer {
             }*/
 
             NormalisedPriceInformation tickData = dataSource.getTickData();
+
+            if (tickData == null) break;
 
             dataWindowRegistry.tick(tickData);
 

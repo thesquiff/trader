@@ -7,8 +7,6 @@ public class NormalisedPriceInformation extends PriceInformation {
 
     private int correctedTimestamp;
 
-
-
     private boolean isEmpty = false;
 
     public NormalisedPriceInformation(int timestamp, int price, int correctedTimestamp) {

@@ -4,6 +4,7 @@ import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.sellconditions.providers.StopLoss;
 import com.futurewebdynamics.trader.sellconditions.providers.TakeProfit;
 import com.futurewebdynamics.trader.trader.ITrader;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +19,8 @@ public class PositionsManager {
     public ArrayList<Position> positions;
 
     private ITrader trader;
+
+    final static Logger logger = Logger.getLogger(PositionsManager.class);
 
     public PositionsManager() {
         positions = new ArrayList<Position>();
@@ -36,9 +39,11 @@ public class PositionsManager {
     }
 
     public void tick(NormalisedPriceInformation tickData) {
+        if (tickData.isEmpty()) return;
         Iterator izzy = this.positions.iterator();
         while (izzy.hasNext()) {
-            ((Position)izzy.next()).tick(tickData);
+            Position pos = ((Position)izzy.next());
+            if (pos.getStatus() == PositionStatus.OPEN) pos.tick(tickData);
         }
     }
 
@@ -53,13 +58,23 @@ public class PositionsManager {
         Calendar cal = GregorianCalendar.getInstance();
         position.setTimeOpened(cal);
 
-        this.trader.openPosition(position);
+        TakeProfit tp = new TakeProfit(position, price, (int)Math.round(price * .05));
+        StopLoss sl = new StopLoss(position, price, (int)Math.round(price * .1));
 
-        TakeProfit tp = new TakeProfit(price, (int)Math.round(price * .02));
-        StopLoss sl = new StopLoss(price, (int)Math.round(price * .1));
+        position.addSellCondition(tp);
+        position.addSellCondition(sl);
+
+        this.trader.openPosition(position);
+        logger.debug("Position Status: " + position.getStatus().toString());
     }
 
     public void sellPosition(Position position, int targetPrice) {
+        logger.info("Selling position " + position.getUniqueId() + " opened at " + position.getTargetOpenPrice() + " for " + targetPrice);
+        try {
+            Thread.currentThread().sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Calendar cal = GregorianCalendar.getInstance();
         position.setTimeClosed(cal);
 

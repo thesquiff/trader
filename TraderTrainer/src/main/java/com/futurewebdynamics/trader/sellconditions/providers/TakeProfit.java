@@ -1,6 +1,7 @@
 package com.futurewebdynamics.trader.sellconditions.providers;
 
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.positions.Position;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 
 /**
@@ -11,9 +12,10 @@ public class TakeProfit extends ISellConditionProvider {
     private int increase;
     private int buyPrice;
 
-    public TakeProfit (int buyPrice, int increase) {
+    public TakeProfit (Position position, int buyPrice, int increase) {
         this.increase = increase;
         this.buyPrice = buyPrice;
+        super.setPosition(position);
     }
 
     public int getIncrease() {
@@ -26,7 +28,7 @@ public class TakeProfit extends ISellConditionProvider {
 
     public void tick(NormalisedPriceInformation tick) {
         if (tick.getPrice() >= (buyPrice + increase)) {
-            sell(tick.getPrice());
+            super.sell(tick.getPrice());
         }
     }
 

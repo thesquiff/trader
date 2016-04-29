@@ -35,6 +35,8 @@ public class PercentageDropBounce extends IAnalyserProvider {
 
     @Override
     public void tick(NormalisedPriceInformation tickData) {
+
+        if (tickData.isEmpty()) return;
         if (this.dataWindow.hasGaps()) return;
 
         Double drop = (Double)percentageDropStatistic.getResult();

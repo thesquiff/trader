@@ -3,6 +3,7 @@ package com.futurewebdynamics.trader.statistics.providers;
 import com.futurewebdynamics.trader.common.DataWindow;
 import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class IsRising extends IStatisticProvider {
     public void setLookBack(int lookBack) {
         this.lookBack = lookBack;
     }
+
+    final static Logger logger = Logger.getLogger(IsRising.class);
+
 
     @Override
     public int getMajorVersion() {
@@ -56,10 +60,11 @@ public class IsRising extends IStatisticProvider {
 
         List<NormalisedPriceInformation> data = dataWindow.getData();
 
-        int lastValue = data.get(0).getPrice();
+        int lastValue = data.get(dataWindow.getWindowSize()-1).getPrice();
+        logger.debug("Newest value: " + lastValue);
 
         for (int i = 1; i <= lookBack; i++) {
-            int testValue = data.get(lookBack).getPrice();
+            int testValue = data.get(dataWindow.getWindowSize()-1-i).getPrice();
             if (testValue >= lastValue) return false;
             lastValue = testValue;
         }

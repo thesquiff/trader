@@ -82,8 +82,7 @@ public class DataWindow {
     public void debug() {
         String prices = window.stream().map(p->p.getPrice()).map(p->p.toString()).collect(Collectors.joining("],["));
 
-        logger.debug("[" + prices + "]");
-
+        logger.debug("old [" + prices + "] new");
     }
 
 }

@@ -74,6 +74,7 @@ public class PseudoTrader implements ITrader {
             ResultSet keys = statement.getGeneratedKeys();
             keys.next();
             position.setUniqueId(keys.getLong(1));
+            position.setStatus(PositionStatus.OPEN);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,12 +92,13 @@ public class PseudoTrader implements ITrader {
     @Override
     public boolean closePosition(Position position) {
         try {
-            connection.createStatement().executeUpdate("UPDATE psuedopositions SET status=" + PositionStatus.CLOSED.getValue() + ", timeclosed=FROM_UNIXTIME(" + position.getTimeClosed() + ", targetpriceclosed="+position.getTargetSellPrice() + ", actualpriceclosed=" + position.getTargetSellPrice() + " WHERE pseudopositions.index=" + position.getUniqueId() + ";");
+            logger.debug("UPDATE psuedopositions SET status=" + PositionStatus.CLOSED.getValue() + ", timeclosed=FROM_UNIXTIME(" + position.getTimeClosed().getTimeInMillis()/1000 + "), targetpriceclosed="+position.getTargetSellPrice() + ", actualpriceclosed=" + position.getTargetSellPrice() + " WHERE psuedopositions.index='" + position.getUniqueId() + "';");
+            connection.createStatement().executeUpdate("UPDATE psuedopositions SET status=" + PositionStatus.CLOSED.getValue() + ", timeclosed=FROM_UNIXTIME(" + position.getTimeClosed().getTimeInMillis()/1000 + "), targetpriceclosed="+position.getTargetSellPrice() + ", actualpriceclosed=" + position.getTargetSellPrice() + " WHERE psuedopositions.index='" + position.getUniqueId() + "';");
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-
+        position.setStatus(PositionStatus.CLOSED);
         return true;
     }
 
