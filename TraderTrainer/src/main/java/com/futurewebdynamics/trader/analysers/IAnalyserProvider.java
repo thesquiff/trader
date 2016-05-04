@@ -1,15 +1,13 @@
 package com.futurewebdynamics.trader.analysers;
 
 import com.futurewebdynamics.trader.common.DataWindow;
-import com.futurewebdynamics.trader.common.DatabaseUtils;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
-import com.futurewebdynamics.trader.positions.Position;
-import com.futurewebdynamics.trader.positions.PositionStatus;
 import com.futurewebdynamics.trader.positions.PositionsManager;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -23,13 +21,15 @@ public abstract class IAnalyserProvider {
     protected ArrayList statisticProviders;
     protected DataWindow dataWindow;
     private PositionsManager manager;
+    private Collection<ISellConditionProvider> sellConditions;
 
     final static Logger logger = Logger.getLogger(IAnalyserProvider.class);
 
-    public IAnalyserProvider(DataWindow dataWindow, int dataWindowSize, PositionsManager manager) {
+    public IAnalyserProvider(DataWindow dataWindow, int dataWindowSize, PositionsManager manager, Collection<ISellConditionProvider> sellConditions) {
         this.dataWindowSize = dataWindowSize;
         this.dataWindow = dataWindow;
         this.manager = manager;
+        this.sellConditions = sellConditions;
     }
 
     public DataWindow getDataWindow() {
@@ -72,7 +72,7 @@ public abstract class IAnalyserProvider {
 
     public void buy(NormalisedPriceInformation tickData) {
         logger.info("Buying at " + tickData.getPrice());
-        this.manager.openPosition(tickData.getPrice());
+        this.manager.openPosition(tickData.getPrice(), sellConditions);
 
     }
 

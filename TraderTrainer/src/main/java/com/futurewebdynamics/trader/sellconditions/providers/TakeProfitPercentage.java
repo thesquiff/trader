@@ -5,26 +5,18 @@ import com.futurewebdynamics.trader.positions.Position;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 
 /**
- * Created by 52con on 15/04/2016.
+ * Created by Charlie on 29/04/2016.
  */
-public class TakeProfit extends ISellConditionProvider {
+public class TakeProfitPercentage extends ISellConditionProvider {
 
-    private int increase;
+    public double increasePercentage;
 
-    public TakeProfit (int increase) {
-        this.increase = increase;
-    }
-
-    public int getIncrease() {
-        return increase;
-    }
-
-    public void setIncrease(int increase) {
-        this.increase = increase;
+    public TakeProfitPercentage(double increasePercentage) {
+        this.increasePercentage = increasePercentage;
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
-        if (tick.getPrice() >= (super.getBuyPrice() + increase)) {
+        if (tick.getPrice() >= (super.getBuyPrice() * (100+increasePercentage)/100)) {
             super.sell(position, tick.getPrice());
         }
     }

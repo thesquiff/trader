@@ -8,20 +8,20 @@ import com.futurewebdynamics.trader.positions.Position;
  */
 public abstract class ISellConditionProvider  {
 
-    private Position position;
+    private int buyPrice;
 
-    public abstract void tick(NormalisedPriceInformation tickData);
-
-    public Position getPosition() {
-        return position;
+    public void setBuyPrice(int buyPrice) {
+        this.buyPrice = buyPrice;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public int getBuyPrice() {
+        return this.buyPrice;
     }
 
-    public void sell(int targetSellPrice) {
-        this.position.sell(targetSellPrice);
+    public abstract void tick(Position position, NormalisedPriceInformation tickData);
+
+    public void sell(Position position, int targetSellPrice) {
+        position.sell(targetSellPrice);
     }
 
 

@@ -4,9 +4,12 @@ import com.futurewebdynamics.trader.analysers.IAnalyserProvider;
 import com.futurewebdynamics.trader.common.DataWindow;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.positions.PositionsManager;
+import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.statistics.providers.IsRising;
 import com.futurewebdynamics.trader.statistics.providers.PercentageDrop;
 import org.apache.log4j.Logger;
+
+import java.util.Collection;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -21,8 +24,8 @@ public class PercentageDropBounce extends IAnalyserProvider {
     final static Logger logger = Logger.getLogger(PercentageDropBounce.class);
 
 
-    public PercentageDropBounce(DataWindow dataWindow, int dataWindowSize, PositionsManager positionManager, double triggerPercentage, int oldestWindowSize) {
-        super(dataWindow, dataWindowSize, positionManager);
+    public PercentageDropBounce(DataWindow dataWindow, int dataWindowSize, PositionsManager positionManager, double triggerPercentage, int oldestWindowSize, Collection<ISellConditionProvider> sellConditions) {
+        super(dataWindow, dataWindowSize, positionManager, sellConditions);
         percentageDropStatistic = new PercentageDrop();
         percentageDropStatistic.setDataWindow(dataWindow, oldestWindowSize);
 

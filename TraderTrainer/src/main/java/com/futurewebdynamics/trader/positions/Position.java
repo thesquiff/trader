@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -44,6 +45,10 @@ public class Position {
 
     public void addSellCondition(ISellConditionProvider sellCondition) {
         this.sellConditions.add(sellCondition);
+    }
+
+    public void addSellConditions(Collection sellConditions) {
+        this.sellConditions.addAll(sellConditions);
     }
 
     public void setStatus(PositionStatus status) {
@@ -133,7 +138,7 @@ public class Position {
     public void tick(NormalisedPriceInformation tickData) {
         Iterator izzy = sellConditions.iterator();
         while(izzy.hasNext()) {
-            ((ISellConditionProvider)izzy.next()).tick(tickData);
+            ((ISellConditionProvider)izzy.next()).tick(this, tickData);
         }
     }
 

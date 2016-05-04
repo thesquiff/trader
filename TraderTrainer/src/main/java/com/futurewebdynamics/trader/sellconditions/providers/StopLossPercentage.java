@@ -5,31 +5,21 @@ import com.futurewebdynamics.trader.positions.Position;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 
 /**
- * Created by 52con on 15/04/2016.
+ * Created by Charlie on 29/04/2016.
  */
-public class StopLoss extends ISellConditionProvider {
+public class StopLossPercentage extends ISellConditionProvider{
 
-    private int decrease;
+    private double decreasePercentage;
 
-    public StopLoss (int decrease) {
-        this.decrease = decrease;
-    }
-
-    public int getDecrease() {
-        return decrease;
-    }
-
-    public void setDecrease(int increase) {
-        this.decrease = decrease;
+    public StopLossPercentage(double decreasePercentage) {
+        this.decreasePercentage = decreasePercentage;
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
-        if (tick.getPrice() <= (super.getBuyPrice() - decrease)) {
+        if (tick.getPrice() <= (super.getBuyPrice() * (100-decreasePercentage)/100)) {
             sell(position, tick.getPrice());
         }
     }
-
-
 
 
 }
