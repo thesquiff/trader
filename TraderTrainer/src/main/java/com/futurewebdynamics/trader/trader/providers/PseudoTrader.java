@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -29,6 +28,8 @@ public class PseudoTrader implements ITrader {
     private String connectionString;
 
     final static Logger logger = Logger.getLogger(PseudoTrader.class);
+
+    private int uniqueIds = 0;
 
     public PseudoTrader() {
     }
@@ -65,18 +66,19 @@ public class PseudoTrader implements ITrader {
     @Override
     public boolean openPosition(Position position) {
 
-        connection = DatabaseUtils.refreshConnection(connection, this.connectionString);
+        //connection = DatabaseUtils.refreshConnection(connection, this.connectionString);
 
         try {
-            Statement statement = connection.createStatement();
+            /*Statement statement = connection.createStatement();
             statement.executeUpdate("INSERT INTO psuedopositions (status, timeopened, targetpriceopened, actualpriceopened, leverage, quantity) VALUES(" + position.getStatus().getValue() +", FROM_UNIXTIME(" + position.getTimeOpened().getTimeInMillis()/1000 + "), " + position.getTargetOpenPrice() + ", " + position.getTargetOpenPrice() + ", 1, 100)", Statement.RETURN_GENERATED_KEYS);
 
             ResultSet keys = statement.getGeneratedKeys();
-            keys.next();
-            position.setUniqueId(keys.getLong(1));
+            keys.next();*/
+            //position.setUniqueId(keys.getLong(1));
+            position.setUniqueId(uniqueIds++);
             position.setStatus(PositionStatus.OPEN);
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -91,13 +93,13 @@ public class PseudoTrader implements ITrader {
 
     @Override
     public boolean closePosition(Position position) {
-        try {
+        /*try {
             logger.debug("UPDATE psuedopositions SET status=" + PositionStatus.CLOSED.getValue() + ", timeclosed=FROM_UNIXTIME(" + position.getTimeClosed().getTimeInMillis()/1000 + "), targetpriceclosed="+position.getTargetSellPrice() + ", actualpriceclosed=" + position.getTargetSellPrice() + " WHERE psuedopositions.index='" + position.getUniqueId() + "';");
             connection.createStatement().executeUpdate("UPDATE psuedopositions SET status=" + PositionStatus.CLOSED.getValue() + ", timeclosed=FROM_UNIXTIME(" + position.getTimeClosed().getTimeInMillis()/1000 + "), targetpriceclosed="+position.getTargetSellPrice() + ", actualpriceclosed=" + position.getTargetSellPrice() + " WHERE psuedopositions.index='" + position.getUniqueId() + "';");
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }
+        }*/
         position.setStatus(PositionStatus.CLOSED);
         return true;
     }

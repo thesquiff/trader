@@ -37,7 +37,7 @@ public class TraderTrainer {
 
         LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
         sellConditions.add(new StopLossPercentage(10.0));
-        sellConditions.add(new TakeProfitPercentage(5.0));
+        sellConditions.add(new TakeProfitPercentage(3.0));
 
         analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(4), 4, positionsManager, 0.1,2,sellConditions));
 

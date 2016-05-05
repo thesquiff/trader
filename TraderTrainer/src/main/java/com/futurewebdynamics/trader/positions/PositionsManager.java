@@ -36,10 +36,13 @@ public class PositionsManager {
 
     public void tick(NormalisedPriceInformation tickData) {
         if (tickData.isEmpty()) return;
-        Iterator izzy = this.positions.iterator();
-        while (izzy.hasNext()) {
-            Position pos = ((Position)izzy.next());
-            if (pos.getStatus() == PositionStatus.OPEN) pos.tick(tickData);
+
+        for (int i = 0; i < this.positions.size(); i++)
+        {
+            Position position = this.positions.get(i);
+            if (position.getStatus() == PositionStatus.OPEN) {
+                position.tick(tickData);
+            }
         }
     }
 
@@ -71,11 +74,11 @@ public class PositionsManager {
 
     public void sellPosition(Position position, int targetPrice) {
         logger.info("Selling position " + position.getUniqueId() + " opened at " + position.getTargetOpenPrice() + " for " + targetPrice);
-        try {
+        /*try {
             Thread.currentThread().sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         Calendar cal = GregorianCalendar.getInstance();
         position.setTimeClosed(cal);
 
@@ -100,10 +103,10 @@ public class PositionsManager {
         int totalTrades = (int)positions.stream().filter(p -> p.getStatus() == PositionStatus.CLOSED).count();
 
         System.out.println("Total closed trades: " + totalTrades);
-        System.out.println("% closed at profit: " + positions.stream().filter(p -> p.getActualSellPrice() > p.getActualSellPrice()).count() / (double)totalTrades * 100);
+        System.out.println("% closed at profit: " + positions.stream().filter(p -> p.getActualSellPrice() > p.getActualOpenPrice()).count() / (double)totalTrades * 100);
 
-        System.out.println("Average Profit: " + positions.stream().filter(p -> p.getActualSellPrice() > p.getActualSellPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average());
-        System.out.println("Average Loss: " + positions.stream().filter(p -> p.getActualSellPrice() < p.getActualSellPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average());
+        System.out.println("Average Profit: " + positions.stream().filter(p -> p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average());
+        System.out.println("Average Loss: " + positions.stream().filter(p -> p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average());
 
 
     }
