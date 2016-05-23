@@ -103,11 +103,16 @@ public class PositionsManager {
         int totalTrades = (int)positions.stream().filter(p -> p.getStatus() == PositionStatus.CLOSED).count();
 
         System.out.println("Total closed trades: " + totalTrades);
-        System.out.println("% closed at profit: " + positions.stream().filter(p -> p.getActualSellPrice() > p.getActualOpenPrice()).count() / (double)totalTrades * 100);
+        System.out.println("% closed at profit: " + positions.stream().filter(p->p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).count() / (double)totalTrades * 100);
 
-        System.out.println("Average Profit: " + positions.stream().filter(p -> p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average());
-        System.out.println("Average Loss: " + positions.stream().filter(p -> p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average());
+        System.out.println("Average Profit: " + positions.stream().filter(p->p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average());
+        System.out.println("Average Loss: " + positions.stream().filter(p->p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average());
 
+        System.out.println("Total Gains: " + positions.stream().filter(p -> p.getStatus() == PositionStatus.CLOSED).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).sum());
 
+    }
+
+    public int getTotalGains() {
+        return positions.stream().filter(p -> p.getStatus() == PositionStatus.CLOSED).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).sum();
     }
 }

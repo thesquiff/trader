@@ -69,4 +69,8 @@ public class ReplayDataSource implements IDataSource {
 
     }
 
+    public void reset() {
+        index = 0;
+    }
+
 }
