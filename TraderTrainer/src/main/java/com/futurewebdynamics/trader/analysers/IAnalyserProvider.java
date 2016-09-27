@@ -73,7 +73,6 @@ public abstract class IAnalyserProvider {
     public void buy(NormalisedPriceInformation tickData) {
         logger.info("Buying at " + tickData.getPrice());
         this.manager.openPosition(tickData.getPrice(), sellConditions);
-
     }
 
 }

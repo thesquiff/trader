@@ -42,9 +42,9 @@ public class PercentageDrop extends IStatisticProvider {
         oldestWindowSize = getDataWindow().getWindowSize();
     }
 
-    public void setDataWindow(DataWindow dataWIndow, int oldestWindowSize) {
+    public void setDataWindow(DataWindow dataWindow, int oldestWindowSize) {
         this.oldestWindowSize = oldestWindowSize;
-        super.setDataWindow(dataWIndow);
+        super.setDataWindow(dataWindow);
     }
 
     @Override
@@ -52,14 +52,22 @@ public class PercentageDrop extends IStatisticProvider {
         dataWindow.debug();
         List<NormalisedPriceInformation> data = dataWindow.getData();
 
-        int newestValue = dataWindow.getData().get(oldestWindowSize -1).getPrice();
-        int oldestValue = dataWindow.getData().get(0).getPrice();
+        double greatestDrop = 0.0;
+        for (int lookback = 1; lookback <= oldestWindowSize; lookback++) {
+            double drop = 0.0;
 
-        if (newestValue >= oldestValue) return 0.0;
+            int oldestValue = dataWindow.getData().get(dataWindow.getWindowSize() - 1 - lookback).getPrice();
+            int newestValue = dataWindow.getData().get(dataWindow.getWindowSize() - 1).getPrice();
 
-        double drop =  (newestValue - oldestValue) / (double)oldestValue * -100.0;
-        logger.debug("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %drop: " + drop);
-        return drop;
+            if (newestValue >= oldestValue) continue;
+
+            drop = (newestValue - oldestValue) / (double) oldestValue * -100.0;
+            logger.debug("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %drop: " + drop);
+
+            if (drop > greatestDrop) greatestDrop = drop;
+        }
+
+        return greatestDrop;
 
     }
 }

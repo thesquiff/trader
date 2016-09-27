@@ -11,7 +11,7 @@ import com.futurewebdynamics.trader.positions.PositionsManager;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.sellconditions.providers.StopLossPercentage;
 import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentage;
-import com.futurewebdynamics.trader.trader.providers.EToroTrader;
+import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 import org.apache.log4j.Logger;
 
 import java.util.LinkedList;
@@ -25,9 +25,11 @@ public class TraderTrainer {
 
     public static void main(String args[]) {
 
-        EToroTrader trader = new EToroTrader(args[0]);
-        trader.login();
-        trader.getPositions();
+        //EToroTrader trader = new EToroTrader(args[0]);
+        //trader.login();
+
+
+        PseudoTrader trader = new PseudoTrader();
         IDataSource dataSource = new ReplayDataSource();
         dataSource.init(args[0]);
 
@@ -38,10 +40,6 @@ public class TraderTrainer {
         for (int windowSizeSweep = 4; windowSizeSweep < 10; windowSizeSweep++) {
 
             for (double triggerPercentage = 0.1; triggerPercentage < 3.0; triggerPercentage+=0.1) {
-
-
-
-
 
                 ((ReplayDataSource)dataSource).reset();
 

@@ -10,6 +10,9 @@ public abstract class ISellConditionProvider  {
 
     private int buyPrice;
 
+
+    public abstract ISellConditionProvider makeCopy();
+
     public void setBuyPrice(int buyPrice) {
         this.buyPrice = buyPrice;
     }

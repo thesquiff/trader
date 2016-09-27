@@ -21,5 +21,17 @@ public class StopLossPercentage extends ISellConditionProvider{
         }
     }
 
+    public double getDecreasePercentage() {
+        return this.decreasePercentage;
+    }
 
+    public void setDecreasePercentage(double value) {
+        this.decreasePercentage = value;
+    }
+
+
+    public StopLossPercentage makeCopy() {
+        StopLossPercentage copy = new StopLossPercentage(this.decreasePercentage);
+        return copy;
+    }
 }

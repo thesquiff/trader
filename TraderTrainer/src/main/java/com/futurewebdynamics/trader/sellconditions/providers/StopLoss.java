@@ -29,7 +29,10 @@ public class StopLoss extends ISellConditionProvider {
         }
     }
 
-
+    public StopLoss makeCopy() {
+        StopLoss copy = new StopLoss(this.decrease);
+        return copy;
+    }
 
 
 }

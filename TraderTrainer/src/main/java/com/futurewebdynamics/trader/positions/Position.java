@@ -4,10 +4,7 @@ import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -136,6 +133,7 @@ public class Position {
     }
 
     public void tick(NormalisedPriceInformation tickData) {
+        logger.debug("Evaluating sell conditions for " + this.uniqueId);
         Iterator izzy = sellConditions.iterator();
         while(izzy.hasNext()) {
             ((ISellConditionProvider)izzy.next()).tick(this, tickData);
@@ -143,7 +141,20 @@ public class Position {
     }
 
     public void sell(int targetSellPrice) {
-        logger.info("Selling at: " + targetSellPrice);
+        logger.debug("Position: " + Long.toString(this.uniqueId)  + " opened at " + Integer.toString(this.actualOpenPrice) + " selling at: " + targetSellPrice);
         this.positionsManager.sellPosition(this, targetSellPrice);
+    }
+
+    public ISellConditionProvider getSellConditionOfType(Class classType) {
+        ListIterator izzy = sellConditions.listIterator();
+        while(izzy.hasNext()) {
+
+            ISellConditionProvider sellCondition = (ISellConditionProvider) izzy.next();
+
+            if (sellCondition.getClass() == classType) {
+                return sellCondition;
+            }
+        }
+        return null;
     }
 }

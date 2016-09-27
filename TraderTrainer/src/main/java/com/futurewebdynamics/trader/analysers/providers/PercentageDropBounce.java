@@ -23,7 +23,6 @@ public class PercentageDropBounce extends IAnalyserProvider {
 
     final static Logger logger = Logger.getLogger(PercentageDropBounce.class);
 
-
     public PercentageDropBounce(DataWindow dataWindow, int dataWindowSize, PositionsManager positionManager, double triggerPercentage, int oldestWindowSize, Collection<ISellConditionProvider> sellConditions) {
         super(dataWindow, dataWindowSize, positionManager, sellConditions);
         percentageDropStatistic = new PercentageDrop();
@@ -40,7 +39,9 @@ public class PercentageDropBounce extends IAnalyserProvider {
     public void tick(NormalisedPriceInformation tickData) {
 
         if (tickData.isEmpty()) return;
-        if (this.dataWindow.hasGaps()) return;
+        if (this.dataWindow.hasGaps()) {
+            return;
+        }
 
         Double drop = (Double)percentageDropStatistic.getResult();
 

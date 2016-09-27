@@ -3,7 +3,6 @@ package com.futurewebdynamics.trader.common;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,14 +14,14 @@ public class DataWindow {
 
     private int windowSize;
 
-    private ArrayList<NormalisedPriceInformation> buffer;
-    private int bufferSize;
+    //private ArrayList<NormalisedPriceInformation> buffer;
+    //private int bufferSize;
 
     private CircularFifoQueue<NormalisedPriceInformation> window;
 
     final static Logger logger = Logger.getLogger(TimeNormalisedDataCache.class);
 
-    private int bufferPointer = 0;
+    //private int bufferPointer = 0;
 
     public DataWindow(int windowSize) {
         this.windowSize = windowSize;
@@ -33,33 +32,8 @@ public class DataWindow {
         }
     }
 
-    /*public boolean primeWindow() {
-
-        ListIterator izzy = buffer.listIterator();
-
-        for (int i = 0; i < this.windowSize; i++) {
-
-            if (!izzy.hasNext()) {
-                //there is not enough data for a window of this size
-                return false;
-            }
-
-            window.add(izzy.next());
-
-            bufferPointer++;
-        }
-
-        return true;
-    }*/
-
     public void tick(NormalisedPriceInformation tickData) {
         window.add(tickData);
-        /*if (bufferPointer < buffer.size() - 1 ) {
-            window.add(buffer.get(bufferPointer++));
-            return true;
-        }
-
-        return false;*/
     }
 
     public List<NormalisedPriceInformation> getData() {

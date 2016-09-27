@@ -29,4 +29,9 @@ public class TakeProfit extends ISellConditionProvider {
         }
     }
 
+    public TakeProfit makeCopy() {
+        TakeProfit copy = new TakeProfit(this.increase);
+        return copy;
+    }
+
 }

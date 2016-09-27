@@ -3,6 +3,8 @@ package com.futurewebdynamics.trader.trader.providers;
 import com.futurewebdynamics.trader.common.DatabaseUtils;
 import com.futurewebdynamics.trader.positions.Position;
 import com.futurewebdynamics.trader.positions.PositionStatus;
+import com.futurewebdynamics.trader.positions.PositionsManager;
+import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.trader.ITrader;
 import org.apache.log4j.Logger;
 
@@ -13,10 +15,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -105,12 +104,10 @@ public class PseudoTrader implements ITrader {
     }
 
     @Override
-    public ArrayList<Position> getPositions() {
+    public void getPositions(PositionsManager manager, Collection<ISellConditionProvider> defaultPositions) {
         //we're going to store out positions in a mysql db
 
         DatabaseUtils.refreshConnection(connection, connectionString);
-
-        ArrayList<Position> positions = new ArrayList<Position>();
 
         try {
             ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM psuedopositions");
@@ -134,15 +131,14 @@ public class PseudoTrader implements ITrader {
                 position.setTimeClosed(timeClosed);
 
                 position.setStatus(PositionStatus.valueOf(rs.getString("status")));
-                positions.add(position);
+
+                manager.addExistingPosition(position);
 
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return positions;
 
     }
 }
