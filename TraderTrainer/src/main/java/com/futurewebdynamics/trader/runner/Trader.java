@@ -85,7 +85,7 @@ public class Trader {
             }
 
             int tickSleepMs = Integer.parseInt(prop.getProperty("tickintervalms"));
-            int analysisSleepMs = Integer.parseInt(prop.getProperty("analysisintervalms"));
+            int analysisIntervalMs = Integer.parseInt(prop.getProperty("analysisintervalms"));
 
 
 
@@ -109,7 +109,7 @@ public class Trader {
                         }
 
                         try {
-                            Thread.currentThread().sleep(analysisSleepMs);
+                            Thread.currentThread().sleep(analysisIntervalMs);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

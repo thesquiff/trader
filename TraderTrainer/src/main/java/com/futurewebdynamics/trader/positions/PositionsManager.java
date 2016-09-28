@@ -7,6 +7,8 @@ import com.futurewebdynamics.trader.trader.ITrader;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -17,12 +19,14 @@ public class PositionsManager {
     public List<IRiskFilter> riskFilters;
 
     private ITrader trader;
+    private ExecutorService executor;
 
     final static Logger logger = Logger.getLogger(PositionsManager.class);
 
     public PositionsManager() {
-
         positions = Collections.synchronizedList(new ArrayList<Position>());
+        riskFilters = Collections.synchronizedList(new ArrayList<IRiskFilter>());
+        executor = Executors.newCachedThreadPool();
     }
 
     public ITrader getTrader() {
@@ -48,15 +52,20 @@ public class PositionsManager {
         {
             Position position = this.positions.get(i);
             if (position.getStatus() == PositionStatus.OPEN) {
-                position.tick(tickData);
+                this.executor.execute(new Runnable() {
+                    public void run() {
+                        position.tick(tickData);
+                    }
+                });
             }
         }
     }
 
     public void openPosition(int price, Collection<ISellConditionProvider> templateSellConditions) {
-
+        logger.debug("Assessing " + this.riskFilters.size() + " risk filters");
         for (IRiskFilter riskFilter : this.riskFilters) {
             if (!riskFilter.proceedWithBuy(price)) {
+                logger.debug("Cancelling proposed buy due to risk filters");
                 return;
             }
         }

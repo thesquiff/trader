@@ -47,16 +47,13 @@ public class TraderTrainer {
 
                 PositionsManager positionsManager = new PositionsManager();
 
-
-                //trader.init(args[0]);
-
                 positionsManager.setTrader(trader);
 
                 AnalyserRegistry analysers = new AnalyserRegistry();
 
                 LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
                 sellConditions.add(new StopLossPercentage(10.0));
-                sellConditions.add(new TakeProfitPercentage(3.3));
+                sellConditions.add(new TakeProfitPercentage(3.3,false, null));
 
                 analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSizeSweep), windowSizeSweep, positionsManager, triggerPercentage,2,sellConditions));
 
@@ -66,7 +63,6 @@ public class TraderTrainer {
                 }
 
                 while(true) {
-
                     NormalisedPriceInformation tickData = dataSource.getTickData();
 
                     if (tickData == null) break;
@@ -78,8 +74,6 @@ public class TraderTrainer {
                     }
 
                     positionsManager.tick(tickData);
-
-
                 }
 
                 //gather some stats
