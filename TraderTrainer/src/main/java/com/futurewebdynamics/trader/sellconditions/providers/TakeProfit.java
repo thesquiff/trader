@@ -24,8 +24,8 @@ public class TakeProfit extends ISellConditionProvider {
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
-        if (tick.getPrice() >= (super.getBuyPrice() + increase)) {
-            super.sell(position, tick.getPrice());
+        if (tick.getBidPrice() >= (super.getBuyPrice() + increase)) {
+            super.sell(position, tick.getBidPrice());
         }
     }
 

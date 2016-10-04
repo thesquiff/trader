@@ -32,6 +32,6 @@ public class MeanPrice extends IStatisticProvider {
     @Override
     public Object getResult() {
         List<NormalisedPriceInformation> data = dataWindow.getData();
-        return (int)Math.round(data.stream().mapToInt(p->p.getPrice()).average().getAsDouble());
+        return (int)Math.round(data.stream().mapToInt(p->p.getAskPrice()).average().getAsDouble());
     }
 }

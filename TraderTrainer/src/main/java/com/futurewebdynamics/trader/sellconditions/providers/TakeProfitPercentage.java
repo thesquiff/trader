@@ -26,8 +26,8 @@ public class TakeProfitPercentage extends ISellConditionProvider {
 
     public void tick(Position position, NormalisedPriceInformation tick) {
 
-        logger.debug("tickPrice:" + tick.getPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + (super.getBuyPrice() * (100+increasePercentage)/100));
-        if (tick.getPrice() >= (super.getBuyPrice() * (100+increasePercentage)/100)) {
+        logger.debug("tickPrice:" + tick.getBidPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + (super.getBuyPrice() * (100+increasePercentage)/100));
+        if (tick.getBidPrice() >= (super.getBuyPrice() * (100+increasePercentage)/100)) {
 
             if (waitForFall) {
                 if (!(Boolean)this.fallingStatistic.getResult()) {
@@ -37,7 +37,7 @@ public class TakeProfitPercentage extends ISellConditionProvider {
             }
 
             logger.debug("decided to sell");
-            super.sell(position, tick.getPrice());
+            super.sell(position, tick.getBidPrice());
         }
     }
 

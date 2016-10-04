@@ -56,13 +56,13 @@ public class PercentageDrop extends IStatisticProvider {
         for (int lookback = 1; lookback <= oldestWindowSize; lookback++) {
             double drop = 0.0;
 
-            int oldestValue = dataWindow.getData().get(dataWindow.getWindowSize() - 1 - lookback).getPrice();
-            int newestValue = dataWindow.getData().get(dataWindow.getWindowSize() - 1).getPrice();
+            int oldestValue = dataWindow.getData().get(dataWindow.getWindowSize() - 1 - lookback).getAskPrice();
+            int newestValue = dataWindow.getData().get(dataWindow.getWindowSize() - 1).getAskPrice();
 
             if (newestValue >= oldestValue) continue;
 
             drop = (newestValue - oldestValue) / (double) oldestValue * -100.0;
-            logger.debug("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %drop: " + drop);
+            logger.trace("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %drop: " + drop);
 
             if (drop > greatestDrop) greatestDrop = drop;
         }

@@ -9,8 +9,8 @@ public class NormalisedPriceInformation extends PriceInformation {
 
     private boolean isEmpty = false;
 
-    public NormalisedPriceInformation(int timestamp, int price, int correctedTimestamp) {
-        super(timestamp, price);
+    public NormalisedPriceInformation(int timestamp, int askPrice, int bidPrice, int correctedTimestamp) {
+        super(timestamp, askPrice, bidPrice);
         this.correctedTimestamp = correctedTimestamp;
     }
 

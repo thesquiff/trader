@@ -16,8 +16,8 @@ public class StopLossPercentage extends ISellConditionProvider{
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
-        if (tick.getPrice() <= (super.getBuyPrice() * (100-decreasePercentage)/100)) {
-            sell(position, tick.getPrice());
+        if (tick.getBidPrice() <= (super.getBuyPrice() * (100-decreasePercentage)/100)) {
+            sell(position, tick.getBidPrice());
         }
     }
 

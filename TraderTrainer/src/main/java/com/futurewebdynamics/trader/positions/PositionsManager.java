@@ -42,9 +42,9 @@ public class PositionsManager {
     }
 
     public void tick(NormalisedPriceInformation tickData) {
-        logger.debug("Calling tick() on " + this.positions.size() + " positions");
+        logger.trace("Calling tick() on " + this.positions.size() + " positions");
         if (tickData.isEmpty()) {
-            logger.debug("tick data is empty");
+            logger.trace("tick data is empty");
             return;
         }
 

@@ -60,7 +60,7 @@ public class TimeNormalisedDataCache {
                 minutePrices[tick] = new NormalisedPriceInformation(true);
             } else {
                 PriceInformation unnormalised = selectedInfo.get(0);
-                minutePrices[tick] = new NormalisedPriceInformation(unnormalised.getTimestamp(), unnormalised.getPrice(), (int)minute);
+                minutePrices[tick] = new NormalisedPriceInformation(unnormalised.getTimestamp(), unnormalised.getAskPrice(), unnormalised.getBidPrice(), (int)minute);
             }
 
             targetTime.add(Calendar.MINUTE, 1);

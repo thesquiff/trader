@@ -68,7 +68,7 @@ public class Trader {
             IsFalling fallingStatistic = new IsFalling(1);
             fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
 
-            sellConditions.add(new TakeProfitPercentage(Double.parseDouble(prop.getProperty("takeprofit")), true, fallingStatistic));
+            sellConditions.add(new TakeProfitPercentage(Double.parseDouble(prop.getProperty("takeprofit")), false, fallingStatistic));
 
             trader.getPositions(positionsManager, sellConditions);
             positionsManager.printStats();
@@ -99,7 +99,7 @@ public class Trader {
                             logger.info("Tick data is null");
                             continue;
                         } else {
-                            logger.info("Time: " + System.currentTimeMillis() + " Sample Price: " + tickData.getPrice());
+                            logger.info("Time: " + System.currentTimeMillis() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
                         }
 
                         dataWindowRegistry.tick(tickData);

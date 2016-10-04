@@ -45,7 +45,7 @@ public class DatabaseCache {
             int index = 0;
             while (resultSet.next()) {
 
-                cache.add(new PriceInformation (resultSet.getInt(1),resultSet.getInt(2)));
+                cache.add(new PriceInformation (resultSet.getInt(1),resultSet.getInt(2), 0));
                 index++;
             }
             logger.info(index + " price records cached");

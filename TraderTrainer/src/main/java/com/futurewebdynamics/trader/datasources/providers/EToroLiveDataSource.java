@@ -66,7 +66,7 @@ public class EToroLiveDataSource implements IDataSource {
                     if (matcher.find()) {
                         String priceStr = matcher.group("price");
 
-                        latestPrice = new PriceInformation((int)System.currentTimeMillis(), Integer.parseInt(priceStr));
+                        latestPrice = new PriceInformation((int)System.currentTimeMillis(), Integer.parseInt(priceStr),Integer.parseInt(priceStr));
                     }
 
                     Thread.currentThread().sleep(10000);

@@ -36,7 +36,7 @@ public class OandaLiveDataSource implements IDataSource {
         if (latestPrice == null || (System.currentTimeMillis()/1000 - latestPrice.getTimestamp()) > 1000)
             return null;
 
-        NormalisedPriceInformation priceInformation = new NormalisedPriceInformation(latestPrice.getTimestamp(), latestPrice.getPrice(),latestPrice.getTimestamp());        priceInformation.setCorrectedTimestamp(latestPrice.getTimestamp());
+        NormalisedPriceInformation priceInformation = new NormalisedPriceInformation(latestPrice.getTimestamp(), latestPrice.getAskPrice(),latestPrice.getBidPrice(),latestPrice.getTimestamp());        priceInformation.setCorrectedTimestamp(latestPrice.getTimestamp());
 
         return priceInformation;
 
@@ -82,13 +82,13 @@ public class OandaLiveDataSource implements IDataSource {
 
                     prices = jsonDeseserialiser.readValue(jsonResult, Prices.class);
 
-                    if (prices.prices.size() <=0 || prices.prices.get(0).asks.size() <= 0) {
+                    if (prices.prices.size() <=0 || prices.prices.get(0).asks.size() <= 0|| prices.prices.get(0).bids.size() <= 0) {
                         logger.debug("Time: " + Long.toString(System.currentTimeMillis()) + " Price: NULL");
                         latestPrice = null;
                     } else {
 
-                        latestPrice = new PriceInformation((int) (System.currentTimeMillis()/1000), (int)(Double.parseDouble(prices.prices.get(0).bids.get(0).price)*100));
-                        logger.debug("Time: " + Long.toString(System.currentTimeMillis()/1000) + " Price: " + Integer.toString(latestPrice.getPrice()));
+                        latestPrice = new PriceInformation((int) (System.currentTimeMillis()/1000), (int)(Double.parseDouble(prices.prices.get(0).asks.get(0).price)*100),(int)(Double.parseDouble(prices.prices.get(0).bids.get(0).price)*100));
+                        logger.debug("Time: " + Long.toString(System.currentTimeMillis()/1000) + " AskPrice: " + Integer.toString(latestPrice.getAskPrice()) + " BidPrice:" + Integer.toString(latestPrice.getBidPrice()));
                     }
 
                     Thread.currentThread().sleep(pollIntervalMs);

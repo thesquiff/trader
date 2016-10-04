@@ -61,7 +61,7 @@ public class ReplayDataSource implements IDataSource {
         if (index == dataCache.getCacheSize()) return null;
         NormalisedPriceInformation price = dataCache.getMinutePrices()[index++];
 
-        logger.debug("index: " + index + ", price: " + price.getPrice());
+        logger.debug("index: " + index + ", ask price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
 
         if (index >= dataCache.getCacheSize()) return null;
 

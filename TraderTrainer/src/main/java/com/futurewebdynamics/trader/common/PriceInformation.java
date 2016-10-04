@@ -6,14 +6,16 @@ package com.futurewebdynamics.trader.common;
 public class PriceInformation {
 
     private int timestamp;
-    private int price;
+    private int askPrice;
+    private int bidPrice;
 
     public PriceInformation() {
     }
 
-    public PriceInformation(int timestamp, int price) {
+    public PriceInformation(int timestamp, int askPrice, int bidPrice) {
         this.timestamp = timestamp;
-        this.price = price;
+        this.askPrice = askPrice;
+        this.bidPrice = bidPrice;
     }
 
     public int getTimestamp() {
@@ -24,14 +26,19 @@ public class PriceInformation {
         this.timestamp = timestamp;
     }
 
-    public int getPrice() {
-        return price;
+    public int getAskPrice() {
+        return askPrice;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public int getBidPrice() {
+        return bidPrice;
     }
 
-
+    public void setAskPrice(int price) {
+        this.askPrice = price;
+    }
+    public void setBidPrice(int price) {
+        this.bidPrice = price;
+    }
 
 }

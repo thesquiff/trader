@@ -33,6 +33,6 @@ public class MaximumPrice extends IStatisticProvider{
     @Override
     public Object getResult() {
         List<NormalisedPriceInformation> data = dataWindow.getData();
-        return data.stream().mapToInt(p->p.getPrice()).max();
+        return data.stream().mapToInt(p->p.getAskPrice()).max();
     }
 }

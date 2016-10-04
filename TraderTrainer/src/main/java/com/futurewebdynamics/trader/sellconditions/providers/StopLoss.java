@@ -24,8 +24,8 @@ public class StopLoss extends ISellConditionProvider {
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
-        if (tick.getPrice() <= (super.getBuyPrice() - decrease)) {
-            sell(position, tick.getPrice());
+        if (tick.getBidPrice() <= (super.getBuyPrice() - decrease)) {
+            sell(position, tick.getBidPrice());
         }
     }
 

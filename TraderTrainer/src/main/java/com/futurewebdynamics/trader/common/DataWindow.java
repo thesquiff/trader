@@ -54,9 +54,12 @@ public class DataWindow {
     }
 
     public void debug() {
-        String prices = window.stream().map(p->p.getPrice()).map(p->p.toString()).collect(Collectors.joining("],["));
+        String prices = window.stream().map(p->p.getAskPrice()).map(p->p.toString()).collect(Collectors.joining("],["));
+        logger.debug("ask: old [" + prices + "] new");
 
-        logger.debug("old [" + prices + "] new");
+        prices = window.stream().map(p->p.getBidPrice()).map(p->p.toString()).collect(Collectors.joining("],["));
+        logger.debug("bid: old [" + prices + "] new");
+
     }
 
 }
