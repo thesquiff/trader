@@ -8,6 +8,7 @@ import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.OandaLiveDataSource;
 import com.futurewebdynamics.trader.positions.PositionsManager;
+import com.futurewebdynamics.trader.riskfilters.MatchTradeEnum;
 import com.futurewebdynamics.trader.riskfilters.providers.LowerBuyLimit;
 import com.futurewebdynamics.trader.riskfilters.providers.TimeSinceLastBuy;
 import com.futurewebdynamics.trader.riskfilters.providers.UpperBuyLimit;
@@ -60,8 +61,8 @@ public class Trader {
 
             PositionsManager positionsManager = new PositionsManager();
             positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,Long.parseLong(prop.getProperty("timesincelastbuyms"))));
-            positionsManager.riskFilters.add(new LowerBuyLimit(Integer.parseInt(prop.getProperty("lowerbuylimit"))));
-            positionsManager.riskFilters.add(new UpperBuyLimit(Integer.parseInt(prop.getProperty("upperbuylimit"))));
+            positionsManager.riskFilters.add(new LowerBuyLimit(Integer.parseInt(prop.getProperty("lowerbuylimit")), MatchTradeEnum.LONG_AND_SHORT));
+            positionsManager.riskFilters.add(new UpperBuyLimit(Integer.parseInt(prop.getProperty("upperbuylimit")), MatchTradeEnum.LONG_AND_SHORT));
             LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
             sellConditions.add(new StopLossPercentage(Double.parseDouble(prop.getProperty("stoploss"))));
 
@@ -77,7 +78,8 @@ public class Trader {
             AnalyserRegistry analysers = new AnalyserRegistry();
 
             int windowSize = Integer.parseInt(prop.getProperty("windowsize"));
-            analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, Double.parseDouble(prop.getProperty("bouncetrigger")), Integer.parseInt(prop.getProperty("bouncelookback")), sellConditions));
+            analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, Double.parseDouble(prop.getProperty("bouncetrigger")), Integer.parseInt(prop.getProperty("bouncelookback")), sellConditions, true));
+            //analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, Double.parseDouble(prop.getProperty("bouncetrigger")), Integer.parseInt(prop.getProperty("bouncelookback")), sellConditions, false));
 
             for (IAnalyserProvider analyser : analysers.getAnalysers()) {
                 int requiredSize = analyser.getRequiredDataWindowSize();

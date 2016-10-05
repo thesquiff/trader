@@ -22,7 +22,7 @@ public class TimeSinceLastBuy implements IRiskFilter {
         this.thresholdInMillis = thresholdInMillis;
     }
 
-    public boolean proceedWithBuy(int buyPrice) {
+    public boolean proceedWithBuy(int buyPrice, boolean isShortTrade) {
 
         OptionalLong lastBuyTime = manager.positions.stream().filter(p->p.getStatus()== PositionStatus.OPEN || p.getStatus() == PositionStatus.BUYING).mapToLong(p->p.getTimeOpened().getTimeInMillis()).max();
         if (!lastBuyTime.isPresent()) return true;

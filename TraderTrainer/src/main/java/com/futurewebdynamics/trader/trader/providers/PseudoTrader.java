@@ -63,7 +63,7 @@ public class PseudoTrader implements ITrader {
     }
 
     @Override
-    public boolean openPosition(Position position) {
+    public boolean openPosition(Position position, boolean isShortTrade) {
 
         //connection = DatabaseUtils.refreshConnection(connection, this.connectionString);
 

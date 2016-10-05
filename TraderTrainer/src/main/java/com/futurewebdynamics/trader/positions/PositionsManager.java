@@ -61,10 +61,10 @@ public class PositionsManager {
         }
     }
 
-    public void openPosition(int price, Collection<ISellConditionProvider> templateSellConditions) {
+    public void openPosition(int price, Collection<ISellConditionProvider> templateSellConditions, boolean isShortTrade) {
         logger.debug("Assessing " + this.riskFilters.size() + " risk filters");
         for (IRiskFilter riskFilter : this.riskFilters) {
-            if (!riskFilter.proceedWithBuy(price)) {
+            if (!riskFilter.proceedWithBuy(price, isShortTrade)) {
                 logger.debug("Cancelling proposed buy due to risk filters");
                 return;
             }
@@ -89,7 +89,7 @@ public class PositionsManager {
             position.addSellCondition(copiedSellCondition);
         }
 
-        this.trader.openPosition(position);
+        this.trader.openPosition(position, isShortTrade);
         logger.debug("Position Status: " + position.getStatus().toString());
 
     }

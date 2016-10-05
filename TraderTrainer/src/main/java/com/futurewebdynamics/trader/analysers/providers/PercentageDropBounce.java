@@ -5,8 +5,11 @@ import com.futurewebdynamics.trader.common.DataWindow;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.positions.PositionsManager;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
+import com.futurewebdynamics.trader.statistics.IStatisticProvider;
+import com.futurewebdynamics.trader.statistics.providers.IsFalling;
 import com.futurewebdynamics.trader.statistics.providers.IsRising;
 import com.futurewebdynamics.trader.statistics.providers.PercentageDrop;
+import com.futurewebdynamics.trader.statistics.providers.PercentageRise;
 import org.apache.log4j.Logger;
 
 import java.util.Collection;
@@ -18,20 +21,28 @@ public class PercentageDropBounce extends IAnalyserProvider {
 
     private double triggerPercentage;
 
-    private PercentageDrop percentageDropStatistic;
-    private IsRising isRisingStatistic;
+    private IStatisticProvider percentageChangeStatistic;
+    private IStatisticProvider isRisingOrFallingStatistic;
+    private boolean isShortTrade;
 
     final static Logger logger = Logger.getLogger(PercentageDropBounce.class);
 
-    public PercentageDropBounce(DataWindow dataWindow, int dataWindowSize, PositionsManager positionManager, double triggerPercentage, int oldestWindowSize, Collection<ISellConditionProvider> sellConditions) {
+    public PercentageDropBounce(DataWindow dataWindow, int dataWindowSize, PositionsManager positionManager, double triggerPercentage, int oldestWindowSize, Collection<ISellConditionProvider> sellConditions, boolean isShortTrade) {
         super(dataWindow, dataWindowSize, positionManager, sellConditions);
-        percentageDropStatistic = new PercentageDrop();
-        percentageDropStatistic.setDataWindow(dataWindow, oldestWindowSize);
 
-        isRisingStatistic = new IsRising(1);
-        isRisingStatistic.setDataWindow(dataWindow);
+        if (isShortTrade) {
+            percentageChangeStatistic = new PercentageRise();
+            ((PercentageRise)percentageChangeStatistic).setDataWindow(dataWindow, oldestWindowSize);
+        } else {
+            percentageChangeStatistic = new PercentageDrop();
+            ((PercentageDrop)percentageChangeStatistic).setDataWindow(dataWindow, oldestWindowSize);
+        }
+
+        isRisingOrFallingStatistic = isShortTrade ? new IsFalling(1) : new IsRising(1);
+        isRisingOrFallingStatistic.setDataWindow(dataWindow);
 
         this.triggerPercentage = triggerPercentage;
+        this.isShortTrade = isShortTrade;
 
     }
 
@@ -43,15 +54,19 @@ public class PercentageDropBounce extends IAnalyserProvider {
             return;
         }
 
-        Double drop = (Double)percentageDropStatistic.getResult();
+        Double drop = (Double)percentageChangeStatistic.getResult();
 
-        Boolean isRising = (Boolean)isRisingStatistic.getResult();
+        Boolean isRisingOrFalling = (Boolean)isRisingOrFallingStatistic.getResult();
 
-        logger.debug("% drop: " + drop + ", isRising: " + isRising);
+        if (isShortTrade) {
+            logger.debug("% drop: " + drop + ", isFalling: " + isRisingOrFalling);
+        } else {
+            logger.debug("% drop: " + drop + ", isRising: " + isRisingOrFalling);
+        }
 
-        if (drop >= triggerPercentage && isRising) {
+        if (drop >= triggerPercentage && isRisingOrFalling) {
             logger.debug("Going to buy");
-            buy(tickData);
+            buy(tickData, isShortTrade);
         }
 
     }

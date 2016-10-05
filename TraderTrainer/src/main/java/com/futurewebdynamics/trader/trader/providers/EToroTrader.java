@@ -106,7 +106,7 @@ public class EToroTrader implements ITrader {
 
     }
 
-    public boolean openPosition(Position position) {
+    public boolean openPosition(Position position, boolean isShortTrade) {
 
 
         if (getAvailableFunds() < position.getQuantity()) {

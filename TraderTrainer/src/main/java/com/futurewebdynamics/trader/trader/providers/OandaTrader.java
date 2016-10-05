@@ -31,12 +31,12 @@ public class OandaTrader implements ITrader {
     private Accounts accounts;
 
     @Override
-    public boolean openPosition(Position position) {
+    public boolean openPosition(Position position, boolean isShortTrade) {
 
         String marketOrderJson = "{ \"order\": {" +
                 "\"type\":\"MARKET\"," +
                 "\"instrument\":\"BCO_USD\"," +
-                "\"units\":\"100\"," +
+                "\"units\":\"" + (isShortTrade? "-": "") + "100\"," +
                 "\"timeInForce\":\"FOK\"," +
                 "\"positionFill\":\"OPEN_ONLY\"} }";
 

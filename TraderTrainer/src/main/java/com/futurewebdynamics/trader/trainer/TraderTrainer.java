@@ -55,7 +55,7 @@ public class TraderTrainer {
                 sellConditions.add(new StopLossPercentage(10.0));
                 sellConditions.add(new TakeProfitPercentage(3.3,false, null));
 
-                analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSizeSweep), windowSizeSweep, positionsManager, triggerPercentage,2,sellConditions));
+                analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSizeSweep), windowSizeSweep, positionsManager, triggerPercentage,2,sellConditions, false));
 
                 for (IAnalyserProvider analyser : analysers.getAnalysers()) {
                     int requiredSize = analyser.getRequiredDataWindowSize();

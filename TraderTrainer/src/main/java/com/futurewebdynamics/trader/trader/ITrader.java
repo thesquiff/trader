@@ -11,7 +11,7 @@ import java.util.Collection;
  */
 public interface ITrader {
 
-    boolean openPosition(Position position);
+    boolean openPosition(Position position, boolean isShortTrade);
     boolean checkPosition(Position position);
     boolean closePosition(Position position);
 

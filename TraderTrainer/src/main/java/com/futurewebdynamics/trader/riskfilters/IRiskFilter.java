@@ -5,5 +5,5 @@ package com.futurewebdynamics.trader.riskfilters;
  */
 public interface IRiskFilter {
 
-    boolean proceedWithBuy(int buyPrice);
+    boolean proceedWithBuy(int buyPrice, boolean isShortTrade);
 }
