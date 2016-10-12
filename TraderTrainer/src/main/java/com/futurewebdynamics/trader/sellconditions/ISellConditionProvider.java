@@ -9,7 +9,12 @@ import com.futurewebdynamics.trader.positions.Position;
 public abstract class ISellConditionProvider  {
 
     private int buyPrice;
+    private boolean isShortTrade;
 
+    public void setShortTradeCondition(boolean isShortTrade)
+    {
+        this.isShortTrade = isShortTrade;
+    }
 
     public abstract ISellConditionProvider makeCopy();
 
@@ -27,5 +32,8 @@ public abstract class ISellConditionProvider  {
         position.sell(targetSellPrice);
     }
 
+    public boolean isShortTradeCondition() {
+        return this.isShortTrade;
+    }
 
 }

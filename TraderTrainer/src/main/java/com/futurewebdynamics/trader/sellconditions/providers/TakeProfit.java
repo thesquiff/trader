@@ -11,8 +11,9 @@ public class TakeProfit extends ISellConditionProvider {
 
     private int increase;
 
-    public TakeProfit (int increase) {
+    public TakeProfit (int increase, boolean isShortTrade) {
         this.increase = increase;
+        super.setShortTradeCondition(isShortTrade);
     }
 
     public int getIncrease() {
@@ -24,13 +25,17 @@ public class TakeProfit extends ISellConditionProvider {
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
-        if (tick.getBidPrice() >= (super.getBuyPrice() + increase)) {
+        if (!super.isShortTradeCondition() && tick.getBidPrice() >= (super.getBuyPrice() + increase)) {
             super.sell(position, tick.getBidPrice());
+        }
+
+        if (super.isShortTradeCondition() && tick.getAskPrice() <= (super.getBuyPrice() - increase)) {
+            super.sell(position, tick.getAskPrice());
         }
     }
 
     public TakeProfit makeCopy() {
-        TakeProfit copy = new TakeProfit(this.increase);
+        TakeProfit copy = new TakeProfit(this.increase, super.isShortTradeCondition());
         return copy;
     }
 

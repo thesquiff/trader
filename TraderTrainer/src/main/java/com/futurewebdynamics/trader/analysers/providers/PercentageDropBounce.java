@@ -31,14 +31,14 @@ public class PercentageDropBounce extends IAnalyserProvider {
         super(dataWindow, dataWindowSize, positionManager, sellConditions);
 
         if (isShortTrade) {
-            percentageChangeStatistic = new PercentageRise();
+            percentageChangeStatistic = new PercentageRise(isShortTrade);
             ((PercentageRise)percentageChangeStatistic).setDataWindow(dataWindow, oldestWindowSize);
         } else {
-            percentageChangeStatistic = new PercentageDrop();
+            percentageChangeStatistic = new PercentageDrop(isShortTrade);
             ((PercentageDrop)percentageChangeStatistic).setDataWindow(dataWindow, oldestWindowSize);
         }
 
-        isRisingOrFallingStatistic = isShortTrade ? new IsFalling(1) : new IsRising(1);
+        isRisingOrFallingStatistic = isShortTrade ? new IsFalling(1,isShortTrade) : new IsRising(1,isShortTrade);
         isRisingOrFallingStatistic.setDataWindow(dataWindow);
 
         this.triggerPercentage = triggerPercentage;

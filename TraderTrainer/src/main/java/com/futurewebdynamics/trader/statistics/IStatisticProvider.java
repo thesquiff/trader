@@ -23,4 +23,16 @@ public abstract class IStatisticProvider {
 
     public abstract Object getResult();
 
+    private boolean isShortTrade;
+
+    public boolean isShortTradeCondition() {
+        return this.isShortTrade;
+    }
+
+    public void setShortTradeCondition(boolean isShortTrade)
+    {
+        this.isShortTrade = isShortTrade;
+    }
+
+
 }

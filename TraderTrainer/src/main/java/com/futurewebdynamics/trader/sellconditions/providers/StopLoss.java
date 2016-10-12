@@ -11,8 +11,9 @@ public class StopLoss extends ISellConditionProvider {
 
     private int decrease;
 
-    public StopLoss (int decrease) {
+    public StopLoss (int decrease, boolean isShortTrade) {
         this.decrease = decrease;
+        super.setShortTradeCondition(isShortTrade);
     }
 
     public int getDecrease() {
@@ -24,13 +25,17 @@ public class StopLoss extends ISellConditionProvider {
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
-        if (tick.getBidPrice() <= (super.getBuyPrice() - decrease)) {
+        if (!super.isShortTradeCondition() && tick.getBidPrice() <= (super.getBuyPrice() - decrease)) {
             sell(position, tick.getBidPrice());
+        }
+
+        if (super.isShortTradeCondition() && tick.getAskPrice() >= (super.getBuyPrice() + decrease)) {
+            sell(position, tick.getAskPrice());
         }
     }
 
     public StopLoss makeCopy() {
-        StopLoss copy = new StopLoss(this.decrease);
+        StopLoss copy = new StopLoss(this.decrease, super.isShortTradeCondition());
         return copy;
     }
 

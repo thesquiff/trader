@@ -3,7 +3,7 @@ package com.futurewebdynamics.trader.sellconditions.providers;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.positions.Position;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
-import com.futurewebdynamics.trader.statistics.providers.IsFalling;
+import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import org.apache.log4j.Logger;
 
 /**
@@ -11,33 +11,54 @@ import org.apache.log4j.Logger;
  */
 public class TakeProfitPercentage extends ISellConditionProvider {
 
-
     final static Logger logger = Logger.getLogger(TakeProfitPercentage.class);
 
     private double increasePercentage;
     private boolean waitForFall;
-    private IsFalling fallingStatistic;
+    private IStatisticProvider fallingOrRisingStatistic;
 
-    public TakeProfitPercentage(double increasePercentage, boolean waitForFall, IsFalling fallingStatistic) {
+    public TakeProfitPercentage(double increasePercentage, boolean waitForFall, IStatisticProvider fallingOrRisingStatistic, boolean isShortTrade) {
         this.increasePercentage = increasePercentage;
         this.waitForFall = waitForFall;
-        this.fallingStatistic = fallingStatistic;
+        this.fallingOrRisingStatistic = fallingOrRisingStatistic;
+        super.setShortTradeCondition(isShortTrade);
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
 
-        logger.debug("tickPrice:" + tick.getBidPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + (super.getBuyPrice() * (100+increasePercentage)/100));
-        if (tick.getBidPrice() >= (super.getBuyPrice() * (100+increasePercentage)/100)) {
+        if (!super.isShortTradeCondition()) {
+            logger.debug("LONG TRADE tickPrice:" + tick.getBidPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + (super.getBuyPrice() * (100 + increasePercentage) / 100));
+            if (!super.isShortTradeCondition() && tick.getBidPrice() >= (super.getBuyPrice() * (100 + increasePercentage) / 100)) {
 
-            if (waitForFall) {
-                if (!(Boolean)this.fallingStatistic.getResult()) {
-                    logger.debug("falling specified but not falling");
-                    return;
+                if (waitForFall) {
+                    if (!(Boolean) this.fallingOrRisingStatistic.getResult()) {
+                        logger.debug("falling specified but not falling");
+                        return;
+                    }
                 }
-            }
 
-            logger.debug("decided to sell");
-            super.sell(position, tick.getBidPrice());
+                logger.debug("decided to sell");
+                super.sell(position, tick.getBidPrice());
+            }
+        }
+
+        if (super.isShortTradeCondition()) {
+
+            double targetPrice =(super.getBuyPrice() * (100 - increasePercentage) / 100);
+            logger.debug("SHORT TRADE tickPrice:" + tick.getAskPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + targetPrice);
+
+            if (tick.getAskPrice() <= targetPrice) {
+
+                if (waitForFall) {
+                    if (!(Boolean) this.fallingOrRisingStatistic.getResult()) {
+                        logger.debug("rising specified but not rising");
+                        return;
+                    }
+                }
+
+                logger.debug("decided to sell at ask price" + tick.getAskPrice());
+                super.sell(position, tick.getAskPrice());
+            }
         }
     }
 
@@ -50,7 +71,7 @@ public class TakeProfitPercentage extends ISellConditionProvider {
     }
 
     public TakeProfitPercentage makeCopy() {
-        TakeProfitPercentage percentage = new TakeProfitPercentage(this.increasePercentage, this.waitForFall, this.fallingStatistic);
+        TakeProfitPercentage percentage = new TakeProfitPercentage(this.increasePercentage, this.waitForFall, this.fallingOrRisingStatistic, super.isShortTradeCondition());
         return percentage;
     }
 

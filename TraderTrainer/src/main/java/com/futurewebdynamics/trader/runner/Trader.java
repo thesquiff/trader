@@ -15,7 +15,6 @@ import com.futurewebdynamics.trader.riskfilters.providers.UpperBuyLimit;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.sellconditions.providers.StopLossPercentage;
 import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentage;
-import com.futurewebdynamics.trader.statistics.providers.IsFalling;
 import com.futurewebdynamics.trader.trader.providers.OandaTrader;
 import org.apache.log4j.Logger;
 
@@ -63,13 +62,16 @@ public class Trader {
             positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,Long.parseLong(prop.getProperty("timesincelastbuyms"))));
             positionsManager.riskFilters.add(new LowerBuyLimit(Integer.parseInt(prop.getProperty("lowerbuylimit")), MatchTradeEnum.LONG_AND_SHORT));
             positionsManager.riskFilters.add(new UpperBuyLimit(Integer.parseInt(prop.getProperty("upperbuylimit")), MatchTradeEnum.LONG_AND_SHORT));
+
             LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
-            sellConditions.add(new StopLossPercentage(Double.parseDouble(prop.getProperty("stoploss"))));
+            sellConditions.add(new StopLossPercentage(Double.parseDouble(prop.getProperty("stoplossshort")),true));
+            sellConditions.add(new StopLossPercentage(Double.parseDouble(prop.getProperty("stoploss")),false));
 
-            IsFalling fallingStatistic = new IsFalling(1);
-            fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
+            //IsFalling fallingStatistic = new IsFalling(1);
+            //fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
 
-            sellConditions.add(new TakeProfitPercentage(Double.parseDouble(prop.getProperty("takeprofit")), false, fallingStatistic));
+            sellConditions.add(new TakeProfitPercentage(Double.parseDouble(prop.getProperty("takeprofitshort")), false, null, true));
+            sellConditions.add(new TakeProfitPercentage(Double.parseDouble(prop.getProperty("takeprofit")), false, null, false));
 
             trader.getPositions(positionsManager, sellConditions);
             positionsManager.printStats();

@@ -11,8 +11,9 @@ import java.util.List;
 public class MaximumPrice extends IStatisticProvider{
 
 
-    public MaximumPrice() {
+    public MaximumPrice(boolean isShortTrade) {
         super();
+        this.setShortTradeCondition(isShortTrade);
     }
 
     @Override
@@ -33,6 +34,6 @@ public class MaximumPrice extends IStatisticProvider{
     @Override
     public Object getResult() {
         List<NormalisedPriceInformation> data = dataWindow.getData();
-        return data.stream().mapToInt(p->p.getAskPrice()).max();
+        return isShortTradeCondition() ? data.stream().mapToInt(p->p.getBidPrice()).max() :  data.stream().mapToInt(p->p.getAskPrice()).max();
     }
 }

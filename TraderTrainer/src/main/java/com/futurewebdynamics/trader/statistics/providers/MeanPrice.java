@@ -10,8 +10,9 @@ import java.util.List;
  */
 public class MeanPrice extends IStatisticProvider {
 
-    public MeanPrice() {
+    public MeanPrice(boolean isShortTrade) {
         super();
+        this.setShortTradeCondition(isShortTrade);
     }
 
     @Override
@@ -32,6 +33,6 @@ public class MeanPrice extends IStatisticProvider {
     @Override
     public Object getResult() {
         List<NormalisedPriceInformation> data = dataWindow.getData();
-        return (int)Math.round(data.stream().mapToInt(p->p.getAskPrice()).average().getAsDouble());
+        return this.isShortTradeCondition () ? (int)Math.round(data.stream().mapToInt(p->p.getBidPrice()).average().getAsDouble()) : (int)Math.round(data.stream().mapToInt(p->p.getAskPrice()).average().getAsDouble());
     }
 }

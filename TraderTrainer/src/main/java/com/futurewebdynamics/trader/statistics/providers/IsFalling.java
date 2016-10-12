@@ -14,8 +14,9 @@ public class IsFalling extends IStatisticProvider {
 
     private int lookBack;
 
-    public IsFalling(int lookBack) {
+    public IsFalling(int lookBack, boolean isShortTrade) {
         this.lookBack = lookBack;
+        this.setShortTradeCondition(isShortTrade);
     }
 
     public int getLookBack() {

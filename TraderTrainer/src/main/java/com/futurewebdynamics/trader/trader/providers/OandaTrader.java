@@ -113,7 +113,10 @@ public class OandaTrader implements ITrader {
                 internalPosition.setTimeOpened(javax.xml.bind.DatatypeConverter.parseDateTime(trade.openTime));
                 internalPosition.setStatus(PositionStatus.OPEN);
 
+                boolean isShortTrade = (trade.currentUnits < 0);
+
                 for (ISellConditionProvider sellPosition : templateSellConditions) {
+                    if (sellPosition.isShortTradeCondition() != isShortTrade) continue;
                     ISellConditionProvider copiedSellCondition = sellPosition.makeCopy();
                     copiedSellCondition.setBuyPrice(internalPosition.getActualOpenPrice());
                     internalPosition.addSellCondition(copiedSellCondition);
@@ -121,11 +124,14 @@ public class OandaTrader implements ITrader {
 
                 manager.addExistingPosition(internalPosition);
 
-                manager.printStats();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("Error getting positions from trader api",e);
         }
+
+        manager.printStats();
     }
 
     public void init() throws Exception{

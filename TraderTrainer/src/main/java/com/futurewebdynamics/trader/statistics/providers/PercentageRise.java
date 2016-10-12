@@ -16,6 +16,10 @@ public class PercentageRise extends IStatisticProvider {
 
     private int oldestWindowSize;
 
+    public PercentageRise(boolean isShortTrade) {
+        this.setShortTradeCondition(isShortTrade);
+    }
+
     @Override
     public int getMajorVersion() {
         return 0;
@@ -56,8 +60,11 @@ public class PercentageRise extends IStatisticProvider {
         for (int lookback = 1; lookback <= oldestWindowSize; lookback++) {
             double rise = 0.0;
 
-            int oldestValue = dataWindow.getData().get(dataWindow.getWindowSize() - 1 - lookback).getAskPrice();
-            int newestValue = dataWindow.getData().get(dataWindow.getWindowSize() - 1).getAskPrice();
+            NormalisedPriceInformation oldestTick = dataWindow.getData().get(dataWindow.getWindowSize() - 1 - lookback);
+            NormalisedPriceInformation newestTick = dataWindow.getData().get(dataWindow.getWindowSize() - 1);
+
+            int newestValue = this.isShortTradeCondition() ? newestTick.getBidPrice() : newestTick.getAskPrice();
+            int oldestValue = this.isShortTradeCondition() ? oldestTick.getBidPrice() : oldestTick.getAskPrice();
 
             if (newestValue <= oldestValue) continue;
 

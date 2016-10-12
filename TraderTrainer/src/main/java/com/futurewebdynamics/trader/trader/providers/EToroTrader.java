@@ -302,8 +302,8 @@ public class EToroTrader implements ITrader {
             p.setStatus(PositionStatus.OPEN);
             p.setActualOpenPrice(Integer.parseInt(openPrice.replace(".","")));
             p.setQuantity((int)Math.round(Double.parseDouble(quantity.replace("$", "").replace(".", ""))));
-            p.addSellCondition(new StopLoss(p.getActualOpenPrice() - Integer.parseInt(stopLoss.replace(".", ""))));
-            p.addSellCondition(new TakeProfit(p.getActualOpenPrice() - Integer.parseInt(takeProfit.replace(".", ""))));
+            p.addSellCondition(new StopLoss(p.getActualOpenPrice() - Integer.parseInt(stopLoss.replace(".", "")), false));
+            p.addSellCondition(new TakeProfit(p.getActualOpenPrice() - Integer.parseInt(takeProfit.replace(".", "")),false));
             p.setUniqueId(++idCounter);
 
             Calendar cal = Calendar.getInstance();

@@ -10,8 +10,9 @@ import java.util.List;
  */
 public class MinimumPrice extends IStatisticProvider {
 
-    public MinimumPrice() {
+    public MinimumPrice(boolean isShortTrade) {
         super();
+        this.setShortTradeCondition(isShortTrade);
     }
 
     @Override
@@ -32,6 +33,6 @@ public class MinimumPrice extends IStatisticProvider {
     @Override
     public Object getResult() {
         List<NormalisedPriceInformation> data = dataWindow.getData();
-        return data.stream().mapToInt(p->p.getAskPrice()).min();
+        return this.isShortTradeCondition() ? data.stream().mapToInt(p->p.getBidPrice()).min() : data.stream().mapToInt(p->p.getAskPrice()).min();
     }
 }

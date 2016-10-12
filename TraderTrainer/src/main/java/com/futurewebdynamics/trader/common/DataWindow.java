@@ -19,7 +19,7 @@ public class DataWindow {
 
     private CircularFifoQueue<NormalisedPriceInformation> window;
 
-    final static Logger logger = Logger.getLogger(TimeNormalisedDataCache.class);
+    final static Logger logger = Logger.getLogger(DataWindow.class);
 
     //private int bufferPointer = 0;
 
@@ -55,10 +55,10 @@ public class DataWindow {
 
     public void debug() {
         String prices = window.stream().map(p->p.getAskPrice()).map(p->p.toString()).collect(Collectors.joining("],["));
-        logger.debug("ask: old [" + prices + "] new");
+        logger.trace("ask: old [" + prices + "] new");
 
         prices = window.stream().map(p->p.getBidPrice()).map(p->p.toString()).collect(Collectors.joining("],["));
-        logger.debug("bid: old [" + prices + "] new");
+        logger.trace("bid: old [" + prices + "] new");
 
     }
 
