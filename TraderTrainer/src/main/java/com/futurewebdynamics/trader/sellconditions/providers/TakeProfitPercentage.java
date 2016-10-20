@@ -26,9 +26,10 @@ public class TakeProfitPercentage extends ISellConditionProvider {
 
     public void tick(Position position, NormalisedPriceInformation tick) {
 
+        int buyPrice = position.getActualOpenPrice();
         if (!super.isShortTradeCondition()) {
-            logger.debug("LONG TRADE tickPrice:" + tick.getBidPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + (super.getBuyPrice() * (100 + increasePercentage) / 100));
-            if (!super.isShortTradeCondition() && tick.getBidPrice() >= (super.getBuyPrice() * (100 + increasePercentage) / 100)) {
+            logger.debug("LONG TRADE id: " + position.getUniqueId() + "  tickPrice:" + tick.getBidPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 + increasePercentage) / 100));
+            if (!super.isShortTradeCondition() && tick.getBidPrice() >= (buyPrice * (100 + increasePercentage) / 100)) {
 
                 if (waitForFall) {
                     if (!(Boolean) this.fallingOrRisingStatistic.getResult()) {
@@ -44,8 +45,8 @@ public class TakeProfitPercentage extends ISellConditionProvider {
 
         if (super.isShortTradeCondition()) {
 
-            double targetPrice =(super.getBuyPrice() * (100 - increasePercentage) / 100);
-            logger.debug("SHORT TRADE tickPrice:" + tick.getAskPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + targetPrice);
+            double targetPrice =(buyPrice * (100 - increasePercentage) / 100);
+            logger.debug("SHORT TRADE id: " + position.getUniqueId() + " tickPrice:" + tick.getAskPrice() + " buy price:" + buyPrice + " targetSellPrice:" + targetPrice);
 
             if (tick.getAskPrice() <= targetPrice) {
 

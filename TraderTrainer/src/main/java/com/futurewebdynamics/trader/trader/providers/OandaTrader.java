@@ -58,6 +58,7 @@ public class OandaTrader implements ITrader {
             System.out.println("tradeID" + tradeId);
 
             position.setStatus(PositionStatus.OPEN);
+            logger.debug("Setting actual open price on poisition to: " + (int)(Double.parseDouble(price)*100.0));
             position.setActualOpenPrice((int)(Double.parseDouble(price)*100.0));
             position.setUniqueId(Long.parseLong(tradeId));
             //@TODO: Use dateTime above
@@ -115,10 +116,10 @@ public class OandaTrader implements ITrader {
 
                 boolean isShortTrade = (trade.currentUnits < 0);
 
+                //@TODO move this into PositionManager - OandaTrader shouldn't have knowledge of this
                 for (ISellConditionProvider sellPosition : templateSellConditions) {
                     if (sellPosition.isShortTradeCondition() != isShortTrade) continue;
                     ISellConditionProvider copiedSellCondition = sellPosition.makeCopy();
-                    copiedSellCondition.setBuyPrice(internalPosition.getActualOpenPrice());
                     internalPosition.addSellCondition(copiedSellCondition);
                 }
 

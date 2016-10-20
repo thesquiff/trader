@@ -25,11 +25,14 @@ public class StopLoss extends ISellConditionProvider {
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
-        if (!super.isShortTradeCondition() && tick.getBidPrice() <= (super.getBuyPrice() - decrease)) {
+
+        int buyPrice = position.getActualOpenPrice();
+
+        if (!super.isShortTradeCondition() && tick.getBidPrice() <= (buyPrice - decrease)) {
             sell(position, tick.getBidPrice());
         }
 
-        if (super.isShortTradeCondition() && tick.getAskPrice() >= (super.getBuyPrice() + decrease)) {
+        if (super.isShortTradeCondition() && tick.getAskPrice() >= (buyPrice + decrease)) {
             sell(position, tick.getAskPrice());
         }
     }

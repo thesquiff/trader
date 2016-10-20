@@ -25,6 +25,7 @@ public class RestHelper {
 
             conn.setRequestProperty("Authorization", "Bearer " + token);
             conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Connection", "Keep-Alive");
 
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
@@ -52,6 +53,7 @@ public class RestHelper {
 
             conn.setRequestProperty("Authorization", "Bearer " + token);
             conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Connection", "Keep-Alive");
             conn.setDoOutput(true);
 
             DataOutputStream wr = new DataOutputStream( conn.getOutputStream() );
@@ -84,6 +86,7 @@ public class RestHelper {
 
             conn.setRequestProperty("Authorization", "Bearer " + token);
             conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Connection", "Keep-Alive");
             conn.setDoOutput(true);
 
             DataOutputStream wr = new DataOutputStream( conn.getOutputStream() );

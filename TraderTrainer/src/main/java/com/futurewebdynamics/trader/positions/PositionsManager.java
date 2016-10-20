@@ -79,13 +79,12 @@ public class PositionsManager {
 
         Calendar cal = GregorianCalendar.getInstance();
         position.setTimeOpened(cal);
-        //position.setActualOpenPrice(price);
 
         for (ISellConditionProvider sellPosition : templateSellConditions) {
             if (sellPosition.isShortTradeCondition() != isShortTrade) continue;
 
             ISellConditionProvider copiedSellCondition = sellPosition.makeCopy();
-            copiedSellCondition.setBuyPrice(position.getActualOpenPrice());
+            logger.debug("Setting actual open price to " + position.getActualOpenPrice());
             position.addSellCondition(copiedSellCondition);
         }
 

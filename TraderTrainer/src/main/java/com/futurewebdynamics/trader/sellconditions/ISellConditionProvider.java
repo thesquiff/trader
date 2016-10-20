@@ -8,7 +8,6 @@ import com.futurewebdynamics.trader.positions.Position;
  */
 public abstract class ISellConditionProvider  {
 
-    private int buyPrice;
     private boolean isShortTrade;
 
     public void setShortTradeCondition(boolean isShortTrade)
@@ -17,14 +16,6 @@ public abstract class ISellConditionProvider  {
     }
 
     public abstract ISellConditionProvider makeCopy();
-
-    public void setBuyPrice(int buyPrice) {
-        this.buyPrice = buyPrice;
-    }
-
-    public int getBuyPrice() {
-        return this.buyPrice;
-    }
 
     public abstract void tick(Position position, NormalisedPriceInformation tickData);
 

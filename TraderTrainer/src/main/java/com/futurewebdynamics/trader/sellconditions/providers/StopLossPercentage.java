@@ -21,13 +21,14 @@ public class StopLossPercentage extends ISellConditionProvider{
 
     public void tick(Position position, NormalisedPriceInformation tick) {
 
-        if (!super.isShortTradeCondition() && tick.getBidPrice() <= (super.getBuyPrice() * (100-decreasePercentage)/100)) {
-            logger.debug("STOP LOSS LONG TRADE tickPrice:" + tick.getBidPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + (super.getBuyPrice() * (100 - decreasePercentage) / 100));
+        int buyPrice = position.getActualOpenPrice();
+        if (!super.isShortTradeCondition() && tick.getBidPrice() <= (buyPrice * (100-decreasePercentage)/100)) {
+            logger.debug("STOP LOSS LONG TRADE tickPrice:" + tick.getBidPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 - decreasePercentage) / 100));
             sell(position, tick.getBidPrice());
         }
 
-        if (super.isShortTradeCondition() && tick.getAskPrice() >= (super.getBuyPrice() * (100+decreasePercentage)/100)) {
-            logger.debug("STOP LOSS SHORT TRADE tickPrice:" + tick.getAskPrice() + " buy price:" + super.getBuyPrice() + " targetSellPrice:" + (super.getBuyPrice() * (100 + decreasePercentage) / 100));
+        if (super.isShortTradeCondition() && tick.getAskPrice() >= (buyPrice * (100+decreasePercentage)/100)) {
+            logger.debug("STOP LOSS SHORT TRADE id:" + position.getUniqueId() + " tickPrice:" + tick.getAskPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 + decreasePercentage) / 100));
             sell(position, tick.getAskPrice());
         }
     }
