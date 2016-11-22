@@ -20,13 +20,15 @@ public class PositionsManager {
 
     private ITrader trader;
     private ExecutorService executor;
+    private boolean isReplayMode;
 
     final static Logger logger = Logger.getLogger(PositionsManager.class);
 
-    public PositionsManager() {
+    public PositionsManager(boolean isReplayMode) {
         positions = Collections.synchronizedList(new ArrayList<Position>());
         riskFilters = Collections.synchronizedList(new ArrayList<IRiskFilter>());
         executor = Executors.newCachedThreadPool();
+        this.isReplayMode = isReplayMode;
     }
 
     public ITrader getTrader() {
@@ -61,7 +63,9 @@ public class PositionsManager {
         }
     }
 
-    public void openPosition(int price, Collection<ISellConditionProvider> templateSellConditions, boolean isShortTrade) {
+    public void openPosition(NormalisedPriceInformation tickData, Collection<ISellConditionProvider> templateSellConditions, boolean isShortTrade) {
+        int price = isShortTrade ? tickData.getBidPrice() : tickData.getBidPrice();
+
         logger.debug("Assessing " + this.riskFilters.size() + " risk filters");
         for (IRiskFilter riskFilter : this.riskFilters) {
             if (!riskFilter.proceedWithBuy(price, isShortTrade)) {
@@ -78,13 +82,16 @@ public class PositionsManager {
         position.setTargetOpenPrice(price);
 
         Calendar cal = GregorianCalendar.getInstance();
+        if (isReplayMode) {
+            cal.setTimeInMillis(tickData.getCorrectedTimestamp());
+        }
         position.setTimeOpened(cal);
+
 
         for (ISellConditionProvider sellPosition : templateSellConditions) {
             if (sellPosition.isShortTradeCondition() != isShortTrade) continue;
 
             ISellConditionProvider copiedSellCondition = sellPosition.makeCopy();
-            logger.debug("Setting actual open price to " + position.getActualOpenPrice());
             position.addSellCondition(copiedSellCondition);
         }
 
@@ -93,15 +100,24 @@ public class PositionsManager {
 
     }
 
-    public void sellPosition(Position position, int targetPrice) {
+
+    public void sellPosition(Position position, NormalisedPriceInformation tickData, boolean isShortTradeCondition) {
+
+        int targetPrice = isShortTradeCondition ? tickData.getAskPrice() : tickData.getBidPrice();
+
         logger.info("Selling position " + position.getUniqueId() + " opened at " + position.getActualOpenPrice() + " for " + targetPrice);
+
+
         Calendar cal = GregorianCalendar.getInstance();
+        if (isReplayMode) {
+            cal.setTimeInMillis(tickData.getCorrectedTimestamp());
+        }
         position.setTimeClosed(cal);
 
         position.setStatus(PositionStatus.SELLING);
         position.setTargetSellPrice(targetPrice);
         position.setActualSellPrice(targetPrice);
-        this.trader.closePosition(position);
+        this.trader.closePosition(position, tickData.getCorrectedTimestamp());
     }
 
     public void printStats() {

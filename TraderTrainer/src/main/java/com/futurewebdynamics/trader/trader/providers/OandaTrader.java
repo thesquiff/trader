@@ -77,7 +77,7 @@ public class OandaTrader implements ITrader {
     }
 
     @Override
-    public boolean closePosition(Position position) {
+    public boolean closePosition(Position position, long replayTimestamp) {
         String closePositionJson = " { \"units\": \"ALL\"}";
 
         logger.debug("Close trade: " + position.getUniqueId() + " json:" + closePositionJson);

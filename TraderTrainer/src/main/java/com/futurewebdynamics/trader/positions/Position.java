@@ -140,9 +140,8 @@ public class Position {
         }
     }
 
-    public void sell(int targetSellPrice) {
-        logger.debug("Position: " + Long.toString(this.uniqueId)  + " opened at " + Integer.toString(this.actualOpenPrice) + " selling at: " + targetSellPrice);
-        this.positionsManager.sellPosition(this, targetSellPrice);
+    public void sell(NormalisedPriceInformation tickData, boolean isShortTradeCondition) {
+        this.positionsManager.sellPosition(this, tickData,  isShortTradeCondition);
     }
 
     public ISellConditionProvider getSellConditionOfType(Class classType) {

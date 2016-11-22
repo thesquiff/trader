@@ -17,5 +17,6 @@ public class Price {
     public String status;
     public String time;
     public UnitsAvailable unitsAvailable;
+    public String type;
 
 }

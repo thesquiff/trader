@@ -14,7 +14,12 @@ import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentag
 import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 import org.apache.log4j.Logger;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
+import java.util.Properties;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -25,79 +30,131 @@ public class TraderTrainer {
 
     public static void main(String args[]) {
 
-        //EToroTrader trader = new EToroTrader(args[0]);
-        //trader.login();
+
+        Properties prop = new Properties();
+        InputStream input = null;
+
+        try {
+            input = new FileInputStream(args[0]);
+            prop.load(input);
+        } catch (FileNotFoundException e) {
+            logger.error(e);
+            e.printStackTrace();
+            System.exit(1);
+        } catch (IOException e) {
+            logger.error(e);
+            e.printStackTrace();
+            System.exit(1);
+        }
 
 
-        PseudoTrader trader = new PseudoTrader();
-        IDataSource dataSource = new ReplayDataSource();
-        dataSource.init(args[0]);
+        long dateStartTimestampMs = Long.parseLong(prop.getProperty("starttimestampms"));
+        long dateEndTimestampMs = Long.parseLong(prop.getProperty("endtimestampms"));
 
-        int largestGain =0;
-        int bestWindowSize = 0;
-        double bestTrigger = 0.0;
+        String dbDriver = prop.getProperty("dbdriver");
+        String connectionString = prop.getProperty("dbconnectionstring");
 
-        for (int windowSizeSweep = 4; windowSizeSweep < 10; windowSizeSweep++) {
+        logger.info("loading db driver");
+        try {
+            Class.forName(dbDriver).newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            for (double triggerPercentage = 0.1; triggerPercentage < 3.0; triggerPercentage+=0.1) {
+        int leverage = 100;
+        PseudoTrader trader = new PseudoTrader(leverage);
+        IDataSource dataSource = new ReplayDataSource(500, dateStartTimestampMs, dateEndTimestampMs);
+        try {
+            dataSource.init(connectionString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int analysisIntervalMs = 500;
+        int tickSleepMs = 500;
+        double bounceTrigger = 0.08;
+        int bounceLookback = 80;
+        double takeProfit = 0.1;
+        double takeProfitShort = 0.1;
+        double stopLoss = 10.0;
+        double stopLossShort = 10.0;
+        int upperBuyLimit = 0;
+        int lowerBuyLimit = 0;
+        long timeSinceLastBuyLimit = 0;
+        int windowSize = 81;
+
+        //for (int windowSizeSweep = 4; windowSizeSweep < 10; windowSizeSweep++) {
+
+            //for (double triggerPercentage = 0.1; triggerPercentage < 3.0; triggerPercentage+=0.1) {
 
                 ((ReplayDataSource)dataSource).reset();
 
                 DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
 
-                PositionsManager positionsManager = new PositionsManager();
+                PositionsManager positionsManager = new PositionsManager(true);
+                //positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,timeSinceLastBuyLimit));
+                //positionsManager.riskFilters.add(new LowerBuyLimit(lowerBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
+                //positionsManager.riskFilters.add(new UpperBuyLimit(upperBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
 
+                LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
+                sellConditions.add(new StopLossPercentage(stopLossShort,true));
+                sellConditions.add(new StopLossPercentage(stopLoss,false));
+
+                //IsFalling fallingStatistic = new IsFalling(1);
+                //fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
+
+                sellConditions.add(new TakeProfitPercentage(takeProfitShort, false, null, true));
+                sellConditions.add(new TakeProfitPercentage(takeProfit, false, null, false));
+
+                trader.getPositions(positionsManager, sellConditions);
+                positionsManager.printStats();
                 positionsManager.setTrader(trader);
 
                 AnalyserRegistry analysers = new AnalyserRegistry();
 
-                LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
-                sellConditions.add(new StopLossPercentage(10.0,false));
-                sellConditions.add(new TakeProfitPercentage(3.3,false, null,false));
-
-                analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSizeSweep), windowSizeSweep, positionsManager, triggerPercentage,2,sellConditions, false));
+                analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, bounceTrigger, bounceLookback, sellConditions, true));
+                analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, bounceTrigger, bounceLookback, sellConditions, false));
 
                 for (IAnalyserProvider analyser : analysers.getAnalysers()) {
                     int requiredSize = analyser.getRequiredDataWindowSize();
                     dataWindowRegistry.getWindowOfLength(requiredSize);
                 }
 
-                while(true) {
-                    NormalisedPriceInformation tickData = dataSource.getTickData();
+                positionsManager.setTrader(trader);
 
-                    if (tickData == null) break;
+                NormalisedPriceInformation tickData = null;
 
+
+                while (((ReplayDataSource) dataSource).hasMoreData()) {
+                    //read data and evaulate current positions
+                    for (int adv = 0; adv < analysisIntervalMs / tickSleepMs; adv++) {
+                        tickData = dataSource.getTickData();
+
+                        if (tickData == null) {
+                            logger.info("Tick data is null");
+                            continue;
+                        } else {
+                            logger.info("Time: " + tickData.getCorrectedTimestamp() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
+                        }
+
+                        positionsManager.tick(tickData);
+                    }
+
+                    //buy decisions
                     dataWindowRegistry.tick(tickData);
 
                     for (IAnalyserProvider analyser : analysers.getAnalysers()) {
                         analyser.tick(tickData);
                     }
-
-                    positionsManager.tick(tickData);
                 }
 
-                //gather some stats
-                logger.info("Window Size: " + windowSizeSweep);
-                logger.info("Trigger % " + triggerPercentage);
-                positionsManager.printStats();
+            //}
 
-                int gain = positionsManager.getTotalGains();
-                if (gain > largestGain) {
-                    largestGain = gain;
-                    bestWindowSize = windowSizeSweep;
-                    bestTrigger = triggerPercentage;
-                }
-
-
-            }
-
-
-        }
-
-        logger.info("Largest gain: " + largestGain + " (window size: " + bestWindowSize + ", trigger: " + bestTrigger + ")");
-
-
-
+        //}
 
     }
 }

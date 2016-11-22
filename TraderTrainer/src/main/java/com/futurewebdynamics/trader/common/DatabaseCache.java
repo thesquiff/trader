@@ -1,5 +1,6 @@
 package com.futurewebdynamics.trader.common;
 
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -21,9 +22,17 @@ public class DatabaseCache {
 
     final static Logger logger = Logger.getLogger(DatabaseCache.class);
 
+    long dateStartTimestampMs;
+    long dateEndTimestampMs;
+
     public DatabaseCache(String connectionString) {
         this.connectionString = connectionString;
+    }
 
+    public DatabaseCache(String connectionString, long dateStartTimestampMs, long dateEndTimestampMs) {
+        this.connectionString = connectionString;
+        this.dateEndTimestampMs = dateEndTimestampMs;
+        this.dateStartTimestampMs = dateStartTimestampMs;
     }
 
     public void loadData() {
@@ -32,20 +41,35 @@ public class DatabaseCache {
         try {
 
             Statement statement = this.connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM price");
-            resultSet.next();
 
-            int count = resultSet.getInt(1);
-            cache = new ArrayList<PriceInformation>(count);
+
+
+            ResultSet countResultSet;
+            ResultSet dataResultSet;
+
+            if (dateEndTimestampMs <= 0) {
+                countResultSet = statement.executeQuery("SELECT COUNT(*) FROM price ");
+                dataResultSet = connection.createStatement().executeQuery("SELECT price.timestamp, askprice, bidprice FROM price ORDER BY price.timestamp ASC");
+            } else {
+                countResultSet = statement.executeQuery("SELECT COUNT(*) FROM price WHERE price.timestamp >= " + dateStartTimestampMs + " AND price.timestamp <= " + dateEndTimestampMs);
+                dataResultSet = connection.createStatement().executeQuery("SELECT price.timestamp, askprice, bidprice FROM price WHERE price.timestamp >= " + dateStartTimestampMs + " AND price.timestamp <= " + dateEndTimestampMs + " ORDER BY price.timestamp ASC");
+            }
+
+            countResultSet.next();
+
+            long count = countResultSet.getLong(1);
+            if (count > Integer.MAX_VALUE) {
+                throw new ValueException("too many prices");
+            }
 
             logger.info(count + " price records identified");
 
-            resultSet = connection.createStatement().executeQuery("SELECT UNIX_TIMESTAMP(price.timestamp), price FROM price ORDER BY 'index'");
+            cache = new ArrayList<PriceInformation>((int)count);
 
             int index = 0;
-            while (resultSet.next()) {
+            while (dataResultSet.next()) {
 
-                cache.add(new PriceInformation (resultSet.getInt(1),resultSet.getInt(2), 0));
+                cache.add(new PriceInformation (dataResultSet.getLong(1),(int)(dataResultSet.getDouble(2)*100), (int)(dataResultSet.getDouble(3)*100)));
                 index++;
             }
             logger.info(index + " price records cached");

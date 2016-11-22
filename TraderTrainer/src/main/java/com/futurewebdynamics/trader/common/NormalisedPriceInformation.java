@@ -5,11 +5,11 @@ package com.futurewebdynamics.trader.common;
  */
 public class NormalisedPriceInformation extends PriceInformation {
 
-    private int correctedTimestamp;
+    private long correctedTimestamp;
 
     private boolean isEmpty = false;
 
-    public NormalisedPriceInformation(int timestamp, int askPrice, int bidPrice, int correctedTimestamp) {
+    public NormalisedPriceInformation(long timestamp, int askPrice, int bidPrice, long correctedTimestamp) {
         super(timestamp, askPrice, bidPrice);
         this.correctedTimestamp = correctedTimestamp;
     }
@@ -26,11 +26,11 @@ public class NormalisedPriceInformation extends PriceInformation {
         isEmpty = empty;
     }
 
-    public int getCorrectedTimestamp() {
+    public long getCorrectedTimestamp() {
         return correctedTimestamp;
     }
 
-    public void setCorrectedTimestamp(int correctedTimestamp) {
+    public void setCorrectedTimestamp(long correctedTimestamp) {
         this.correctedTimestamp = correctedTimestamp;
     }
 

@@ -6,12 +6,6 @@ import com.futurewebdynamics.trader.common.TimeNormalisedDataCache;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import org.apache.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 /**
  * Created by 52con on 15/04/2016.
  */
@@ -23,50 +17,49 @@ public class ReplayDataSource implements IDataSource {
 
     final static Logger logger = Logger.getLogger(ReplayDataSource.class);
 
-    public void init(String propertiesFile) {
+    private String connectionString;
 
-        Properties prop = new Properties();
-        InputStream input = null;
-        String dbHost = "";
-        String dbUsername = "";
-        String dbPassword = "";
+    private int intervalMs;
+    private long dateStartTimestampMs;
+    private long dateEndTimestampMs;
 
-        try {
-            input = new FileInputStream(propertiesFile);
+    public ReplayDataSource(int intervalMs, long dateStartTimestampMs, long dateEndTimestampMs) {
+        this.intervalMs = intervalMs;
+        this.dateStartTimestampMs = dateStartTimestampMs;
+        this.dateEndTimestampMs = dateEndTimestampMs;
+    }
 
-            prop.load(input);
+    public void init(String connectionString) throws Exception {
 
-            dbHost = prop.getProperty("dbhost");
-            dbUsername = prop.getProperty("dbusername");
-            dbPassword = prop.getProperty("dbpassword");
+        this.connectionString = connectionString;
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.exit(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        String connectionString = "jdbc:mysql://" + dbHost + "/trader?user=" + dbUsername + "&password=" + dbPassword;
-
-        DatabaseCache databaseCache = new DatabaseCache(connectionString);
+        DatabaseCache databaseCache = new DatabaseCache(connectionString, dateStartTimestampMs, dateEndTimestampMs);
         databaseCache.loadData();
 
-        dataCache = new TimeNormalisedDataCache(databaseCache.getCache());
+        dataCache = new TimeNormalisedDataCache(databaseCache.getCache(), intervalMs);
+    }
+
+    public long getStartTime() {
+
+        return dataCache.getStartTime();
     }
 
 
+    public boolean hasMoreData() {
+        return index < dataCache.getCacheSize();
+    }
+
     public NormalisedPriceInformation getTickData() {
-        if (index == dataCache.getCacheSize()) return null;
-        NormalisedPriceInformation price = dataCache.getMinutePrices()[index++];
-
-        logger.debug("index: " + index + ", ask price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
-
         if (index >= dataCache.getCacheSize()) return null;
+        NormalisedPriceInformation price = dataCache.getIntervalPrices()[index++];
+
+        if (price != null ) {
+            logger.debug("index: " + index + ", ask price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
+        } else {
+            logger.debug("index: " + index + ", price is null");
+        }
 
         return price;
-
     }
 
     public void reset() {

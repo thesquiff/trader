@@ -95,7 +95,7 @@ public class Recorder {
 
                 logger.info("loading mysql driver");
                 try {
-                    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+                    Class.forName(dbDriver).newInstance();
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {

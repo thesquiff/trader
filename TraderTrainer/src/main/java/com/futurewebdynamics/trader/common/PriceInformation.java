@@ -5,24 +5,24 @@ package com.futurewebdynamics.trader.common;
  */
 public class PriceInformation {
 
-    private int timestamp;
+    private long timestamp;
     private int askPrice;
     private int bidPrice;
 
     public PriceInformation() {
     }
 
-    public PriceInformation(int timestamp, int askPrice, int bidPrice) {
+    public PriceInformation(long timestamp, int askPrice, int bidPrice) {
         this.timestamp = timestamp;
         this.askPrice = askPrice;
         this.bidPrice = bidPrice;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

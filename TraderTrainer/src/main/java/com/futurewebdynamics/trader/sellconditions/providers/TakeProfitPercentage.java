@@ -39,7 +39,7 @@ public class TakeProfitPercentage extends ISellConditionProvider {
                 }
 
                 logger.debug("decided to sell");
-                super.sell(position, tick.getBidPrice());
+                super.sell(position, tick, super.isShortTradeCondition());
             }
         }
 
@@ -58,7 +58,7 @@ public class TakeProfitPercentage extends ISellConditionProvider {
                 }
 
                 logger.debug("decided to sell at ask price" + tick.getAskPrice());
-                super.sell(position, tick.getAskPrice());
+                super.sell(position, tick, super.isShortTradeCondition());
             }
         }
     }

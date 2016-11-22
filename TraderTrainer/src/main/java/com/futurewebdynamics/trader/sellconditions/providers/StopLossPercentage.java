@@ -24,12 +24,12 @@ public class StopLossPercentage extends ISellConditionProvider{
         int buyPrice = position.getActualOpenPrice();
         if (!super.isShortTradeCondition() && tick.getBidPrice() <= (buyPrice * (100-decreasePercentage)/100)) {
             logger.debug("STOP LOSS LONG TRADE tickPrice:" + tick.getBidPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 - decreasePercentage) / 100));
-            sell(position, tick.getBidPrice());
+            sell(position, tick, false);
         }
 
         if (super.isShortTradeCondition() && tick.getAskPrice() >= (buyPrice * (100+decreasePercentage)/100)) {
             logger.debug("STOP LOSS SHORT TRADE id:" + position.getUniqueId() + " tickPrice:" + tick.getAskPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 + decreasePercentage) / 100));
-            sell(position, tick.getAskPrice());
+            sell(position, tick, true);
         }
     }
 

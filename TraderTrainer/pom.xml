@@ -10,11 +10,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
-        </dependency>
-        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
@@ -59,9 +54,7 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc4</artifactId>
             <version>4.2</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/Charlie/Documents/sqldriver/sqljdbc_4.2/enu/sqljdbc42.jar</systemPath>
-            <optional>true</optional>
+
         </dependency>
     </dependencies>
 
@@ -86,7 +79,7 @@
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
-                            <mainClass>com.futurewebdynamics.trader.recorder.Recorder</mainClass>
+                            <mainClass>com.futurewebdynamics.trader.trainer.TraderTrainer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -103,6 +96,16 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                     <finalName>uber-${artifactId}-${version}</finalName>
                 </configuration>
             </plugin>

@@ -28,11 +28,11 @@ public class TakeProfit extends ISellConditionProvider {
         int buyPrice = position.getActualOpenPrice();
 
         if (!super.isShortTradeCondition() && tick.getBidPrice() >= (buyPrice+ increase)) {
-            super.sell(position, tick.getBidPrice());
+            super.sell(position, tick, false);
         }
 
         if (super.isShortTradeCondition() && tick.getAskPrice() <= (buyPrice - increase)) {
-            super.sell(position, tick.getAskPrice());
+            super.sell(position, tick, true);
         }
     }
 

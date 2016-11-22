@@ -9,6 +9,6 @@ public interface IDataSource {
 
     NormalisedPriceInformation getTickData();
 
-    void init(String propertiesFile);
+    void init(String propertiesFile) throws Exception;
 
 }

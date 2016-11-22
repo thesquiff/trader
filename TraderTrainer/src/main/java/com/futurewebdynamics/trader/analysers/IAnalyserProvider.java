@@ -71,8 +71,12 @@ public abstract class IAnalyserProvider {
     public abstract void tick(NormalisedPriceInformation tickData);
 
     public void buy(NormalisedPriceInformation tickData, boolean isShortTrade) {
-        logger.info("Buying at " + tickData.getAskPrice() + " isShortTrade:" + isShortTrade);
-        this.manager.openPosition(tickData.getAskPrice(), sellConditions, isShortTrade);
+        if (!isShortTrade) {
+            logger.info("Buying at " + tickData.getAskPrice() + " isShortTrade:" + isShortTrade);
+        } else {
+            logger.info("Buying at " + tickData.getBidPrice() + " isShortTrade:" + isShortTrade);
+        }
+        this.manager.openPosition(tickData, sellConditions, isShortTrade);
     }
 
 }

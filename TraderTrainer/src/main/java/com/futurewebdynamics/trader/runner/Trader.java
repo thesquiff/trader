@@ -58,7 +58,7 @@ public class Trader {
 
             DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
 
-            PositionsManager positionsManager = new PositionsManager();
+            PositionsManager positionsManager = new PositionsManager(false);
             positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,Long.parseLong(prop.getProperty("timesincelastbuyms"))));
             positionsManager.riskFilters.add(new LowerBuyLimit(Integer.parseInt(prop.getProperty("lowerbuylimit")), MatchTradeEnum.LONG_AND_SHORT));
             positionsManager.riskFilters.add(new UpperBuyLimit(Integer.parseInt(prop.getProperty("upperbuylimit")), MatchTradeEnum.LONG_AND_SHORT));

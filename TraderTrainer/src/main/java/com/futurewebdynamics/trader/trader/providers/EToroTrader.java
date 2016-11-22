@@ -196,7 +196,7 @@ public class EToroTrader implements ITrader {
         return true;
     }
 
-    public boolean closePosition(Position position) {
+    public boolean closePosition(Position position, long replayTimestampMs) {
         navigateTo("https://www.etoro.com/portfolio/oil");
 
         if (!driver.getCurrentUrl().equals("https://www.etoro.com/portfolio/oil")) {

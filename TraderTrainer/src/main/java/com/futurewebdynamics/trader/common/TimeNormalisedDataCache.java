@@ -2,25 +2,33 @@ package com.futurewebdynamics.trader.common;
 
 import org.apache.log4j.Logger;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 /**
  * Created by 52con on 14/04/2016.
  */
 public class TimeNormalisedDataCache {
 
-    private NormalisedPriceInformation minutePrices[];
+    private NormalisedPriceInformation intervalPrices[];
+
+    private long startTimeMs;
 
     final static Logger logger = Logger.getLogger(TimeNormalisedDataCache.class);
 
-    public TimeNormalisedDataCache(ArrayList<PriceInformation> priceInformation) {
+    private int intervalMs;
+
+    public TimeNormalisedDataCache(ArrayList<PriceInformation> priceInformation, int intervalMs) throws Exception {
+        this.intervalMs = intervalMs;
 
         init(priceInformation);
 
     }
 
-    private void init(ArrayList<PriceInformation> priceInformation) {
+    public long getStartTime() {
+        return this.startTimeMs;
+    }
+
+    private long init(ArrayList<PriceInformation> priceInformation) throws Exception {
 
         //assume resolution of minutes for now
 
@@ -28,57 +36,94 @@ public class TimeNormalisedDataCache {
 
 
         //get time window
-        int startTime = priceInformation.get(0).getTimestamp();
-        int endTime = priceInformation.get(priceInformation.size() - 1).getTimestamp();
+        startTimeMs = priceInformation.get(0).getTimestamp();
+        long endTimeMs = priceInformation.get(priceInformation.size() - 1).getTimestamp();
 
-        logger.info("Start time is " + startTime);
-        logger.info("End time is " + endTime);
+        logger.info("Start time is " + startTimeMs);
+        logger.info("End time is " + endTimeMs);
+        logger.info("Interval ms " + intervalMs);
 
-        int numberOfElements = (endTime - startTime)/60 + 1;
+        long numberOfElements = (endTimeMs - startTimeMs) / intervalMs + 1;
 
         logger.debug("Cache size is " + numberOfElements);
 
-        minutePrices = new NormalisedPriceInformation[numberOfElements];
 
-        Calendar targetTime = GregorianCalendar.getInstance();
-        targetTime.setTime(new Date((long)startTime*1000));
-        targetTime.set(Calendar.SECOND, 0);
-        targetTime.set(Calendar.MILLISECOND, 0);
+        if (numberOfElements > Integer.MAX_VALUE) {
+            throw new Exception("Too many elements");
+        }
 
-        logger.debug("First targetTime: " + targetTime.getTime());
+        logger.debug("Number of elements: " + numberOfElements);
+
+        intervalPrices = new NormalisedPriceInformation[(int)numberOfElements];
+
+        long targetTimeInMillis = startTimeMs;
+
+        logger.debug("First targetTime: " + targetTimeInMillis);
+
+        int rawDataIndex = 0;
 
         for (int tick = 0; tick < numberOfElements; tick++) {
 
-            //logger.debug("target time: " + targetTime.getTime());
+            if (tick % 1000 == 0) logger.debug("Tick=" + tick + " elements="+numberOfElements);
 
-            long minute = targetTime.getTimeInMillis() / 1000;
+            long currentTargetTime = targetTimeInMillis;
 
-            List<PriceInformation> selectedInfo = priceInformation.stream().filter(p->(p.getTimestamp() >= minute && p.getTimestamp() <= minute+60)).collect(Collectors.toList());
+            boolean missingData = false;
+            boolean priceFound = false;
+            PriceInformation rawData = null;
+            while (!priceFound && !missingData) {
+                rawData = priceInformation.get(rawDataIndex);
+                if (rawData.getTimestamp() < currentTargetTime) {
+                    //we haven't got to the time segment we want yet
+                    rawDataIndex++;
+                    continue;
+                }
 
-            if (selectedInfo.size() <= 0) {
-                logger.debug("No data found for " + new Date(minute*1000));
-                minutePrices[tick] = new NormalisedPriceInformation(true);
-            } else {
-                PriceInformation unnormalised = selectedInfo.get(0);
-                minutePrices[tick] = new NormalisedPriceInformation(unnormalised.getTimestamp(), unnormalised.getAskPrice(), unnormalised.getBidPrice(), (int)minute);
+                if (rawData.getTimestamp() > currentTargetTime + intervalMs) {
+                    missingData = true;
+                }
+
+                if (rawData.getTimestamp() >= currentTargetTime && rawData.getTimestamp() <= (currentTargetTime + intervalMs)) {
+                    priceFound = true;
+
+                    //unless there's another later sample that also matches
+                    PriceInformation rawDataNext = priceInformation.get(rawDataIndex + 1);
+                    if (rawDataNext.getTimestamp() >= currentTargetTime && rawDataNext.getTimestamp() <= (currentTargetTime + intervalMs)) {
+                        //next sample also matches so we'll pass this one up
+                        priceFound = false;
+                    }
+                    rawDataIndex++;
+
+                }
             }
 
-            targetTime.add(Calendar.MINUTE, 1);
+            if (missingData) {
+                logger.trace("No data found for " + targetTimeInMillis);
+                intervalPrices[tick] = new NormalisedPriceInformation(true);
+                continue;
+            }
 
+            if (priceFound) {
+                intervalPrices[tick] = new NormalisedPriceInformation(rawData.getTimestamp(), rawData.getAskPrice(), rawData.getBidPrice(), targetTimeInMillis);
+            }
+
+            targetTimeInMillis += intervalMs;
         }
+
+        return startTimeMs;
     }
 
 
-    public NormalisedPriceInformation[] getMinutePrices() {
-        return minutePrices;
+    public NormalisedPriceInformation[] getIntervalPrices() {
+        return intervalPrices;
     }
 
-    public void setMinutePrices(NormalisedPriceInformation[] minutePrices) {
-        this.minutePrices = minutePrices;
+    public void setIntervalPrices(NormalisedPriceInformation[] intervalPrices) {
+        this.intervalPrices = intervalPrices;
     }
 
     public int getCacheSize() {
-        return this.minutePrices.length;
+        return this.intervalPrices.length;
     }
 
 }

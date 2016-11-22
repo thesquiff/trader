@@ -19,8 +19,10 @@ public abstract class ISellConditionProvider  {
 
     public abstract void tick(Position position, NormalisedPriceInformation tickData);
 
-    public void sell(Position position, int targetSellPrice) {
-        position.sell(targetSellPrice);
+    public void sell(Position position, NormalisedPriceInformation tickData, boolean isShortTradeCondition) {
+
+
+        position.sell(tickData, isShortTradeCondition);
     }
 
     public boolean isShortTradeCondition() {
