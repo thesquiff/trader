@@ -98,9 +98,8 @@ public class TimeNormalisedDataCache {
             }
 
             if (missingData) {
-                logger.trace("No data found for " + targetTimeInMillis);
+                logger.debug("No data found for " + targetTimeInMillis);
                 intervalPrices[tick] = new NormalisedPriceInformation(true);
-                continue;
             }
 
             if (priceFound) {
