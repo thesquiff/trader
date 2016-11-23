@@ -7,7 +7,7 @@ import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
  */
 public interface IDataSource {
 
-    NormalisedPriceInformation getTickData();
+    NormalisedPriceInformation getTickData() throws Exception;
 
     void init(String propertiesFile) throws Exception;
 

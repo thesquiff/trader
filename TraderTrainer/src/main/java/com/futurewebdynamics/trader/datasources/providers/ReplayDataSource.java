@@ -49,11 +49,14 @@ public class ReplayDataSource implements IDataSource {
         return index < dataCache.getCacheSize();
     }
 
-    public NormalisedPriceInformation getTickData() {
+    public NormalisedPriceInformation getTickData() throws Exception {
         if (index >= dataCache.getCacheSize()) return null;
         NormalisedPriceInformation price = dataCache.getIntervalPrices()[index++];
 
         if (price != null ) {
+            if (price.getAskPrice()==0) {
+                throw new Exception ("incorrect ask price at index " + index);
+            }
             logger.debug("index: " + index + ", ask price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
         } else {
             logger.debug("index: " + index + ", price is null");

@@ -104,7 +104,9 @@ public class TimeNormalisedDataCache {
             }
 
             if (priceFound) {
+
                 intervalPrices[tick] = new NormalisedPriceInformation(rawData.getTimestamp(), rawData.getAskPrice(), rawData.getBidPrice(), targetTimeInMillis);
+                logger.debug("Price for index " + tick + " is " + rawData.getAskPrice());
             }
 
             targetTimeInMillis += intervalMs;

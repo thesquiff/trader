@@ -87,74 +87,78 @@ public class TraderTrainer {
         long timeSinceLastBuyLimit = 0;
         int windowSize = 81;
 
-        //for (int windowSizeSweep = 4; windowSizeSweep < 10; windowSizeSweep++) {
+        try {
+            //for (int windowSizeSweep = 4; windowSizeSweep < 10; windowSizeSweep++) {
 
             //for (double triggerPercentage = 0.1; triggerPercentage < 3.0; triggerPercentage+=0.1) {
 
-                ((ReplayDataSource)dataSource).reset();
+            ((ReplayDataSource) dataSource).reset();
 
-                DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
+            DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
 
-                PositionsManager positionsManager = new PositionsManager(true);
-                //positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,timeSinceLastBuyLimit));
-                //positionsManager.riskFilters.add(new LowerBuyLimit(lowerBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
-                //positionsManager.riskFilters.add(new UpperBuyLimit(upperBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
+            PositionsManager positionsManager = new PositionsManager(true);
+            //positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,timeSinceLastBuyLimit));
+            //positionsManager.riskFilters.add(new LowerBuyLimit(lowerBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
+            //positionsManager.riskFilters.add(new UpperBuyLimit(upperBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
 
-                LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
-                sellConditions.add(new StopLossPercentage(stopLossShort,true));
-                sellConditions.add(new StopLossPercentage(stopLoss,false));
+            LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
+            sellConditions.add(new StopLossPercentage(stopLossShort, true));
+            sellConditions.add(new StopLossPercentage(stopLoss, false));
 
-                //IsFalling fallingStatistic = new IsFalling(1);
-                //fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
+            //IsFalling fallingStatistic = new IsFalling(1);
+            //fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
 
-                sellConditions.add(new TakeProfitPercentage(takeProfitShort, false, null, true));
-                sellConditions.add(new TakeProfitPercentage(takeProfit, false, null, false));
+            sellConditions.add(new TakeProfitPercentage(takeProfitShort, false, null, true));
+            sellConditions.add(new TakeProfitPercentage(takeProfit, false, null, false));
 
-                trader.getPositions(positionsManager, sellConditions);
-                positionsManager.printStats();
-                positionsManager.setTrader(trader);
+            trader.getPositions(positionsManager, sellConditions);
+            positionsManager.printStats();
+            positionsManager.setTrader(trader);
 
-                AnalyserRegistry analysers = new AnalyserRegistry();
+            AnalyserRegistry analysers = new AnalyserRegistry();
 
-                analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, bounceTrigger, bounceLookback, sellConditions, true));
-                analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, bounceTrigger, bounceLookback, sellConditions, false));
+            analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, bounceTrigger, bounceLookback, sellConditions, true));
+            analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, bounceTrigger, bounceLookback, sellConditions, false));
+
+            for (IAnalyserProvider analyser : analysers.getAnalysers()) {
+                int requiredSize = analyser.getRequiredDataWindowSize();
+                dataWindowRegistry.getWindowOfLength(requiredSize);
+            }
+
+            positionsManager.setTrader(trader);
+
+            NormalisedPriceInformation tickData = null;
+
+
+            while (((ReplayDataSource) dataSource).hasMoreData()) {
+                //read data and evaulate current positions
+                for (int adv = 0; adv < analysisIntervalMs / tickSleepMs; adv++) {
+                    tickData = dataSource.getTickData();
+
+                    if (tickData == null) {
+                        logger.info("Tick data is null");
+                        continue;
+                    } else {
+                        logger.info("Time: " + tickData.getCorrectedTimestamp() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
+                    }
+
+                    positionsManager.tick(tickData);
+                }
+
+                //buy decisions
+                dataWindowRegistry.tick(tickData);
 
                 for (IAnalyserProvider analyser : analysers.getAnalysers()) {
-                    int requiredSize = analyser.getRequiredDataWindowSize();
-                    dataWindowRegistry.getWindowOfLength(requiredSize);
+                    analyser.tick(tickData);
                 }
-
-                positionsManager.setTrader(trader);
-
-                NormalisedPriceInformation tickData = null;
-
-
-                while (((ReplayDataSource) dataSource).hasMoreData()) {
-                    //read data and evaulate current positions
-                    for (int adv = 0; adv < analysisIntervalMs / tickSleepMs; adv++) {
-                        tickData = dataSource.getTickData();
-
-                        if (tickData == null) {
-                            logger.info("Tick data is null");
-                            continue;
-                        } else {
-                            logger.info("Time: " + tickData.getCorrectedTimestamp() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
-                        }
-
-                        positionsManager.tick(tickData);
-                    }
-
-                    //buy decisions
-                    dataWindowRegistry.tick(tickData);
-
-                    for (IAnalyserProvider analyser : analysers.getAnalysers()) {
-                        analyser.tick(tickData);
-                    }
-                }
+            }
 
             //}
 
-        //}
+            //}
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
 
     }
 }

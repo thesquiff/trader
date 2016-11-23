@@ -44,8 +44,6 @@ public class PseudoTrader implements ITrader {
         position.setActualOpenPrice(position.getTargetOpenPrice());
         logger.debug("Setting actual open price on poisition to: " + position.getTargetOpenPrice());
 
-        this.positions.add(position);
-
         return true;
     }
 

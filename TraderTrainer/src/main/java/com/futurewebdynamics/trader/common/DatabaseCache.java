@@ -69,7 +69,8 @@ public class DatabaseCache {
             int index = 0;
             while (dataResultSet.next()) {
 
-                cache.add(new PriceInformation (dataResultSet.getLong(1),(int)(dataResultSet.getDouble(2)*100), (int)(dataResultSet.getDouble(3)*100)));
+                PriceInformation newPrice = new PriceInformation (dataResultSet.getLong(1),(int)(dataResultSet.getDouble(2)*100.0), (int)(dataResultSet.getDouble(3)*100.0));
+                cache.add(newPrice);
                 index++;
             }
             logger.info(index + " price records cached");
@@ -78,6 +79,7 @@ public class DatabaseCache {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
     }

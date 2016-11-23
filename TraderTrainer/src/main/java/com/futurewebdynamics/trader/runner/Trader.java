@@ -96,20 +96,25 @@ public class Trader {
             (new Thread() {
                 public void run() {
                     while (true) {
+                        try {
+                            NormalisedPriceInformation tickData = dataSource.getTickData();
 
-                        NormalisedPriceInformation tickData = dataSource.getTickData();
 
-                        if (tickData == null) {
-                            logger.info("Tick data is null");
-                            continue;
-                        } else {
-                            logger.info("Time: " + System.currentTimeMillis() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
-                        }
+                            if (tickData == null) {
+                                logger.info("Tick data is null");
+                                continue;
+                            } else {
+                                logger.info("Time: " + System.currentTimeMillis() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
+                            }
 
-                        dataWindowRegistry.tick(tickData);
+                            dataWindowRegistry.tick(tickData);
 
-                        for (IAnalyserProvider analyser : analysers.getAnalysers()) {
-                            analyser.tick(tickData);
+                            for (IAnalyserProvider analyser : analysers.getAnalysers()) {
+                                analyser.tick(tickData);
+                            }
+                        } catch (Exception e) {
+                            logger.error(e.getMessage(), e);
+                            System.exit(1);
                         }
 
                         try {
@@ -128,9 +133,16 @@ public class Trader {
 
                     while (true) {
 
-                        NormalisedPriceInformation tickData = dataSource.getTickData();
+                        try {
+                            NormalisedPriceInformation tickData = dataSource.getTickData();
 
-                        positionsManager.tick(tickData);
+
+                            positionsManager.tick(tickData);
+
+                        } catch (Exception e) {
+                            logger.error(e.getMessage(), e);
+                            System.exit(1);
+                        }
 
                         try {
                             Thread.currentThread().sleep(tickSleepMs);
