@@ -36,24 +36,25 @@ public class ReplayDataSource implements IDataSource {
         DatabaseCache databaseCache = new DatabaseCache(connectionString, dateStartTimestampMs, dateEndTimestampMs);
         databaseCache.loadData();
 
-        dataCache = new TimeNormalisedDataCache(databaseCache.getCache(), intervalMs);
+        this.dataCache = new TimeNormalisedDataCache(databaseCache.getCache(), intervalMs);
+        logger.debug("data cache object set: " + this.dataCache);
     }
 
     public long getStartTime() {
 
-        return dataCache.getStartTime();
+        return this.dataCache.getStartTime();
     }
 
 
     public boolean hasMoreData() {
-        return index < dataCache.getCacheSize();
+        return index < this.dataCache.getCacheSize();
     }
 
     public NormalisedPriceInformation getTickData() throws Exception {
         if (index >= dataCache.getCacheSize()) return null;
         NormalisedPriceInformation price = dataCache.getIntervalPrices()[index++];
 
-        if (price != null ) {
+        if (price != null && !price.isEmpty()) {
             if (price.getAskPrice()==0) {
                 throw new Exception ("incorrect ask price at index " + index);
             }

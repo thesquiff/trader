@@ -72,6 +72,7 @@ public class TraderTrainer {
             dataSource.init(connectionString);
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
         int analysisIntervalMs = 500;
@@ -152,6 +153,9 @@ public class TraderTrainer {
                     analyser.tick(tickData);
                 }
             }
+
+            positionsManager.printStats();
+            positionsManager.dumpToCsv(prop.getProperty("csvfilefolder") + "\\" + System.currentTimeMillis() + ".csv");
 
             //}
 

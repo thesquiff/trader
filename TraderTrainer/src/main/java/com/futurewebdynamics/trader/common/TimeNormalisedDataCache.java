@@ -61,39 +61,39 @@ public class TimeNormalisedDataCache {
         logger.debug("First targetTime: " + targetTimeInMillis);
 
         int rawDataIndex = 0;
+        int rawDataSize = priceInformation.size();
 
         for (int tick = 0; tick < numberOfElements; tick++) {
 
             if (tick % 1000 == 0) logger.debug("Tick=" + tick + " elements="+numberOfElements);
 
-            long currentTargetTime = targetTimeInMillis;
-
             boolean missingData = false;
             boolean priceFound = false;
             PriceInformation rawData = null;
             while (!priceFound && !missingData) {
-                rawData = priceInformation.get(rawDataIndex);
-                if (rawData.getTimestamp() < currentTargetTime) {
-                    //we haven't got to the time segment we want yet
-                    rawDataIndex++;
-                    continue;
-                }
-
-                if (rawData.getTimestamp() > currentTargetTime + intervalMs) {
+                if (rawDataIndex >= rawDataSize) {
                     missingData = true;
-                }
+                } else {
+                    rawData = priceInformation.get(rawDataIndex);
+                    if (rawData.getTimestamp() < targetTimeInMillis) {
+                        //we haven't got to the time segment we want yet
+                        rawDataIndex++;
+                        logger.debug("Raw data has run ahead of us");
+                    } else if (rawData.getTimestamp() > targetTimeInMillis + intervalMs) {
+                        missingData = true;
+                    } else if (rawData.getTimestamp() >= targetTimeInMillis && rawData.getTimestamp() <= (targetTimeInMillis + intervalMs)) {
+                        priceFound = true;
+                        if (rawDataIndex+1 < rawDataSize) {
+                            //unless there's another later sample that also matches
+                            PriceInformation rawDataNext = priceInformation.get(rawDataIndex + 1);
+                            if (rawDataNext.getTimestamp() >= targetTimeInMillis && rawDataNext.getTimestamp() <= (targetTimeInMillis + intervalMs)) {
+                                //next sample also matches so we'll pass this one up
+                                priceFound = false;
+                            }
+                        }
+                        rawDataIndex++;
 
-                if (rawData.getTimestamp() >= currentTargetTime && rawData.getTimestamp() <= (currentTargetTime + intervalMs)) {
-                    priceFound = true;
-
-                    //unless there's another later sample that also matches
-                    PriceInformation rawDataNext = priceInformation.get(rawDataIndex + 1);
-                    if (rawDataNext.getTimestamp() >= currentTargetTime && rawDataNext.getTimestamp() <= (currentTargetTime + intervalMs)) {
-                        //next sample also matches so we'll pass this one up
-                        priceFound = false;
                     }
-                    rawDataIndex++;
-
                 }
             }
 
@@ -105,7 +105,7 @@ public class TimeNormalisedDataCache {
             if (priceFound) {
 
                 intervalPrices[tick] = new NormalisedPriceInformation(rawData.getTimestamp(), rawData.getAskPrice(), rawData.getBidPrice(), targetTimeInMillis);
-                logger.debug("Price for index " + tick + " is " + rawData.getAskPrice());
+                logger.debug("Price for index " + tick + " is " + rawData.getAskPrice() + " raw data index: " + rawDataIndex);
             }
 
             targetTimeInMillis += intervalMs;
