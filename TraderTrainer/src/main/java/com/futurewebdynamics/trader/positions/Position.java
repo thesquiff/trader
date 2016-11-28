@@ -21,6 +21,7 @@ public class Position {
     private Calendar timeClosed;
     private int leverage;
     private PositionsManager positionsManager;
+    private boolean isShortTrade;
 
     private long uniqueId;
 
@@ -46,6 +47,14 @@ public class Position {
 
     public void addSellConditions(Collection sellConditions) {
         this.sellConditions.addAll(sellConditions);
+    }
+
+    public void setShortTrade(boolean isShortTrade) {
+        this.isShortTrade = isShortTrade;
+    }
+
+    public boolean isShortTrade() {
+        return this.isShortTrade;
     }
 
     public void setStatus(PositionStatus status) {
@@ -133,6 +142,7 @@ public class Position {
     }
 
     public void tick(NormalisedPriceInformation tickData) {
+        if (tickData.isEmpty()) return;
         logger.debug("Evaluating sell conditions for " + this.uniqueId);
         Iterator izzy = sellConditions.iterator();
         while(izzy.hasNext()) {

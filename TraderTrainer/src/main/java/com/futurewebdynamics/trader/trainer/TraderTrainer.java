@@ -81,8 +81,8 @@ public class TraderTrainer {
         int bounceLookback = 80;
         double takeProfit = 0.1;
         double takeProfitShort = 0.1;
-        double stopLoss = 10.0;
-        double stopLossShort = 10.0;
+        double stopLoss = 0.8;
+        double stopLossShort = 0.8;
         int upperBuyLimit = 0;
         int lowerBuyLimit = 0;
         long timeSinceLastBuyLimit = 0;
@@ -137,10 +137,10 @@ public class TraderTrainer {
                     tickData = dataSource.getTickData();
 
                     if (tickData == null) {
-                        logger.info("Tick data is null");
+                        logger.debug("Tick data is null");
                         continue;
                     } else {
-                        logger.info("Time: " + tickData.getCorrectedTimestamp() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
+                        logger.debug("Time: " + tickData.getCorrectedTimestamp() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
                     }
 
                     positionsManager.tick(tickData);

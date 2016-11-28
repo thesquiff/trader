@@ -53,11 +53,11 @@ public class Recorder {
                 //record data indefinitely
                 while (true) {
 
-                    try {
-                        String jsonResult = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts/" + accountId + "/pricing?instruments=BCO_USD", token);
+                    String jsonResult = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts/" + accountId + "/pricing?instruments=BCO_USD", token);
 
-                        long timestamp = System.currentTimeMillis();
-                        ObjectMapper jsonDeseserialiser = new ObjectMapper();
+                    long timestamp = System.currentTimeMillis();
+                    ObjectMapper jsonDeseserialiser = new ObjectMapper();
+                    try {
                         Prices prices = jsonDeseserialiser.readValue(jsonResult, Prices.class);
 
                         if (prices.prices.size() <= 0 || prices.prices.get(0).asks.size() <= 0 || prices.prices.get(0).bids.size() <= 0) {
@@ -71,12 +71,13 @@ public class Recorder {
 
                             statementBuffer.AddToBuffer(sql);
                         }
+                    } catch (Exception e) {
+                        logger.error(e.getMessage(), e);
+                    }
+
+                    try {
 
                         Thread.currentThread().sleep(tickIntervalMs);
-
-                    } catch (IOException e) {
-                        logger.error(e);
-                        e.printStackTrace();
 
                     } catch (InterruptedException e) {
                         logger.error(e);
