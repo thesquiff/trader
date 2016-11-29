@@ -73,6 +73,7 @@ public class PositionsManager {
 
         logger.debug("Assessing " + this.riskFilters.size() + " risk filters");
         for (IRiskFilter riskFilter : this.riskFilters) {
+            riskFilter.setTestTimeMs(tickData.getTimestamp());
             if (!riskFilter.proceedWithBuy(price, isShortTrade)) {
                 logger.debug("Cancelling proposed buy due to risk filters");
                 return;

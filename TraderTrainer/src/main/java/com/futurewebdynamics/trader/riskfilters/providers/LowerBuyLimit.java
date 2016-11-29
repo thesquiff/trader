@@ -20,6 +20,11 @@ public class LowerBuyLimit implements IRiskFilter{
     }
 
     @Override
+    public void setTestTimeMs(long testTimeMs) {
+
+    }
+
+    @Override
     public boolean proceedWithBuy(int buyPrice, boolean isShortTrade) {
 
         if (isShortTrade && this.matchTrade == MatchTradeEnum.LONG_ONLY) return true;

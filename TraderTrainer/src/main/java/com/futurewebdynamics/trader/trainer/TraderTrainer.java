@@ -8,6 +8,7 @@ import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
 import com.futurewebdynamics.trader.positions.PositionsManager;
+import com.futurewebdynamics.trader.riskfilters.providers.TimeSinceLastBuy;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.sellconditions.providers.StopLossPercentage;
 import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentage;
@@ -98,7 +99,7 @@ public class TraderTrainer {
             DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
 
             PositionsManager positionsManager = new PositionsManager(true);
-            //positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,timeSinceLastBuyLimit));
+            positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,timeSinceLastBuyLimit));
             //positionsManager.riskFilters.add(new LowerBuyLimit(lowerBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
             //positionsManager.riskFilters.add(new UpperBuyLimit(upperBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
 

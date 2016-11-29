@@ -16,6 +16,7 @@ public class TimeSinceLastBuy implements IRiskFilter {
 
     private PositionsManager manager;
     private long thresholdInMillis;
+    private long testTimeMs;
 
     public TimeSinceLastBuy(PositionsManager manager, long thresholdInMillis) {
         this.manager = manager;
@@ -28,14 +29,25 @@ public class TimeSinceLastBuy implements IRiskFilter {
         if (!lastBuyTime.isPresent()) return true;
 
 
-        long currentTime = System.currentTimeMillis();
+        long currentTimeMs = System.currentTimeMillis();
 
-        if ((currentTime-lastBuyTime.getAsLong()) < this.thresholdInMillis) {
-            logger.info("Blocking purchase as only " + (currentTime-lastBuyTime.getAsLong()) + " has passed since last buy");
+        if (testTimeMs > 0) {
+            currentTimeMs = testTimeMs;
+            testTimeMs = 0;
+        }
+
+        if ((currentTimeMs-lastBuyTime.getAsLong()) < this.thresholdInMillis) {
+            logger.info("Blocking purchase as only " + (currentTimeMs-lastBuyTime.getAsLong()) + " has passed since last buy");
             return false;
         }
 
         return true;
+    }
+
+    @Override
+    public void setTestTimeMs(long testTimeMs) {
+        this.testTimeMs = testTimeMs;
+
     }
 
 
