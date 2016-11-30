@@ -15,10 +15,7 @@ import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentag
 import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 import org.apache.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Properties;
 
@@ -90,6 +87,13 @@ public class TraderTrainer {
         int windowSize = 81;
 
         try {
+            System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(prop.getProperty("csvfilefolder") + "output.txt"))));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage(), e);
+        }
+
+        try {
             //for (int windowSizeSweep = 4; windowSizeSweep < 10; windowSizeSweep++) {
 
             //for (double triggerPercentage = 0.1; triggerPercentage < 3.0; triggerPercentage+=0.1) {
@@ -137,12 +141,15 @@ public class TraderTrainer {
                 for (int adv = 0; adv < analysisIntervalMs / tickSleepMs; adv++) {
                     tickData = dataSource.getTickData();
 
+                    System.out.println(String.join(",",new String[] {String.valueOf(tickData.getCorrectedTimestamp()), String.valueOf(tickData.getAskPrice()), String.valueOf(tickData.getBidPrice())}));
+
                     if (tickData == null) {
                         logger.debug("Tick data is null");
                         continue;
                     } else {
                         logger.debug("Time: " + tickData.getCorrectedTimestamp() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
                     }
+
 
                     positionsManager.tick(tickData);
                 }
@@ -156,7 +163,7 @@ public class TraderTrainer {
             }
 
             positionsManager.printStats();
-            positionsManager.dumpToCsv(prop.getProperty("csvfilefolder") + "\\" + System.currentTimeMillis() + ".csv");
+            positionsManager.dumpToCsv(prop.getProperty("csvfilefolder") + System.currentTimeMillis() + ".csv");
 
             //}
 
