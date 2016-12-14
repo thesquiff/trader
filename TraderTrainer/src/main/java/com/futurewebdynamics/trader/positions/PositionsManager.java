@@ -167,13 +167,12 @@ public class PositionsManager {
     public void dumpToCsv(String filename) {
         try {
             List<String> lines = this.positions.stream().map(p -> {
-                return String.format("%s,%s,%s,%s,%s", p.getUniqueId(), p.getTimeOpened(), p.getActualOpenPrice(), p.getTimeClosed(), p.getActualSellPrice());
+                return String.format("%d,%d, %d,%d,%d", p.getUniqueId(), p.getTimeOpened().getTimeInMillis(), p.getActualOpenPrice(), p.getTimeClosed() == null ? 0 : p.getTimeClosed().getTimeInMillis(), p.getActualSellPrice());
             }).collect(Collectors.toList());
             Path file = Paths.get(filename);
             Files.write(file, lines, Charset.forName("UTF-8"));
         } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.debug(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
         }
     }
 

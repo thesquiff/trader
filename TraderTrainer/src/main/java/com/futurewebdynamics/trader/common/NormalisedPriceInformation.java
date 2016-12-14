@@ -34,6 +34,4 @@ public class NormalisedPriceInformation extends PriceInformation {
         this.correctedTimestamp = correctedTimestamp;
     }
 
-
-
 }

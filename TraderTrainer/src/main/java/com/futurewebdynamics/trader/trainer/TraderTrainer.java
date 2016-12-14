@@ -16,6 +16,8 @@ import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 import org.apache.log4j.Logger;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Properties;
 
@@ -27,7 +29,6 @@ public class TraderTrainer {
     final static Logger logger = Logger.getLogger(TraderTrainer.class);
 
     public static void main(String args[]) {
-
 
         Properties prop = new Properties();
         InputStream input = null;
@@ -44,7 +45,6 @@ public class TraderTrainer {
             e.printStackTrace();
             System.exit(1);
         }
-
 
         long dateStartTimestampMs = Long.parseLong(prop.getProperty("starttimestampms"));
         long dateEndTimestampMs = Long.parseLong(prop.getProperty("endtimestampms"));
@@ -83,13 +83,39 @@ public class TraderTrainer {
         double stopLossShort = 0.8;
         int upperBuyLimit = 0;
         int lowerBuyLimit = 0;
-        long timeSinceLastBuyLimit = 0;
+        long timeSinceLastBuyLimit = 15000;
         int windowSize = 81;
 
+
+
+
+        String outputFolder = prop.getProperty("csvfilefolder") + File.separator + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+
+        new File(outputFolder).mkdir();
+
+        try{
+            PrintWriter writer = new PrintWriter(outputFolder + File.separator + "metadata.txt", "UTF-8");
+            writer.println("analysisIntervalMs=" + analysisIntervalMs);
+            writer.println("tickSleepMs=" + tickSleepMs);
+            writer.println("bounceTrigger=" + bounceTrigger);
+            writer.println("bounceLookback=" + bounceLookback);
+            writer.println("takeProfit=" + takeProfit);
+            writer.println("takeProfitShort=" + takeProfitShort);
+            writer.println("stopLoss=" + stopLoss);
+            writer.println("stopLossShort=" + stopLossShort);
+            writer.println("upperBuyLimit=" + upperBuyLimit);
+            writer.println("lowerBuyLimit=" + lowerBuyLimit);
+            writer.println("timeSinceLastBuyLimit=" + timeSinceLastBuyLimit);
+            writer.println("windowSize=" + windowSize);
+            writer.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+
         try {
-            System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(prop.getProperty("csvfilefolder") + "output.txt"))));
+            System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(outputFolder + File.separator + "ticker.csv"))));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             logger.error(e.getMessage(), e);
         }
 
@@ -163,7 +189,7 @@ public class TraderTrainer {
             }
 
             positionsManager.printStats();
-            positionsManager.dumpToCsv(prop.getProperty("csvfilefolder") + System.currentTimeMillis() + ".csv");
+            positionsManager.dumpToCsv(outputFolder + File.separator + "activity.csv");
 
             //}
 
