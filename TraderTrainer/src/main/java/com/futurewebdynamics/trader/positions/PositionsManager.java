@@ -112,7 +112,7 @@ public class PositionsManager {
 
         int targetPrice = isShortTradeCondition ? tickData.getAskPrice() : tickData.getBidPrice();
 
-        logger.info("Selling position " + position.getUniqueId() + " opened at " + position.getActualOpenPrice() + " for " + targetPrice);
+        logger.info("Selling " + (isShortTradeCondition ? "short" : "long") + " position " + position.getUniqueId() + " opened at " + position.getActualOpenPrice() + " for " + targetPrice);
 
 
         Calendar cal = GregorianCalendar.getInstance();
