@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -166,9 +165,11 @@ public class PositionsManager {
 
     public void dumpToCsv(String filename) {
         try {
-            List<String> lines = this.positions.stream().map(p -> {
-                return String.format("%d,%d, %d,%d,%d", p.getUniqueId(), p.getTimeOpened().getTimeInMillis(), p.getActualOpenPrice(), p.getTimeClosed() == null ? 0 : p.getTimeClosed().getTimeInMillis(), p.getActualSellPrice());
-            }).collect(Collectors.toList());
+            List<String> lines = new ArrayList<String>();
+            for (Position p: this.positions) {
+                lines.add(String.format("%d,%d, %d,%d,%d", p.getUniqueId(), p.getTimeOpened().getTimeInMillis(), p.getActualOpenPrice(), p.getTimeClosed() == null ? 0 : p.getTimeClosed().getTimeInMillis(), p.getActualSellPrice()));
+            }
+
             Path file = Paths.get(filename);
             Files.write(file, lines, Charset.forName("UTF-8"));
         } catch (Exception ex) {
