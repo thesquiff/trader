@@ -106,7 +106,17 @@ public class EToroTrader implements ITrader {
 
     }
 
-    public boolean openPosition(Position position, boolean isShortTrade) {
+    @Override
+    public int getStandardUnits() {
+        return 0;
+    }
+
+    @Override
+    public int getStandardLeverage() {
+        return 0;
+    }
+
+    public boolean openPosition(Position position) {
 
 
         if (getAvailableFunds() < position.getQuantity()) {
@@ -298,7 +308,7 @@ public class EToroTrader implements ITrader {
 
             logger.info(String.format("Time %1s  Quantity %2s  Open Price %3s  Stop Loss %4s  Take Profit %5s", openTime, quantity, openPrice, stopLoss, takeProfit));
 
-            Position p = new Position();
+            Position p = new Position(getStandardUnits(), getStandardLeverage());
             p.setStatus(PositionStatus.OPEN);
             p.setActualOpenPrice(Integer.parseInt(openPrice.replace(".","")));
             p.setQuantity((int)Math.round(Double.parseDouble(quantity.replace("$", "").replace(".", ""))));

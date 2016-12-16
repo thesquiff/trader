@@ -27,18 +27,45 @@ public class PseudoTrader implements ITrader {
 
     private int leverage;
 
+    private int balance;
+
+    private int units;
+
     private ArrayList<Position> positions;
 
-    public PseudoTrader(int leverage) {
+    public PseudoTrader(int leverage, int intialBalance, int units) {
         this.leverage = leverage;
+        this.balance = balance;
+        this.units = units;
     }
 
     public void init(String propertiesFile) {
 
     }
 
+    public int getCurrentBalanceOfCompletedTrades() {
+        return this.balance;
+    }
+
     @Override
-    public boolean openPosition(Position position, boolean isShortTrade) {
+    public int getStandardUnits() {
+        return this.units;
+    }
+
+    @Override
+    public int getStandardLeverage() {
+        return this.leverage;
+    }
+
+    @Override
+    public boolean openPosition(Position position) {
+
+        if (position.isShortTrade()) {
+
+        } else {
+            if (position.getTargetOpenPrice()*units > balance) return false;
+        }
+
         position.setUniqueId(uniqueIds++);
         position.setStatus(PositionStatus.OPEN);
         position.setActualOpenPrice(position.getTargetOpenPrice());
@@ -63,6 +90,12 @@ public class PseudoTrader implements ITrader {
         position.setTimeClosed(calendar);
 
         position.setStatus(PositionStatus.CLOSED);
+
+        if (position.isShortTrade()) {
+            balance += (position.getActualSellPrice() - position.getActualOpenPrice()) * leverage * units;
+        } else {
+            balance += (position.getActualSellPrice() - position.getActualOpenPrice()) * leverage * units;
+        }
         return true;
 
 

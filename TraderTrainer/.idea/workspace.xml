@@ -7,7 +7,14 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/../PriceRecorder/src/main/java/com/futurewebdynamics/trader/Recorder.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../PriceRecorder/src/main/java/com/futurewebdynamics/trader/StatementBuffer.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/PseudoTrader.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/PseudoTrader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java" />
     </list>
     <ignored path="TraderTrainer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,51 +41,55 @@
       <file leaf-file-name="TraderTrainer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="191" column="34" selection-start-line="191" selection-start-column="34" selection-end-line="191" selection-end-column="34" />
+            <state relative-caret-position="465">
+              <caret line="66" column="67" selection-start-line="66" selection-start-column="67" selection-end-line="66" selection-end-column="67" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NormalisedPriceInformation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/NormalisedPriceInformation.java">
+      <file leaf-file-name="PseudoTrader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/PseudoTrader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="650">
-              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="391">
+              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="57" selection-end-column="5" />
               <folding>
-                <element signature="e#504#505#0" expanded="false" />
-                <element signature="e#542#543#0" expanded="false" />
-                <element signature="e#647#648#0" expanded="false" />
-                <element signature="e#678#679#0" expanded="false" />
-                <element signature="e#721#722#0" expanded="false" />
-                <element signature="e#762#763#0" expanded="false" />
-                <element signature="e#828#829#0" expanded="false" />
-                <element signature="e#888#889#0" expanded="false" />
+                <element signature="e#1178#1179#0" expanded="true" />
+                <element signature="e#1213#1214#0" expanded="true" />
+                <element signature="e#1264#1265#0" expanded="true" />
+                <element signature="e#1297#1298#0" expanded="true" />
+                <element signature="e#1351#1352#0" expanded="true" />
+                <element signature="e#1387#1388#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LowerBuyLimit.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/LowerBuyLimit.java">
+      <file leaf-file-name="OandaTrader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+            <state relative-caret-position="395">
+              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="48" selection-end-column="5" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="e#1353#1354#0" expanded="true" />
+                <element signature="e#1386#1387#0" expanded="true" />
+                <element signature="e#1440#1441#0" expanded="true" />
+                <element signature="e#1476#1477#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UpperBuyLimit.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/UpperBuyLimit.java">
+      <file leaf-file-name="EToroTrader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state relative-caret-position="273">
+              <caret line="302" column="8" selection-start-line="302" selection-start-column="8" selection-end-line="302" selection-end-column="8" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="e#3209#3210#0" expanded="true" />
+                <element signature="e#3233#3234#0" expanded="true" />
+                <element signature="e#3287#3288#0" expanded="true" />
+                <element signature="e#3311#3312#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -87,20 +98,28 @@
       <file leaf-file-name="PositionsManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="593">
-              <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
-              <folding>
-                <element signature="e#8277#8285#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="946">
+              <caret line="89" column="31" selection-start-line="89" selection-start-column="31" selection-end-line="89" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IRiskFilter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/IRiskFilter.java">
+      <file leaf-file-name="Trader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="9" column="40" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
+            <state relative-caret-position="926">
+              <caret line="73" column="96" selection-start-line="73" selection-start-column="96" selection-end-line="73" selection-end-column="96" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ITrader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -109,62 +128,11 @@
       <file leaf-file-name="Position.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2200">
-              <caret line="144" column="39" selection-start-line="144" selection-start-column="39" selection-end-line="144" selection-end-column="39" />
+            <state relative-caret-position="186">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#864#865#0" expanded="false" />
-                <element signature="e#936#937#0" expanded="false" />
-                <element signature="e#977#978#0" expanded="false" />
-                <element signature="e#1006#1007#0" expanded="false" />
-                <element signature="e#1074#1075#0" expanded="false" />
-                <element signature="e#1111#1112#0" expanded="false" />
-                <element signature="e#1185#1186#0" expanded="false" />
-                <element signature="e#1239#1240#0" expanded="false" />
-                <element signature="e#1303#1304#0" expanded="false" />
-                <element signature="e#1361#1362#0" expanded="false" />
-                <element signature="e#1593#1594#0" expanded="false" />
-                <element signature="e#1629#1630#0" expanded="false" />
-                <element signature="e#1661#1662#0" expanded="false" />
-                <element signature="e#1692#1693#0" expanded="false" />
-                <element signature="e#1737#1738#0" expanded="false" />
-                <element signature="e#1777#1778#0" expanded="false" />
-                <element signature="e#1816#1817#0" expanded="false" />
-                <element signature="e#1854#1855#0" expanded="false" />
-                <element signature="e#1913#1914#0" expanded="false" />
-                <element signature="e#1967#1968#0" expanded="false" />
-                <element signature="e#2006#2007#0" expanded="false" />
-                <element signature="e#2044#2045#0" expanded="false" />
-                <element signature="e#2103#2104#0" expanded="false" />
-                <element signature="e#2157#2158#0" expanded="false" />
-                <element signature="e#2196#2197#0" expanded="false" />
-                <element signature="e#2234#2235#0" expanded="false" />
-                <element signature="e#2294#2295#0" expanded="false" />
-                <element signature="e#2349#2350#0" expanded="false" />
-                <element signature="e#2388#2389#0" expanded="false" />
-                <element signature="e#2426#2427#0" expanded="false" />
-                <element signature="e#2485#2486#0" expanded="false" />
-                <element signature="e#2539#2540#0" expanded="false" />
-                <element signature="e#2578#2579#0" expanded="false" />
-                <element signature="e#2611#2612#0" expanded="false" />
-                <element signature="e#2665#2666#0" expanded="false" />
-                <element signature="e#2709#2710#0" expanded="false" />
-                <element signature="e#2748#2749#0" expanded="false" />
-                <element signature="e#2781#2782#0" expanded="false" />
-                <element signature="e#2835#2836#0" expanded="false" />
-                <element signature="e#2879#2880#0" expanded="false" />
-                <element signature="e#2911#2912#0" expanded="false" />
-                <element signature="e#2942#2943#0" expanded="false" />
-                <element signature="e#2987#2988#0" expanded="false" />
-                <element signature="e#3027#3028#0" expanded="false" />
-                <element signature="e#3080#3081#0" expanded="false" />
-                <element signature="e#3119#3120#0" expanded="false" />
-                <element signature="e#3193#3194#0" expanded="false" />
-                <element signature="e#3249#3250#0" expanded="false" />
-                <element signature="e#3282#3283#0" expanded="false" />
-                <element signature="e#3313#3314#0" expanded="false" />
-                <element signature="e#3359#3360#0" expanded="false" />
-                <element signature="e#3399#3400#0" expanded="false" />
+                <element signature="e#1601#1602#0" expanded="true" />
+                <element signature="e#1634#1635#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -175,27 +143,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1325">
               <caret line="78" column="30" selection-start-line="78" selection-start-column="30" selection-end-line="78" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1226#1227#0" expanded="false" />
-                <element signature="e#1259#1260#0" expanded="false" />
-                <element signature="e#1315#1316#0" expanded="false" />
-                <element signature="e#1359#1360#0" expanded="false" />
-                <element signature="e#1390#1391#0" expanded="false" />
-                <element signature="e#1417#1418#0" expanded="false" />
-                <element signature="e#1457#1458#0" expanded="false" />
-                <element signature="e#1489#1490#0" expanded="false" />
-                <element signature="e#1525#1526#0" expanded="false" />
-                <element signature="e#1560#1561#0" expanded="false" />
-                <element signature="e#1613#1614#0" expanded="false" />
-                <element signature="e#1661#1662#0" expanded="false" />
-                <element signature="e#1697#1698#0" expanded="false" />
-                <element signature="e#1732#1733#0" expanded="false" />
-                <element signature="e#1785#1786#0" expanded="false" />
-                <element signature="e#1833#1834#0" expanded="false" />
-                <element signature="e#1879#1880#0" expanded="false" />
-                <element signature="e#1921#1922#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -205,9 +153,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="775">
               <caret line="43" column="51" selection-start-line="43" selection-start-column="51" selection-end-line="43" selection-end-column="51" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -265,18 +211,12 @@
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfit.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/ISellConditionProvider.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfitPercentage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/PriceInformation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/PseudoTrader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DatabaseCache.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/TimeNormalisedDataCache.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/ReplayDataSource.java" />
         <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/recorder/Recorder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/IRiskFilter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/UpperBuyLimit.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/LowerBuyLimit.java" />
@@ -284,6 +224,12 @@
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/NormalisedPriceInformation.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/PseudoTrader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java" />
       </list>
     </option>
@@ -401,7 +347,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1038,7 +984,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1401,28 +1347,28 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35748792" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30193236" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13472222" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13194445" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39613527" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27407408" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27175927" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46457326" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46457326" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39613527" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902184" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32944298" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1449,7 +1395,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>351</line>
+          <line>361</line>
           <properties />
           <option name="timeStamp" value="25" />
         </line-breakpoint>
@@ -1461,55 +1407,55 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>286</line>
+          <line>296</line>
           <properties />
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>287</line>
+          <line>297</line>
           <properties />
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>298</line>
+          <line>308</line>
           <properties />
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>138</line>
+          <line>148</line>
           <properties />
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>191</line>
+          <line>201</line>
           <properties />
           <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>126</line>
+          <line>136</line>
           <properties />
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>170</line>
+          <line>180</line>
           <properties />
           <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java</url>
-          <line>186</line>
+          <line>196</line>
           <properties />
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java</url>
-          <line>175</line>
+          <line>193</line>
           <properties />
           <option name="timeStamp" value="61" />
         </line-breakpoint>
@@ -1521,7 +1467,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java</url>
-          <line>130</line>
+          <line>148</line>
           <properties />
           <option name="timeStamp" value="87" />
         </line-breakpoint>
@@ -1557,7 +1503,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java</url>
-          <line>60</line>
+          <line>78</line>
           <properties />
           <option name="timeStamp" value="160" />
         </line-breakpoint>
@@ -1574,7 +1520,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java</url>
-          <line>173</line>
+          <line>194</line>
           <properties />
           <option name="timeStamp" value="202" />
         </line-breakpoint>
@@ -1586,7 +1532,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java</url>
-          <line>156</line>
+          <line>163</line>
           <properties class="com.futurewebdynamics.trader.positions.Position" method="getSellConditionOfType" />
           <option name="timeStamp" value="148" />
         </line-breakpoint>
@@ -1766,22 +1712,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="15" column="65" selection-start-line="15" selection-start-column="65" selection-end-line="15" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="198" column="74" selection-start-line="198" selection-start-column="74" selection-end-line="198" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageRise.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="262">
@@ -1796,27 +1726,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1125">
-          <caret line="60" column="16" selection-start-line="60" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/PseudoTrader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindowRegistry.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1839,14 +1752,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="52" column="42" selection-start-line="52" selection-start-column="42" selection-end-line="52" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="139" column="28" selection-start-line="139" selection-start-column="28" selection-end-line="139" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1929,16 +1834,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="650">
           <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="e#504#505#0" expanded="false" />
-            <element signature="e#542#543#0" expanded="false" />
-            <element signature="e#647#648#0" expanded="false" />
-            <element signature="e#678#679#0" expanded="false" />
-            <element signature="e#721#722#0" expanded="false" />
-            <element signature="e#762#763#0" expanded="false" />
-            <element signature="e#828#829#0" expanded="false" />
-            <element signature="e#888#889#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1946,9 +1842,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
           <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1956,9 +1850,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="500">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1970,93 +1862,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2200">
-          <caret line="144" column="39" selection-start-line="144" selection-start-column="39" selection-end-line="144" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#864#865#0" expanded="false" />
-            <element signature="e#936#937#0" expanded="false" />
-            <element signature="e#977#978#0" expanded="false" />
-            <element signature="e#1006#1007#0" expanded="false" />
-            <element signature="e#1074#1075#0" expanded="false" />
-            <element signature="e#1111#1112#0" expanded="false" />
-            <element signature="e#1185#1186#0" expanded="false" />
-            <element signature="e#1239#1240#0" expanded="false" />
-            <element signature="e#1303#1304#0" expanded="false" />
-            <element signature="e#1361#1362#0" expanded="false" />
-            <element signature="e#1593#1594#0" expanded="false" />
-            <element signature="e#1629#1630#0" expanded="false" />
-            <element signature="e#1661#1662#0" expanded="false" />
-            <element signature="e#1692#1693#0" expanded="false" />
-            <element signature="e#1737#1738#0" expanded="false" />
-            <element signature="e#1777#1778#0" expanded="false" />
-            <element signature="e#1816#1817#0" expanded="false" />
-            <element signature="e#1854#1855#0" expanded="false" />
-            <element signature="e#1913#1914#0" expanded="false" />
-            <element signature="e#1967#1968#0" expanded="false" />
-            <element signature="e#2006#2007#0" expanded="false" />
-            <element signature="e#2044#2045#0" expanded="false" />
-            <element signature="e#2103#2104#0" expanded="false" />
-            <element signature="e#2157#2158#0" expanded="false" />
-            <element signature="e#2196#2197#0" expanded="false" />
-            <element signature="e#2234#2235#0" expanded="false" />
-            <element signature="e#2294#2295#0" expanded="false" />
-            <element signature="e#2349#2350#0" expanded="false" />
-            <element signature="e#2388#2389#0" expanded="false" />
-            <element signature="e#2426#2427#0" expanded="false" />
-            <element signature="e#2485#2486#0" expanded="false" />
-            <element signature="e#2539#2540#0" expanded="false" />
-            <element signature="e#2578#2579#0" expanded="false" />
-            <element signature="e#2611#2612#0" expanded="false" />
-            <element signature="e#2665#2666#0" expanded="false" />
-            <element signature="e#2709#2710#0" expanded="false" />
-            <element signature="e#2748#2749#0" expanded="false" />
-            <element signature="e#2781#2782#0" expanded="false" />
-            <element signature="e#2835#2836#0" expanded="false" />
-            <element signature="e#2879#2880#0" expanded="false" />
-            <element signature="e#2911#2912#0" expanded="false" />
-            <element signature="e#2942#2943#0" expanded="false" />
-            <element signature="e#2987#2988#0" expanded="false" />
-            <element signature="e#3027#3028#0" expanded="false" />
-            <element signature="e#3080#3081#0" expanded="false" />
-            <element signature="e#3119#3120#0" expanded="false" />
-            <element signature="e#3193#3194#0" expanded="false" />
-            <element signature="e#3249#3250#0" expanded="false" />
-            <element signature="e#3282#3283#0" expanded="false" />
-            <element signature="e#3313#3314#0" expanded="false" />
-            <element signature="e#3359#3360#0" expanded="false" />
-            <element signature="e#3399#3400#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/analysers/IAnalyserProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1325">
           <caret line="78" column="30" selection-start-line="78" selection-start-column="30" selection-end-line="78" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1226#1227#0" expanded="false" />
-            <element signature="e#1259#1260#0" expanded="false" />
-            <element signature="e#1315#1316#0" expanded="false" />
-            <element signature="e#1359#1360#0" expanded="false" />
-            <element signature="e#1390#1391#0" expanded="false" />
-            <element signature="e#1417#1418#0" expanded="false" />
-            <element signature="e#1457#1458#0" expanded="false" />
-            <element signature="e#1489#1490#0" expanded="false" />
-            <element signature="e#1525#1526#0" expanded="false" />
-            <element signature="e#1560#1561#0" expanded="false" />
-            <element signature="e#1613#1614#0" expanded="false" />
-            <element signature="e#1661#1662#0" expanded="false" />
-            <element signature="e#1697#1698#0" expanded="false" />
-            <element signature="e#1732#1733#0" expanded="false" />
-            <element signature="e#1785#1786#0" expanded="false" />
-            <element signature="e#1833#1834#0" expanded="false" />
-            <element signature="e#1879#1880#0" expanded="false" />
-            <element signature="e#1921#1922#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2064,27 +1874,91 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="775">
           <caret line="43" column="51" selection-start-line="43" selection-start-column="51" selection-end-line="43" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="191" column="34" selection-start-line="191" selection-start-column="34" selection-end-line="191" selection-end-column="34" />
+        <state relative-caret-position="465">
+          <caret line="66" column="67" selection-start-line="66" selection-start-column="67" selection-end-line="66" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="e#1601#1602#0" expanded="true" />
+            <element signature="e#1634#1635#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/PseudoTrader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="57" selection-end-column="5" />
+          <folding>
+            <element signature="e#1178#1179#0" expanded="true" />
+            <element signature="e#1213#1214#0" expanded="true" />
+            <element signature="e#1264#1265#0" expanded="true" />
+            <element signature="e#1297#1298#0" expanded="true" />
+            <element signature="e#1351#1352#0" expanded="true" />
+            <element signature="e#1387#1388#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="48" selection-end-column="5" />
+          <folding>
+            <element signature="e#1353#1354#0" expanded="true" />
+            <element signature="e#1386#1387#0" expanded="true" />
+            <element signature="e#1440#1441#0" expanded="true" />
+            <element signature="e#1476#1477#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="302" column="8" selection-start-line="302" selection-start-column="8" selection-end-line="302" selection-end-column="8" />
+          <folding>
+            <element signature="e#3209#3210#0" expanded="true" />
+            <element signature="e#3233#3234#0" expanded="true" />
+            <element signature="e#3287#3288#0" expanded="true" />
+            <element signature="e#3311#3312#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="926">
+          <caret line="73" column="96" selection-start-line="73" selection-start-column="96" selection-end-line="73" selection-end-column="96" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="593">
-          <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
-          <folding>
-            <element signature="e#8277#8285#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="946">
+          <caret line="89" column="31" selection-start-line="89" selection-start-column="31" selection-end-line="89" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>

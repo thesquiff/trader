@@ -45,7 +45,7 @@ public class Trader {
             ex.printStackTrace();
         }
 
-        OandaTrader trader = new OandaTrader();
+        OandaTrader trader = new OandaTrader(100,100);
 
         try {
 

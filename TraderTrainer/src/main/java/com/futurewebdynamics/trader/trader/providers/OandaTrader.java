@@ -30,13 +30,31 @@ public class OandaTrader implements ITrader {
 
     private Accounts accounts;
 
+    private int units;
+    private int leverage;
+
+    public OandaTrader(int units, int leverage) {
+        this.units = units;
+        this.leverage = leverage;
+    }
+
     @Override
-    public boolean openPosition(Position position, boolean isShortTrade) {
+    public int getStandardUnits() {
+        return this.units;
+    }
+
+    @Override
+    public int getStandardLeverage() {
+        return this.leverage;
+    }
+
+    @Override
+    public boolean openPosition(Position position) {
 
         String marketOrderJson = "{ \"order\": {" +
                 "\"type\":\"MARKET\"," +
                 "\"instrument\":\"BCO_USD\"," +
-                "\"units\":\"" + (isShortTrade? "-": "") + "100\"," +
+                "\"units\":\"" + (position.isShortTrade()? "-": "") + "100\"," +
                 "\"timeInForce\":\"FOK\"," +
                 "\"positionFill\":\"OPEN_ONLY\"} }";
 
@@ -107,7 +125,7 @@ public class OandaTrader implements ITrader {
             for (int pIndex = 0; pIndex < trades.trades.size(); pIndex++) {
                 Trade trade = trades.trades.get(pIndex);
 
-                Position internalPosition = new Position();
+                Position internalPosition = new Position(trade.currentUnits, getStandardLeverage());
                 internalPosition.setQuantity(trade.currentUnits);
                 internalPosition.setActualOpenPrice((int)(trade.price*100));
                 internalPosition.setUniqueId(Long.parseLong(trade.id));

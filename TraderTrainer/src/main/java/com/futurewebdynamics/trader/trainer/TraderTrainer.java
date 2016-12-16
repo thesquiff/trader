@@ -64,7 +64,7 @@ public class TraderTrainer {
         }
 
         int leverage = 100;
-        PseudoTrader trader = new PseudoTrader(leverage);
+        PseudoTrader trader = new PseudoTrader(leverage, 50000, 100);
         IDataSource dataSource = new ReplayDataSource(500, dateStartTimestampMs, dateEndTimestampMs);
         try {
             dataSource.init(connectionString);
@@ -85,9 +85,6 @@ public class TraderTrainer {
         int lowerBuyLimit = 0;
         long timeSinceLastBuyLimit = 15000;
         int windowSize = 81;
-
-
-
 
         String outputFolder = prop.getProperty("csvfilefolder") + File.separator + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
 

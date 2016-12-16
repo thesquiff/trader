@@ -11,9 +11,12 @@ import java.util.Collection;
  */
 public interface ITrader {
 
-    boolean openPosition(Position position, boolean isShortTrade);
+    boolean openPosition(Position position);
     boolean checkPosition(Position position);
     boolean closePosition(Position position, long replayTimestamp);
+
+    int getStandardUnits();
+    int getStandardLeverage();
 
     void getPositions(PositionsManager manager, Collection<ISellConditionProvider> defaultSellCondtions);
 

@@ -19,9 +19,10 @@ public class Position {
     private int actualSellPrice;
     private Calendar timeOpened;
     private Calendar timeClosed;
-    private int leverage;
     private PositionsManager positionsManager;
     private boolean isShortTrade;
+    private int units;
+    private int leverage;
 
     private long uniqueId;
 
@@ -29,8 +30,10 @@ public class Position {
 
     final static Logger logger = Logger.getLogger(Position.class);
 
-    public Position() {
+    public Position(int units, int leverage) {
         sellConditions = new ArrayList<ISellConditionProvider>();
+        this.units = units;
+        this.leverage = leverage;
     }
 
     public PositionStatus getStatus() {
@@ -51,6 +54,10 @@ public class Position {
 
     public void setShortTrade(boolean isShortTrade) {
         this.isShortTrade = isShortTrade;
+    }
+
+    public int getUnits() {
+        return this.units;
     }
 
     public boolean isShortTrade() {
