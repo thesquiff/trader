@@ -23,7 +23,7 @@ public class PseudoTrader implements ITrader {
 
     final static Logger logger = Logger.getLogger(PseudoTrader.class);
 
-    private int uniqueIds = 0;
+    private long uniqueIds = 0;
 
     private int leverage;
 
@@ -92,7 +92,7 @@ public class PseudoTrader implements ITrader {
         position.setStatus(PositionStatus.CLOSED);
 
         if (position.isShortTrade()) {
-            balance += (position.getActualSellPrice() - position.getActualOpenPrice()) * leverage * units;
+            balance += (position.getActualOpenPrice() - position.getActualSellPrice() ) * leverage * units;
         } else {
             balance += (position.getActualSellPrice() - position.getActualOpenPrice()) * leverage * units;
         }

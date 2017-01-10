@@ -2,9 +2,14 @@ package com.futurewebdynamics.trader.datasources.providers;
 
 import com.futurewebdynamics.trader.common.DatabaseCache;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.common.PriceInformation;
 import com.futurewebdynamics.trader.common.TimeNormalisedDataCache;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import org.apache.log4j.Logger;
+
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -22,6 +27,7 @@ public class ReplayDataSource implements IDataSource {
     private int intervalMs;
     private long dateStartTimestampMs;
     private long dateEndTimestampMs;
+    private DatabaseCache databaseCache;
 
     public ReplayDataSource(int intervalMs, long dateStartTimestampMs, long dateEndTimestampMs) {
         this.intervalMs = intervalMs;
@@ -33,7 +39,7 @@ public class ReplayDataSource implements IDataSource {
 
         this.connectionString = connectionString;
 
-        DatabaseCache databaseCache = new DatabaseCache(connectionString, dateStartTimestampMs, dateEndTimestampMs);
+        databaseCache = new DatabaseCache(connectionString, dateStartTimestampMs, dateEndTimestampMs);
         databaseCache.loadData();
 
         this.dataCache = new TimeNormalisedDataCache(databaseCache.getCache(), intervalMs);
@@ -68,6 +74,21 @@ public class ReplayDataSource implements IDataSource {
 
     public void reset() {
         index = 0;
+    }
+
+    public void dumpData(PrintWriter writer) {
+
+        ArrayList<PriceInformation> data = databaseCache.getCache();
+
+        Iterator izzy = data.iterator();
+        while(izzy.hasNext()) {
+
+            PriceInformation price = (PriceInformation)izzy.next();
+
+            writer.println(String.format("%d,%d,%d", price.getTimestamp(), price.getAskPrice(), price.getBidPrice()));
+
+        }
+
     }
 
 }

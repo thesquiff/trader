@@ -80,11 +80,13 @@ public class TraderTrainer {
         double takeProfit = 0.1;
         double takeProfitShort = 0.1;
         double stopLoss = 0.8;
-        double stopLossShort = 0.8;
+        double stopLossShort = 0.1;
         int upperBuyLimit = 0;
         int lowerBuyLimit = 0;
         long timeSinceLastBuyLimit = 15000;
         int windowSize = 81;
+
+        boolean createTickerFile = false;
 
         String outputFolder = prop.getProperty("csvfilefolder") + File.separator + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
 
@@ -104,16 +106,34 @@ public class TraderTrainer {
             writer.println("lowerBuyLimit=" + lowerBuyLimit);
             writer.println("timeSinceLastBuyLimit=" + timeSinceLastBuyLimit);
             writer.println("windowSize=" + windowSize);
+            writer.flush();
             writer.close();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
 
+        //if required, export data set to csv file
+        if (Integer.valueOf(prop.getProperty("exportdata")) == 1) {
+            try {
+                PrintWriter writer = new PrintWriter(outputFolder + File.separator + "data.csv", "UTF-8");
 
-        try {
-            System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(outputFolder + File.separator + "ticker.csv"))));
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage(), e);
+                ((ReplayDataSource)dataSource).dumpData(writer);
+                writer.flush();
+                writer.close();
+
+            } catch (IOException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+
+        if (Integer.valueOf(prop.getProperty("createtickerfile")) == 1) {
+            //redirect ticker to file
+            try {
+                System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(outputFolder + File.separator + "ticker.csv"))));
+                createTickerFile = true;
+            } catch (FileNotFoundException e) {
+                logger.error(e.getMessage(), e);
+            }
         }
 
         try {
@@ -164,7 +184,10 @@ public class TraderTrainer {
                 for (int adv = 0; adv < analysisIntervalMs / tickSleepMs; adv++) {
                     tickData = dataSource.getTickData();
 
-                    System.out.println(String.join(",",new String[] {String.valueOf(tickData.getCorrectedTimestamp()), String.valueOf(tickData.getAskPrice()), String.valueOf(tickData.getBidPrice())}));
+                    positionsManager.tick(tickData);
+
+                    //output to csv file
+                    if (createTickerFile) System.out.println(String.join(",",new String[] {String.valueOf(tickData.getCorrectedTimestamp()), String.valueOf(tickData.getAskPrice()), String.valueOf(tickData.getBidPrice()), String.valueOf(trader.getCurrentBalanceOfCompletedTrades()), String.valueOf(positionsManager.getBalanceOfOpenTrades())}));
 
                     if (tickData == null) {
                         logger.debug("Tick data is null");
@@ -172,9 +195,6 @@ public class TraderTrainer {
                     } else {
                         logger.debug("Time: " + tickData.getCorrectedTimestamp() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
                     }
-
-
-                    positionsManager.tick(tickData);
                 }
 
                 //buy decisions
