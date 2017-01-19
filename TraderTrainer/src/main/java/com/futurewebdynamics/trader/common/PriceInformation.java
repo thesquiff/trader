@@ -34,6 +34,10 @@ public class PriceInformation {
         return bidPrice;
     }
 
+    public int getPrice(PriceType priceType) {
+        return priceType == PriceType.BID_PRICE ? this.bidPrice : this.askPrice;
+    }
+
     public void setAskPrice(int price) {
         this.askPrice = price;
     }

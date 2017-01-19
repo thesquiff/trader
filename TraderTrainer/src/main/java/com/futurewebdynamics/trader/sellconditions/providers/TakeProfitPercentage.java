@@ -15,35 +15,43 @@ public class TakeProfitPercentage extends ISellConditionProvider {
 
     private double increasePercentage;
     private boolean waitForFall;
-    private IStatisticProvider fallingOrRisingStatistic;
+    private IStatisticProvider isRisingOrFalling;
 
-    public TakeProfitPercentage(double increasePercentage, boolean waitForFall, IStatisticProvider fallingOrRisingStatistic, boolean isShortTrade) {
+    public TakeProfitPercentage(double increasePercentage, boolean waitForFall, IStatisticProvider isRisingOrFalling, boolean isShortTrade) {
         this.increasePercentage = increasePercentage;
         this.waitForFall = waitForFall;
-        this.fallingOrRisingStatistic = fallingOrRisingStatistic;
+        this.isRisingOrFalling = isRisingOrFalling;
         super.setShortTradeCondition(isShortTrade);
+
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
 
         int buyPrice = position.getActualOpenPrice();
-        if (!super.isShortTradeCondition()) {
+        if (!this.isShortTradeCondition()) {
+
+            //this sell condition only applies to long trades
+            if (position.isShortTrade()) return;
+
             logger.debug("LONG TRADE id: " + position.getUniqueId() + "  tickPrice:" + tick.getBidPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 + increasePercentage) / 100));
-            if (!super.isShortTradeCondition() && tick.getBidPrice() >= (buyPrice * (100 + increasePercentage) / 100)) {
+            if (tick.getBidPrice() >= (buyPrice * (100 + increasePercentage) / 100)) {
 
                 if (waitForFall) {
-                    if (!(Boolean) this.fallingOrRisingStatistic.getResult()) {
+                    if (!(Boolean)isRisingOrFalling.getResult()) {
                         logger.debug("falling specified but not falling");
                         return;
                     }
                 }
 
                 logger.debug("decided to sell");
-                super.sell(position, tick, super.isShortTradeCondition());
+                super.sell(position, tick);
             }
-        }
+        } else {
 
-        if (super.isShortTradeCondition()) {
+            //this sell condition is for short trades only
+            if (!position.isShortTrade()) return;
+
+            //short position so we're going to get the ask price
 
             double targetPrice =(buyPrice * (100 - increasePercentage) / 100);
             logger.debug("SHORT TRADE id: " + position.getUniqueId() + " tickPrice:" + tick.getAskPrice() + " buy price:" + buyPrice + " targetSellPrice:" + targetPrice);
@@ -51,14 +59,14 @@ public class TakeProfitPercentage extends ISellConditionProvider {
             if (tick.getAskPrice() <= targetPrice) {
 
                 if (waitForFall) {
-                    if (!(Boolean) this.fallingOrRisingStatistic.getResult()) {
+                    if (!(Boolean) isRisingOrFalling.getResult()) {
                         logger.debug("rising specified but not rising");
                         return;
                     }
                 }
 
                 logger.debug("decided to sell at ask price" + tick.getAskPrice());
-                super.sell(position, tick, super.isShortTradeCondition());
+                super.sell(position, tick);
             }
         }
     }
@@ -72,7 +80,7 @@ public class TakeProfitPercentage extends ISellConditionProvider {
     }
 
     public TakeProfitPercentage makeCopy() {
-        TakeProfitPercentage percentage = new TakeProfitPercentage(this.increasePercentage, this.waitForFall, this.fallingOrRisingStatistic, super.isShortTradeCondition());
+        TakeProfitPercentage percentage = new TakeProfitPercentage(this.increasePercentage, this.waitForFall, isRisingOrFalling, super.isShortTradeCondition());
         return percentage;
     }
 

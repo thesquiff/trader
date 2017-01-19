@@ -1,8 +1,9 @@
 package com.futurewebdynamics.trader.statistics.providers;
 
 import com.futurewebdynamics.trader.common.DataWindow;
-import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.common.PriceType;
+import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -16,8 +17,8 @@ public class PercentageDrop extends IStatisticProvider {
 
     private int oldestWindowSize;
 
-    public PercentageDrop(boolean isShortTrade) {
-        this.setShortTradeCondition(isShortTrade);
+    public PercentageDrop(PriceType priceType) {
+        this.setPriceType(priceType);
     }
 
     @Override
@@ -63,12 +64,14 @@ public class PercentageDrop extends IStatisticProvider {
             NormalisedPriceInformation oldestTick = dataWindow.getData().get(dataWindow.getWindowSize() - 1 - lookback);
             NormalisedPriceInformation newestTick = dataWindow.getData().get(dataWindow.getWindowSize() - 1);
 
-            int newestValue = this.isShortTradeCondition() ? newestTick.getBidPrice() : newestTick.getAskPrice();
-            int oldestValue = this.isShortTradeCondition() ? oldestTick.getBidPrice() : oldestTick.getAskPrice();
+            int newestValue = newestTick.getPrice(this.getPriceType());
+            int oldestValue = oldestTick.getPrice(this.getPriceType());
 
+            //if the newest value exceeds the oldest value then the price has gone up. Continue reducing the size of the window as an
+            //intermediate price might meet the condition
             if (newestValue >= oldestValue) continue;
 
-            drop = (newestValue - oldestValue) / (double) oldestValue * -100.0;
+            drop = (newestValue - oldestValue) / (double) oldestValue * -100.0; //make this a positive value even though we are calculating a percentage drop
             logger.trace("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %drop: " + drop);
 
             if (drop > greatestDrop) greatestDrop = drop;

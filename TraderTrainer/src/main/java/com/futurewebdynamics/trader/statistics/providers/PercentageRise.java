@@ -3,6 +3,7 @@ package com.futurewebdynamics.trader.statistics.providers;
 import com.futurewebdynamics.trader.common.DataWindow;
 import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.common.PriceType;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -16,8 +17,8 @@ public class PercentageRise extends IStatisticProvider {
 
     private int oldestWindowSize;
 
-    public PercentageRise(boolean isShortTrade) {
-        this.setShortTradeCondition(isShortTrade);
+    public PercentageRise(PriceType priceType) {
+        this.setPriceType(priceType);
     }
 
     @Override
@@ -63,8 +64,8 @@ public class PercentageRise extends IStatisticProvider {
             NormalisedPriceInformation oldestTick = dataWindow.getData().get(dataWindow.getWindowSize() - 1 - lookback);
             NormalisedPriceInformation newestTick = dataWindow.getData().get(dataWindow.getWindowSize() - 1);
 
-            int newestValue = this.isShortTradeCondition() ? newestTick.getBidPrice() : newestTick.getAskPrice();
-            int oldestValue = this.isShortTradeCondition() ? oldestTick.getBidPrice() : oldestTick.getAskPrice();
+            int newestValue = newestTick.getPrice(this.getPriceType());
+            int oldestValue = oldestTick.getPrice(this.getPriceType());
 
             if (newestValue <= oldestValue) continue;
 

@@ -84,7 +84,7 @@ public class PositionsManager {
     }
 
     public void openPosition(NormalisedPriceInformation tickData, Collection<ISellConditionProvider> templateSellConditions, boolean isShortTrade) {
-        int price = isShortTrade ? tickData.getBidPrice() : tickData.getBidPrice();
+        int price = isShortTrade ? tickData.getBidPrice() : tickData.getAskPrice();
 
         logger.debug("Assessing " + this.riskFilters.size() + " risk filters");
         for (IRiskFilter riskFilter : this.riskFilters) {
@@ -128,12 +128,11 @@ public class PositionsManager {
     }
 
 
-    public void sellPosition(Position position, NormalisedPriceInformation tickData, boolean isShortTradeCondition) {
+    public void sellPosition(Position position, NormalisedPriceInformation tickData) {
 
-        int targetPrice = isShortTradeCondition ? tickData.getAskPrice() : tickData.getBidPrice();
+        int targetPrice = position.isShortTrade() ? tickData.getAskPrice() : tickData.getBidPrice();
 
-        logger.info("Selling " + (isShortTradeCondition ? "short" : "long") + " position " + position.getUniqueId() + " opened at " + position.getActualOpenPrice() + " for " + targetPrice);
-
+        logger.info("Selling " + (position.isShortTrade() ? "short" : "long") + " position " + position.getUniqueId() + " opened at " + position.getActualOpenPrice() + " for " + targetPrice);
 
         Calendar cal = GregorianCalendar.getInstance();
         if (isReplayMode) {
@@ -143,8 +142,7 @@ public class PositionsManager {
 
         position.setStatus(PositionStatus.SELLING);
         position.setTargetSellPrice(targetPrice);
-        position.setActualSellPrice(targetPrice);
-        this.trader.closePosition(position, tickData.getCorrectedTimestamp());
+        this.trader.closePosition(position, tickData.getCorrectedTimestamp(), targetPrice);
     }
 
     public void printStats() {

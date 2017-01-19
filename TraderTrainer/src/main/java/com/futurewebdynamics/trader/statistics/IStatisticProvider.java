@@ -1,6 +1,7 @@
 package com.futurewebdynamics.trader.statistics;
 
 import com.futurewebdynamics.trader.common.DataWindow;
+import com.futurewebdynamics.trader.common.PriceType;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -23,15 +24,15 @@ public abstract class IStatisticProvider {
 
     public abstract Object getResult();
 
-    private boolean isShortTrade;
+    private PriceType priceType;
 
-    public boolean isShortTradeCondition() {
-        return this.isShortTrade;
+    public PriceType getPriceType() {
+        return this.priceType;
     }
 
-    public void setShortTradeCondition(boolean isShortTrade)
+    public void setPriceType(PriceType priceType)
     {
-        this.isShortTrade = isShortTrade;
+        this.priceType = priceType;
     }
 
 

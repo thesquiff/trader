@@ -27,12 +27,19 @@ public class TakeProfit extends ISellConditionProvider {
     public void tick(Position position, NormalisedPriceInformation tick) {
         int buyPrice = position.getActualOpenPrice();
 
-        if (!super.isShortTradeCondition() && tick.getBidPrice() >= (buyPrice+ increase)) {
-            super.sell(position, tick, false);
+        if (position.isShortTrade() != super.isShortTradeCondition()) {
+            //quit as this sell condition is not compatible
+            return;
+        }
+
+        if (!super.isShortTradeCondition() && tick.getBidPrice() >= (buyPrice + increase)) {
+            //long trade
+            super.sell(position, tick);
         }
 
         if (super.isShortTradeCondition() && tick.getAskPrice() <= (buyPrice - increase)) {
-            super.sell(position, tick, true);
+            //short trade
+            super.sell(position, tick);
         }
     }
 

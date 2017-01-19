@@ -13,7 +13,7 @@ public interface ITrader {
 
     boolean openPosition(Position position);
     boolean checkPosition(Position position);
-    boolean closePosition(Position position, long replayTimestamp);
+    boolean closePosition(Position position, long replayTimestamp, int targetSellPrice);
 
     int getStandardUnits();
     int getStandardLeverage();

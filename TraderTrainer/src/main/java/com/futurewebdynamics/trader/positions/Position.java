@@ -157,8 +157,8 @@ public class Position {
         }
     }
 
-    public void sell(NormalisedPriceInformation tickData, boolean isShortTradeCondition) {
-        this.positionsManager.sellPosition(this, tickData,  isShortTradeCondition);
+    public void sell(NormalisedPriceInformation tickData) {
+        this.positionsManager.sellPosition(this, tickData);
     }
 
     public ISellConditionProvider getSellConditionOfType(Class classType) {

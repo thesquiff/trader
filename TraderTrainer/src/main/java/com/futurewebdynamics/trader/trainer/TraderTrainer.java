@@ -5,6 +5,7 @@ import com.futurewebdynamics.trader.analysers.providers.PercentageDropBounce;
 import com.futurewebdynamics.trader.common.AnalyserRegistry;
 import com.futurewebdynamics.trader.common.DataWindowRegistry;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.common.PriceType;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
 import com.futurewebdynamics.trader.positions.PositionsManager;
@@ -12,6 +13,7 @@ import com.futurewebdynamics.trader.riskfilters.providers.TimeSinceLastBuy;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.sellconditions.providers.StopLossPercentage;
 import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentage;
+import com.futurewebdynamics.trader.statistics.providers.IsFalling;
 import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 import org.apache.log4j.Logger;
 
@@ -73,18 +75,18 @@ public class TraderTrainer {
             logger.error(e.getMessage(), e);
         }
 
-        int analysisIntervalMs = 500;
-        int tickSleepMs = 500;
-        double bounceTrigger = 0.08;
-        int bounceLookback = 80;
-        double takeProfit = 0.1;
-        double takeProfitShort = 0.1;
-        double stopLoss = 0.8;
-        double stopLossShort = 0.1;
-        int upperBuyLimit = 0;
-        int lowerBuyLimit = 0;
-        long timeSinceLastBuyLimit = 15000;
-        int windowSize = 81;
+        int analysisIntervalMs = Integer.parseInt(prop.getProperty("analysisIntervalMs"));
+        int tickSleepMs = Integer.parseInt(prop.getProperty("tickSleepMs"));
+        double bounceTrigger = Double.parseDouble(prop.getProperty("bounceTrigger"));
+        int bounceLookback = Integer.parseInt(prop.getProperty("bounceLookback"));
+        double takeProfit = Double.parseDouble(prop.getProperty("takeProfit"));
+        double takeProfitShort = Double.parseDouble(prop.getProperty("takeProfitShort"));
+        double stopLoss = Double.parseDouble(prop.getProperty("stopLoss"));
+        double stopLossShort = Double.parseDouble(prop.getProperty("stopLossShort"));
+        int upperBuyLimit = Integer.parseInt(prop.getProperty("upperBuyLimit"));
+        int lowerBuyLimit = Integer.parseInt(prop.getProperty("lowerBuyLimit"));
+        long timeSinceLastBuyLimit = Long.parseLong(prop.getProperty("timeSinceLastBuyLimit"));
+        int windowSize = Integer.parseInt(prop.getProperty("windowSize"));
 
         boolean createTickerFile = false;
 
@@ -154,11 +156,11 @@ public class TraderTrainer {
             sellConditions.add(new StopLossPercentage(stopLossShort, true));
             sellConditions.add(new StopLossPercentage(stopLoss, false));
 
-            //IsFalling fallingStatistic = new IsFalling(1);
-            //fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
+            IsFalling fallingStatistic = new IsFalling(1, PriceType.BID_PRICE);
+            fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
 
             sellConditions.add(new TakeProfitPercentage(takeProfitShort, false, null, true));
-            sellConditions.add(new TakeProfitPercentage(takeProfit, false, null, false));
+            sellConditions.add(new TakeProfitPercentage(takeProfit, false, fallingStatistic, false));
 
             trader.getPositions(positionsManager, sellConditions);
             positionsManager.printStats();
@@ -177,7 +179,6 @@ public class TraderTrainer {
             positionsManager.setTrader(trader);
 
             NormalisedPriceInformation tickData = null;
-
 
             while (((ReplayDataSource) dataSource).hasMoreData()) {
                 //read data and evaulate current positions

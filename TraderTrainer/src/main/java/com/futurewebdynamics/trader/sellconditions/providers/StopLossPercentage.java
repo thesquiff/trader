@@ -22,14 +22,20 @@ public class StopLossPercentage extends ISellConditionProvider{
     public void tick(Position position, NormalisedPriceInformation tick) {
 
         int buyPrice = position.getActualOpenPrice();
+
+        if (position.isShortTrade() != super.isShortTradeCondition()) {
+            //quit as this sell condition is not compatible
+            return;
+        }
+
         if (!super.isShortTradeCondition() && tick.getBidPrice() <= (buyPrice * (100-decreasePercentage)/100)) {
             logger.debug("STOP LOSS LONG TRADE tickPrice:" + tick.getBidPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 - decreasePercentage) / 100));
-            sell(position, tick, false);
+            sell(position, tick);
         }
 
         if (super.isShortTradeCondition() && tick.getAskPrice() >= (buyPrice * (100+decreasePercentage)/100)) {
             logger.debug("STOP LOSS SHORT TRADE id:" + position.getUniqueId() + " tickPrice:" + tick.getAskPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 + decreasePercentage) / 100));
-            sell(position, tick, true);
+            sell(position, tick);
         }
     }
 

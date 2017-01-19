@@ -1,8 +1,9 @@
 package com.futurewebdynamics.trader.statistics.providers;
 
 import com.futurewebdynamics.trader.common.DataWindow;
-import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.common.PriceType;
+import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -14,9 +15,9 @@ public class IsFalling extends IStatisticProvider {
 
     private int lookBack;
 
-    public IsFalling(int lookBack, boolean isShortTrade) {
+    public IsFalling(int lookBack, PriceType priceType) {
         this.lookBack = lookBack;
-        this.setShortTradeCondition(isShortTrade);
+        this.setPriceType(priceType);
     }
 
     public int getLookBack() {
@@ -61,11 +62,11 @@ public class IsFalling extends IStatisticProvider {
 
         List<NormalisedPriceInformation> data = dataWindow.getData();
 
-        int lastValue = data.get(dataWindow.getWindowSize()-1).getAskPrice();
+        int lastValue = data.get(dataWindow.getWindowSize()-1).getPrice(this.getPriceType());
         logger.debug("Newest value: " + lastValue);
 
         for (int i = 1; i <= lookBack; i++) {
-            int testValue = data.get(dataWindow.getWindowSize()-1-i).getAskPrice();
+            int testValue = data.get(dataWindow.getWindowSize()-1-i).getPrice(this.getPriceType());
             if (testValue <= lastValue) return false;
             lastValue = testValue;
         }

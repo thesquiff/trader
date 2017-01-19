@@ -95,7 +95,7 @@ public class OandaTrader implements ITrader {
     }
 
     @Override
-    public boolean closePosition(Position position, long replayTimestamp) {
+    public boolean closePosition(Position position, long replayTimestamp, int targetSellPrice) {
         String closePositionJson = " { \"units\": \"ALL\"}";
 
         logger.debug("Close trade: " + position.getUniqueId() + " json:" + closePositionJson);
@@ -105,6 +105,7 @@ public class OandaTrader implements ITrader {
 
             logger.debug("Close response: " + closePositionJson);
             position.setStatus(PositionStatus.CLOSED);
+            position.setActualSellPrice(targetSellPrice);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
             ex.printStackTrace();

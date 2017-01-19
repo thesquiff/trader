@@ -63,7 +63,7 @@ public class PseudoTrader implements ITrader {
         if (position.isShortTrade()) {
 
         } else {
-            if (position.getTargetOpenPrice()*units > balance) return false;
+            //if (position.getTargetOpenPrice()*units > balance) return false;
         }
 
         position.setUniqueId(uniqueIds++);
@@ -80,7 +80,7 @@ public class PseudoTrader implements ITrader {
     }
 
     @Override
-    public boolean closePosition(Position position, long replayTimestampMs) {
+    public boolean closePosition(Position position, long replayTimestampMs, int targetSellPrice) {
 
         position.setActualSellPrice(position.getTargetSellPrice());
 
@@ -88,7 +88,7 @@ public class PseudoTrader implements ITrader {
         calendar.setTimeInMillis(replayTimestampMs);
 
         position.setTimeClosed(calendar);
-
+        position.setActualSellPrice(targetSellPrice);
         position.setStatus(PositionStatus.CLOSED);
 
         if (position.isShortTrade()) {
