@@ -1,27 +1,13 @@
 package com.futurewebdynamics.trader.trainer;
 
-import com.futurewebdynamics.trader.analysers.IAnalyserProvider;
-import com.futurewebdynamics.trader.analysers.providers.PercentageDropBounce;
-import com.futurewebdynamics.trader.common.AnalyserRegistry;
-import com.futurewebdynamics.trader.common.DataWindowRegistry;
-import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
-import com.futurewebdynamics.trader.common.PriceType;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
-import com.futurewebdynamics.trader.positions.PositionsManager;
-import com.futurewebdynamics.trader.riskfilters.providers.TimeSinceLastBuy;
-import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
-import com.futurewebdynamics.trader.sellconditions.providers.StopLossPercentage;
-import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentage;
-import com.futurewebdynamics.trader.statistics.providers.IsFalling;
-import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Properties;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -65,59 +51,66 @@ public class TraderTrainer {
             e.printStackTrace();
         }
 
-        int leverage = 100;
-        PseudoTrader trader = new PseudoTrader(leverage, 50000, 100);
+
         IDataSource dataSource = new ReplayDataSource(500, dateStartTimestampMs, dateEndTimestampMs);
         try {
-            dataSource.init(connectionString);
+            if (Integer.valueOf(prop.getProperty("importdata")) == 0) {
+
+                dataSource.init(connectionString);
+            } else {
+                ((ReplayDataSource) dataSource).initFromFile(prop.getProperty("datafile"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage(), e);
         }
 
-        int analysisIntervalMs = Integer.parseInt(prop.getProperty("analysisIntervalMs"));
-        int tickSleepMs = Integer.parseInt(prop.getProperty("tickSleepMs"));
-        double bounceTrigger = Double.parseDouble(prop.getProperty("bounceTrigger"));
-        int bounceLookback = Integer.parseInt(prop.getProperty("bounceLookback"));
-        double takeProfit = Double.parseDouble(prop.getProperty("takeProfit"));
-        double takeProfitShort = Double.parseDouble(prop.getProperty("takeProfitShort"));
-        double stopLoss = Double.parseDouble(prop.getProperty("stopLoss"));
-        double stopLossShort = Double.parseDouble(prop.getProperty("stopLossShort"));
-        int upperBuyLimit = Integer.parseInt(prop.getProperty("upperBuyLimit"));
-        int lowerBuyLimit = Integer.parseInt(prop.getProperty("lowerBuyLimit"));
-        long timeSinceLastBuyLimit = Long.parseLong(prop.getProperty("timeSinceLastBuyLimit"));
-        int windowSize = Integer.parseInt(prop.getProperty("windowSize"));
+        logger.debug("Going to read properties...");
+
+        WorkerConfig workerConfig = new WorkerConfig();
+
+        workerConfig.setAnalysisIntervalMs(Integer.parseInt(prop.getProperty("analysisIntervalMs")));
+        workerConfig.setTickSleepMs(Integer.parseInt(prop.getProperty("tickSleepMs")));
+        workerConfig.setBounceTriggerStart(Double.parseDouble(prop.getProperty("bounceTriggerStart")));
+        workerConfig.setBounceTriggerEnd(Double.parseDouble(prop.getProperty("bounceTriggerEnd")));
+        workerConfig.setBounceLookbackStart(Integer.parseInt(prop.getProperty("bounceLookbackStart")));
+        workerConfig.setBounceLookbackEnd(Integer.parseInt(prop.getProperty("bounceLookbackEnd")));
+        workerConfig.setBounceLookbackStep(Integer.parseInt(prop.getProperty("bounceLookbackStep")));
+        workerConfig.setTakeProfitStart(Double.parseDouble(prop.getProperty("takeProfitStart")));
+        workerConfig.setTakeProfitEnd(Double.parseDouble(prop.getProperty("takeProfitEnd")));
+        //workerConfig.setTakeProfitShort(Double.parseDouble(prop.getProperty("takeProfitShort")));
+        workerConfig.setStopLossStart(Double.parseDouble(prop.getProperty("stopLossStart")));
+        workerConfig.setStopLossEnd(Double.parseDouble(prop.getProperty("stopLossEnd")));
+        //workerConfig.setStopLossShort(Double.parseDouble(prop.getProperty("stopLossShort")));
+        workerConfig.setUpperBuyLimit(Integer.parseInt(prop.getProperty("upperBuyLimit")));
+        workerConfig.setLowerBuyLimit(Integer.parseInt(prop.getProperty("lowerBuyLimit")));
+        workerConfig.setTimeSinceLastBuyLimitStart(Long.parseLong(prop.getProperty("timeSinceLastBuyLimitStart")));
+        workerConfig.setTimeSinceLastBuyLimitEnd(Long.parseLong(prop.getProperty("timeSinceLastBuyLimitEnd")));
+        workerConfig.setTimeSinceLastBuyLimitStep(Long.parseLong(prop.getProperty("timeSinceLastBuyLimitStep")));
+        workerConfig.setWindowSize(Integer.parseInt(prop.getProperty("windowSize")));
+        workerConfig.setEnableShortTrade(Integer.parseInt(prop.getProperty("enableShortTrade")) == 1);
+        workerConfig.setEnableLongTrade(Integer.parseInt(prop.getProperty("enableLongTrade")) == 1);
 
         boolean createTickerFile = false;
 
-        String outputFolder = prop.getProperty("csvfilefolder") + File.separator + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+        int iterationCounter = 0;
 
-        new File(outputFolder).mkdir();
+        logger.debug("Going to create master output folder...");
 
-        try{
-            PrintWriter writer = new PrintWriter(outputFolder + File.separator + "metadata.txt", "UTF-8");
-            writer.println("analysisIntervalMs=" + analysisIntervalMs);
-            writer.println("tickSleepMs=" + tickSleepMs);
-            writer.println("bounceTrigger=" + bounceTrigger);
-            writer.println("bounceLookback=" + bounceLookback);
-            writer.println("takeProfit=" + takeProfit);
-            writer.println("takeProfitShort=" + takeProfitShort);
-            writer.println("stopLoss=" + stopLoss);
-            writer.println("stopLossShort=" + stopLossShort);
-            writer.println("upperBuyLimit=" + upperBuyLimit);
-            writer.println("lowerBuyLimit=" + lowerBuyLimit);
-            writer.println("timeSinceLastBuyLimit=" + timeSinceLastBuyLimit);
-            writer.println("windowSize=" + windowSize);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
+        String masterOutputFolder = prop.getProperty("csvfilefolder") + File.separator + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+        new File(masterOutputFolder).mkdir();
+        workerConfig.setMasterOutputFolder(masterOutputFolder);
+
+        workerConfig.setCreateTickerFile(Integer.valueOf(prop.getProperty("createtickerfile")) == 1);
+
 
         //if required, export data set to csv file
         if (Integer.valueOf(prop.getProperty("exportdata")) == 1) {
+
+            logger.debug("Going to export data");
+
             try {
-                PrintWriter writer = new PrintWriter(outputFolder + File.separator + "data.csv", "UTF-8");
+                PrintWriter writer = new PrintWriter(masterOutputFolder + File.separator + "data.csv", "UTF-8");
 
                 ((ReplayDataSource)dataSource).dumpData(writer);
                 writer.flush();
@@ -128,93 +121,81 @@ public class TraderTrainer {
             }
         }
 
-        if (Integer.valueOf(prop.getProperty("createtickerfile")) == 1) {
-            //redirect ticker to file
-            try {
-                System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(outputFolder + File.separator + "ticker.csv"))));
-                createTickerFile = true;
-            } catch (FileNotFoundException e) {
-                logger.error(e.getMessage(), e);
-            }
-        }
-
         try {
-            //for (int windowSizeSweep = 4; windowSizeSweep < 10; windowSizeSweep++) {
 
-            //for (double triggerPercentage = 0.1; triggerPercentage < 3.0; triggerPercentage+=0.1) {
+            logger.debug("Starting sweep...");
 
-            ((ReplayDataSource) dataSource).reset();
+            Collection<Future<TrainerResult>> results = new ArrayList<Future<TrainerResult>>();
+            ExecutorService workers = Executors.newFixedThreadPool(4);
 
-            DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
 
-            PositionsManager positionsManager = new PositionsManager(true);
-            positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager,timeSinceLastBuyLimit));
-            //positionsManager.riskFilters.add(new LowerBuyLimit(lowerBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
-            //positionsManager.riskFilters.add(new UpperBuyLimit(upperBuyLimit, MatchTradeEnum.LONG_AND_SHORT));
+            for (long timeSinceLastBuyLimit = workerConfig.getTimeSinceLastBuyLimitStart(); timeSinceLastBuyLimit <= workerConfig.getTimeSinceLastBuyLimitEnd(); timeSinceLastBuyLimit+=workerConfig.getTimeSinceLastBuyLimitStep()) {
 
-            LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
-            sellConditions.add(new StopLossPercentage(stopLossShort, true));
-            sellConditions.add(new StopLossPercentage(stopLoss, false));
+                logger.info("timeSinceLastBuyLimit=" + timeSinceLastBuyLimit);
 
-            IsFalling fallingStatistic = new IsFalling(1, PriceType.BID_PRICE);
-            fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
+                for (double takeProfit = workerConfig.getTakeProfitStart(); takeProfit <= workerConfig.getTakeProfitEnd(); takeProfit += 0.1) {
 
-            sellConditions.add(new TakeProfitPercentage(takeProfitShort, false, null, true));
-            sellConditions.add(new TakeProfitPercentage(takeProfit, false, fallingStatistic, false));
+                    logger.info("takeProfit=" + takeProfit);
 
-            trader.getPositions(positionsManager, sellConditions);
-            positionsManager.printStats();
-            positionsManager.setTrader(trader);
+                    for (double stopLoss = workerConfig.getStopLossStart(); stopLoss <= workerConfig.getStopLossEnd(); stopLoss += 0.1) {
 
-            AnalyserRegistry analysers = new AnalyserRegistry();
+                        logger.info("stopLoss=" + stopLoss);
 
-            analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, bounceTrigger, bounceLookback, sellConditions, true));
-            analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, bounceTrigger, bounceLookback, sellConditions, false));
+                        for (int bounceLookback = workerConfig.getBounceLookbackStart(); bounceLookback <= workerConfig.getBounceLookbackEnd(); bounceLookback += workerConfig.getBounceLookbackStep()) {
 
-            for (IAnalyserProvider analyser : analysers.getAnalysers()) {
-                int requiredSize = analyser.getRequiredDataWindowSize();
-                dataWindowRegistry.getWindowOfLength(requiredSize);
-            }
+                            logger.info("bounceLookback=" + bounceLookback);
 
-            positionsManager.setTrader(trader);
+                            for (double bounceTrigger = workerConfig.getBounceTriggerStart(); bounceTrigger <= workerConfig.getBounceTriggerEnd(); bounceTrigger += 0.05) {
 
-            NormalisedPriceInformation tickData = null;
+                                logger.info("bounceTrigger=" + bounceTrigger);
 
-            while (((ReplayDataSource) dataSource).hasMoreData()) {
-                //read data and evaulate current positions
-                for (int adv = 0; adv < analysisIntervalMs / tickSleepMs; adv++) {
-                    tickData = dataSource.getTickData();
+                                logger.info("Iteration counter is " + iterationCounter);
 
-                    positionsManager.tick(tickData);
+                                IterationConfig iterationConfig = new IterationConfig();
+                                iterationConfig.setTimeSinceLastBuyLimit(timeSinceLastBuyLimit);
+                                iterationConfig.setTakeProfit(takeProfit);
+                                iterationConfig.setStopLoss(stopLoss);
+                                iterationConfig.setBounceLookback(bounceLookback);
+                                iterationConfig.setBounceTrigger(bounceTrigger);
 
-                    //output to csv file
-                    if (createTickerFile) System.out.println(String.join(",",new String[] {String.valueOf(tickData.getCorrectedTimestamp()), String.valueOf(tickData.getAskPrice()), String.valueOf(tickData.getBidPrice()), String.valueOf(trader.getCurrentBalanceOfCompletedTrades()), String.valueOf(positionsManager.getBalanceOfOpenTrades())}));
+                                Callable<TrainerResult> worker = new TrainerWorker(iterationCounter, workerConfig, iterationConfig, new ReplayDataSource((ReplayDataSource)dataSource));
 
-                    if (tickData == null) {
-                        logger.debug("Tick data is null");
-                        continue;
-                    } else {
-                        logger.debug("Time: " + tickData.getCorrectedTimestamp() + " Sample Ask Price: " + tickData.getAskPrice() + " Sample Bid Price: " + tickData.getBidPrice());
+                                Future<TrainerResult> result = workers.submit(worker);
+
+                                results.add(result);
+
+                                iterationCounter++;
+                            }
+                        }
                     }
                 }
+            }
 
-                //buy decisions
-                dataWindowRegistry.tick(tickData);
+            int bestTotalGains = 0;
+            int bestIterationNumber = 0;
 
-                for (IAnalyserProvider analyser : analysers.getAnalysers()) {
-                    analyser.tick(tickData);
+            logger.info("Size of results set " + results.size());
+
+            for (Future<TrainerResult> f : results) {
+                logger.info("Going to get result for iteration");
+                TrainerResult result = f.get();
+
+                int gains = result.getTotalGains();
+
+                logger.info("Result for iteration " + result.getIterationCounter() + " is " + result.getTotalGains() + ". Complete? " + String.valueOf(result.isComplete()));
+                if (gains > bestTotalGains) {
+                    bestTotalGains = gains;
+                    bestIterationNumber = result.getIterationCounter();
                 }
             }
 
-            positionsManager.printStats();
-            positionsManager.dumpToCsv(outputFolder + File.separator + "activity.csv");
+            logger.info("Best total gains: " + bestTotalGains);
+            logger.info("Path to best total gains: " + bestIterationNumber);
 
-            //}
-
-            //}
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
+
 
     }
 }

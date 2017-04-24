@@ -26,8 +26,10 @@ public class TimeSinceLastBuy implements IRiskFilter {
     public boolean proceedWithBuy(int buyPrice, boolean isShortTrade) {
 
         OptionalLong lastBuyTime = manager.positions.stream().filter(p->p.getStatus()== PositionStatus.OPEN || p.getStatus() == PositionStatus.BUYING).mapToLong(p->p.getTimeOpened().getTimeInMillis()).max();
-        if (!lastBuyTime.isPresent()) return true;
 
+        logger.debug("lastBuyTime: " + lastBuyTime);
+
+        if (!lastBuyTime.isPresent() || lastBuyTime.getAsLong() <=0) return true;
 
         long currentTimeMs = System.currentTimeMillis();
 
@@ -49,6 +51,4 @@ public class TimeSinceLastBuy implements IRiskFilter {
         this.testTimeMs = testTimeMs;
 
     }
-
-
 }

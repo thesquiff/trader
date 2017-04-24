@@ -1,5 +1,7 @@
 package com.futurewebdynamics.trader.common;
 
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,7 +14,9 @@ import java.net.URL;
  */
 public class RestHelper {
 
-    public static String GetJson(String targetUrl, String token) {
+    final static Logger logger = Logger.getLogger(RestHelper.class);
+
+    public static String GetJson(String targetUrl, String token ) {
 
         StringBuilder result = new StringBuilder();
         URL url = null;
@@ -33,8 +37,17 @@ public class RestHelper {
                 result.append(line);
             }
             rd.close();
+
+            int code = conn.getResponseCode();
+            if (code !=200 ) {
+                logger.warn("Response code " + code + " was received from HTTP GET");
+                return null;
+
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("An error occured making HTTP GET", e);
         }
 
         return result.toString();
@@ -66,8 +79,17 @@ public class RestHelper {
                 result.append(line);
             }
             rd.close();
+
+            int code = conn.getResponseCode();
+            if (code !=200 && code !=201) {
+                logger.warn("Response code " + code + " was received from HTTP POST");
+                return null;
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("An error occured making HTTP POST", e);
+
         }
 
         return result.toString();
@@ -99,8 +121,15 @@ public class RestHelper {
                 result.append(line);
             }
             rd.close();
+
+            int code = conn.getResponseCode();
+            if (code !=200  && code != 201) {
+                logger.warn("Response code " + code + " was received from HTTP PUT");
+                return null;
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("An error occured making HTTP PUT", e);
         }
 
         return result.toString();

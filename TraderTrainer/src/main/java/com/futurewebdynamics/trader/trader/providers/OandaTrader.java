@@ -63,6 +63,11 @@ public class OandaTrader implements ITrader {
         try {
             String orderResponseJson = RestHelper.PostJson("https://api-fxpractice.oanda.com/v3/accounts/" + this.accountId + "/orders", token, marketOrderJson);
 
+            if (orderResponseJson == null) {
+                //http response was not 200
+                return false;
+            }
+
             logger.debug("Response to order: " + orderResponseJson);
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -102,6 +107,12 @@ public class OandaTrader implements ITrader {
 
         try {
             String closeResponseJson = RestHelper.PutJson("https://api-fxpractice.oanda.com/v3/accounts/" + this.accountId + "/trades/" + position.getUniqueId() + "/close", token, closePositionJson);
+
+            if (closePositionJson == null) {
+                //response code was not 200
+                logger.error("Reponse code not 200 when attempting to close trade " + position.getUniqueId());
+                return false;
+            }
 
             logger.debug("Close response: " + closePositionJson);
             position.setStatus(PositionStatus.CLOSED);
@@ -151,13 +162,17 @@ public class OandaTrader implements ITrader {
             logger.error("Error getting positions from trader api",e);
         }
 
-        manager.printStats();
+        manager.printStats(null);
     }
 
     public void init() throws Exception{
         this.accounts = this.getAccounts();
         if (this.accounts.accounts.size() <= 0) throw new Exception ("No accounts");
         this.accountId = this.accounts.accounts.stream().findFirst().get().id;
+
+        Position testOpen = new Position(100,100);
+        testOpen.setStatus(PositionStatus.BUYING);
+        //this.openPosition(testOpen);
     }
 
     public void setToken(String token) {

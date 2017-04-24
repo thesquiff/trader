@@ -3,8 +3,6 @@ package com.futurewebdynamics.trader.common;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.apache.log4j.Logger;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -14,34 +12,45 @@ public class DataWindow {
 
     private int windowSize;
 
-    //private ArrayList<NormalisedPriceInformation> buffer;
-    //private int bufferSize;
-
     private CircularFifoQueue<NormalisedPriceInformation> window;
 
-    final static Logger logger = Logger.getLogger(DataWindow.class);
+    private long mostRecentGapMs = 0;
 
-    //private int bufferPointer = 0;
+    private boolean hasGaps = false;
+
+    final static Logger logger = Logger.getLogger(DataWindow.class);
 
     public DataWindow(int windowSize) {
         this.windowSize = windowSize;
         window = new CircularFifoQueue(windowSize);
         for (int i = 0; i < this.windowSize; i++) {
-            window.add(new NormalisedPriceInformation(true));
-
+            window.add(new NormalisedPriceInformation(0, true));
         }
     }
 
+    /*
+    Inserts data from the data source into the window. Newest value is at end of the window
+     */
     public void tick(NormalisedPriceInformation tickData) {
+
+        if (mostRecentGapMs > 0) {
+            //check if gap has expired
+            if (mostRecentGapMs < window.get(0).getCorrectedTimestamp()) {
+                //gap is no longer in the window
+                hasGaps = false;
+            }
+        }
+
+        if (tickData == null || tickData.isEmpty()) {
+            mostRecentGapMs = tickData.getCorrectedTimestamp();
+            hasGaps = true;
+        }
+
         window.add(tickData);
     }
 
-    public List<NormalisedPriceInformation> getData() {
-        Object[] objs = window.toArray();
-
-        List<NormalisedPriceInformation> list = Arrays.asList(Arrays.copyOf(objs, objs.length, NormalisedPriceInformation[].class));
-
-        return list;
+    public NormalisedPriceInformation get(int index) {
+        return window.get(index);
     }
 
     public int getWindowSize() {
@@ -49,8 +58,8 @@ public class DataWindow {
     }
 
     public boolean hasGaps() {
-        List<NormalisedPriceInformation> data = this.getData();
-        return (data.stream().filter(p->p.isEmpty()).count() > 0);
+
+       return hasGaps;
     }
 
     public void debug() {
@@ -59,7 +68,5 @@ public class DataWindow {
 
         prices = window.stream().map(p->p.getBidPrice()).map(p->p.toString()).collect(Collectors.joining("],["));
         logger.trace("bid: old [" + prices + "] new");
-
     }
-
 }

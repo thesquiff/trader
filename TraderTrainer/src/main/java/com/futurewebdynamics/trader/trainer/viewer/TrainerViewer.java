@@ -117,7 +117,6 @@ public class TrainerViewer extends JFrame {
                     logger.error("An error occured reading activity.csv", e);
                 }
 
-
                 GraphSurface graphSurface = new GraphSurface(msPerPixel, pencePerPixel, minPence, maxPence, askPricePoints.getFirst().x);
 
                 graphSurface.setMaxMs(askPricePoints.getLast().x);
@@ -130,10 +129,9 @@ public class TrainerViewer extends JFrame {
                 graphSurface.setLongOpenData(longOpenPoints);
                 graphSurface.setLongCloseData(longClosePoints);
 
-
                 JScrollPane scrollPane = new JScrollPane(graphSurface);
                 scrollPane.getHorizontalScrollBar().setUnitIncrement(1000);
-                scrollPane.getVerticalScrollBar().setUnitIncrement(1000);
+                scrollPane.getVerticalScrollBar().setUnitIncrement(500);
                 scrollPane.getViewport().setDoubleBuffered(true);
 
                 ex.add(scrollPane);

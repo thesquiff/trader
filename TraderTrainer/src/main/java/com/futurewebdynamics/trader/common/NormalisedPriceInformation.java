@@ -14,8 +14,9 @@ public class NormalisedPriceInformation extends PriceInformation {
         this.correctedTimestamp = correctedTimestamp;
     }
 
-    public NormalisedPriceInformation(boolean isEmpty) {
+    public NormalisedPriceInformation(long timestamp, boolean isEmpty) {
         this.isEmpty = isEmpty;
+        this.setCorrectedTimestamp(timestamp);
     }
 
     public boolean isEmpty() {

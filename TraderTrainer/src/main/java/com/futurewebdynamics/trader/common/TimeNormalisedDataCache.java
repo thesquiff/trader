@@ -17,6 +17,17 @@ public class TimeNormalisedDataCache {
 
     private int intervalMs;
 
+
+    public TimeNormalisedDataCache() {
+
+    }
+
+    public TimeNormalisedDataCache(TimeNormalisedDataCache timeNormalisedDataCache) {
+
+        this.setIntervalPrices(timeNormalisedDataCache.getIntervalPrices());
+
+    }
+
     public TimeNormalisedDataCache(ArrayList<PriceInformation> priceInformation, int intervalMs) throws Exception {
         this.intervalMs = intervalMs;
 
@@ -78,7 +89,7 @@ public class TimeNormalisedDataCache {
                     if (rawData.getTimestamp() < targetTimeInMillis) {
                         //we haven't got to the time segment we want yet
                         rawDataIndex++;
-                        logger.debug("Raw data has run ahead of us");
+                        //logger.debug("Raw data has run ahead of us");
                     } else if (rawData.getTimestamp() > targetTimeInMillis + intervalMs) {
                         missingData = true;
                     } else if (rawData.getTimestamp() >= targetTimeInMillis && rawData.getTimestamp() <= (targetTimeInMillis + intervalMs)) {
@@ -99,7 +110,7 @@ public class TimeNormalisedDataCache {
 
             if (missingData) {
                 logger.debug("No data found for " + targetTimeInMillis);
-                intervalPrices[tick] = new NormalisedPriceInformation(true);
+                intervalPrices[tick] = new NormalisedPriceInformation(targetTimeInMillis, true);
             }
 
             if (priceFound) {

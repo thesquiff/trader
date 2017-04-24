@@ -1,12 +1,10 @@
 package com.futurewebdynamics.trader.statistics.providers;
 
 import com.futurewebdynamics.trader.common.DataWindow;
-import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.common.PriceType;
+import com.futurewebdynamics.trader.statistics.IStatisticProvider;
 import org.apache.log4j.Logger;
-
-import java.util.List;
 
 /**
  * Created by 52con on 15/04/2016.
@@ -54,15 +52,13 @@ public class PercentageRise extends IStatisticProvider {
 
     @Override
     public Object getResult() {
-        dataWindow.debug();
-        List<NormalisedPriceInformation> data = dataWindow.getData();
 
         double greatestRise = 0.0;
         for (int lookback = 1; lookback <= oldestWindowSize; lookback++) {
             double rise = 0.0;
 
-            NormalisedPriceInformation oldestTick = dataWindow.getData().get(dataWindow.getWindowSize() - 1 - lookback);
-            NormalisedPriceInformation newestTick = dataWindow.getData().get(dataWindow.getWindowSize() - 1);
+            NormalisedPriceInformation oldestTick = dataWindow.get(dataWindow.getWindowSize() - 1 - lookback);
+            NormalisedPriceInformation newestTick = dataWindow.get(dataWindow.getWindowSize() - 1);
 
             int newestValue = newestTick.getPrice(this.getPriceType());
             int oldestValue = oldestTick.getPrice(this.getPriceType());

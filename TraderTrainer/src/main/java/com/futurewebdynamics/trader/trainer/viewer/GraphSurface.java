@@ -16,10 +16,11 @@ public class GraphSurface extends JPanel {
 
     private int borderWidthPx = 50;
 
-    private int msPerPixel = 250;
+    private int msPerPixel = 500;
     private double pencePerPixel = 10;
 
-    private int majorPenceTick = 50;
+    private int majorPenceTick = 10;
+    private int majorMsTick = 200000;
 
     private LinkedList<LongPoint> askPriceData;
     private LinkedList<LongPoint> bidPriceData;
@@ -57,8 +58,6 @@ public class GraphSurface extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-
-
         Rectangle bounds = g.getClipBounds();
 
         this.setBackground(Color.WHITE);
@@ -102,7 +101,12 @@ public class GraphSurface extends JPanel {
             g2d.setColor(Color.BLACK);
             g2d.drawLine(40, yCoordinate, 50, yCoordinate);
 
-            g2d.drawString(String.valueOf(y), 9, yCoordinate+4);
+            for (int x = 9; x < this.getPreferredSize().width; x+=500) {
+                if (x < bounds.x) continue;
+                if (x > bounds.x + bounds.width) break;
+
+                g2d.drawString(String.valueOf(y), x, yCoordinate + 4);
+            }
 
             //dotted lines
             //set the stroke of the copy, not the original
@@ -110,13 +114,34 @@ public class GraphSurface extends JPanel {
             g2d.setColor(Color.lightGray);
             g2d.setStroke(dashed);
 
-            int xCoordinate = this.getPreferredSize().width;
 
-            g2d.drawLine(50, yCoordinate, xCoordinate, yCoordinate);
+            g2d.drawLine(50, yCoordinate, this.getPreferredSize().width, yCoordinate);
         }
 
+        //label x axis
+        Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+        g2d.setColor(Color.lightGray);
+        g2d.setStroke(dashed);
+        for (long x = minMs; x < maxMs; x+=majorMsTick) {
+            int xCoordinate = (int)((int)(x - minMs) / (double)msPerPixel) + borderWidthPx;
 
+            if (xCoordinate < bounds.x) continue;
+            if (xCoordinate > (bounds.x + bounds.width)) break;
 
+            int yCoordinate = this.getPreferredSize().height - borderWidthPx;
+            g2d.drawLine(xCoordinate, 0, xCoordinate, yCoordinate);
+
+            //AffineTransform orig = g2d.getTransform();
+
+            //AffineTransform rotated = new AffineTransform();
+            //rotated.setToRotation(Math.PI/2, getPreferredSize().width / 2.0, getPreferredSize().height / 2.0);
+            //g2d.setTransform(rotated);
+            for (int y = 9; y < this.getPreferredSize().height; y+=500) {
+                g2d.drawString(String.valueOf(x-minMs), xCoordinate - 3*String.valueOf(x-minMs).length() , y);
+            }
+
+            //g2d.setTransform(orig);
+        }
     }
 
     public void setMinPence(int minPence) {

@@ -42,8 +42,6 @@ public class DatabaseCache {
 
             Statement statement = this.connection.createStatement();
 
-
-
             ResultSet countResultSet;
             ResultSet dataResultSet;
 

@@ -39,8 +39,5 @@ public class DataWindowRegistry {
 
             ((DataWindow)pair.getValue()).tick(tickData);
         }
-
-
     }
-
 }

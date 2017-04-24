@@ -6,6 +6,7 @@ import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.trader.ITrader;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -88,7 +89,7 @@ public class PositionsManager {
 
         logger.debug("Assessing " + this.riskFilters.size() + " risk filters");
         for (IRiskFilter riskFilter : this.riskFilters) {
-            riskFilter.setTestTimeMs(tickData.getTimestamp());
+            if (isReplayMode) riskFilter.setTestTimeMs(tickData.getTimestamp());
             if (!riskFilter.proceedWithBuy(price, isShortTrade)) {
                 logger.debug("Cancelling proposed buy due to risk filters");
                 return;
@@ -122,7 +123,7 @@ public class PositionsManager {
         } else {
             //position was refused by the trader
             position = null;
-            logger.info("Purchase blocked due to lack of funds");
+            logger.info("Purchase was not successful");
         }
 
     }
@@ -142,11 +143,15 @@ public class PositionsManager {
 
         position.setStatus(PositionStatus.SELLING);
         position.setTargetSellPrice(targetPrice);
-        this.trader.closePosition(position, tickData.getCorrectedTimestamp(), targetPrice);
+        if (!this.trader.closePosition(position, tickData.getCorrectedTimestamp(), targetPrice)) {
+            //closing the trade failed
+            position.setStatus(PositionStatus.OPEN);
+            position.setTargetSellPrice(0);
+        }
     }
 
-    public void printStats() {
-
+    public void printStats(String resultsFilename)
+    {
         logger.debug(String.format("%-7s%-14s%-7s%-7s%-14s%-7s%-7s%-7s\n", new String[]{"ID", "TO", "TOP", "AOP", "TC", "TCP", "ACP", "Q"}));
 
         Iterator izzy = positions.iterator();
@@ -155,33 +160,59 @@ public class PositionsManager {
             logger.debug(String.format("%-7d%-14d%-7d%-7d%-14d%-7d%-7d%-7d\n",position.getUniqueId(), position.getTimeOpened().getTimeInMillis()/1000, position.getTargetOpenPrice(), position.getActualOpenPrice(), (position.getTimeClosed() !=null) ? position.getTimeClosed().getTimeInMillis()/1000 : 0, position.getTargetSellPrice(), position.getActualSellPrice(), position.getQuantity()));
         }
 
+        List<String> lines = new ArrayList<String>();
+
         int totalLongTrades = (int)positions.stream().filter(p -> !p.isShortTrade() &&  p.getStatus() == PositionStatus.CLOSED).count();
         int totalShortTrades = (int)positions.stream().filter(p -> p.isShortTrade() &&  p.getStatus() == PositionStatus.CLOSED).count();
 
         logger.info("Total LONG closed trades: " + totalLongTrades);
+        lines.add("Total LONG closed trades: " + totalLongTrades);
         logger.info("% LONG closed at profit: " + positions.stream().filter(p->!p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).count() / (double)totalLongTrades * 100);
+        lines.add("% LONG closed at profit: " + positions.stream().filter(p->!p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).count() / (double)totalLongTrades * 100);
 
         logger.info("Average Long Profit: " + positions.stream().filter(p->!p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average());
+        lines.add("Average Long Profit: " + positions.stream().filter(p->!p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average());
         logger.info("Average Long Loss: " + positions.stream().filter(p->!p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average());
+        lines.add("Average Long Loss: " + positions.stream().filter(p->!p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average());
 
         double totalLongGains = positions.stream().filter(p -> !p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).sum();
         logger.info("Total LONG Gains: " + totalLongGains);
+        lines.add("Total LONG Gains: " + totalLongGains);
 
         OptionalDouble averageMsOpenLong = positions.stream().filter(p->!p.isShortTrade() && p.getTimeClosed() != null).mapToLong(p->p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis()).average();
         if (averageMsOpenLong.isPresent()) logger.info("Average length of long trade " + averageMsOpenLong.getAsDouble()/1000 + "s");
 
         logger.info("Total SHORT closed trades: " + totalShortTrades);
+        lines.add("Total SHORT closed trades: " + totalShortTrades);
         logger.info("% SHORT closed at profit: " + positions.stream().filter(p->p.isShortTrade() &&  p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).count() / (double)totalShortTrades * 100);
+        lines.add("% SHORT closed at profit: " + positions.stream().filter(p->p.isShortTrade() &&  p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).count() / (double)totalShortTrades * 100);
         logger.info("Average Short Profit: " + positions.stream().filter(p->p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average());
+        lines.add("Average Short Profit: " + positions.stream().filter(p->p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average());
         logger.info("Average Short Loss: " + positions.stream().filter(p->p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average());
+        lines.add("Average Short Loss: " + positions.stream().filter(p->p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average());
 
         double totalShortGains = positions.stream().filter(p -> p.isShortTrade() &&  p.getStatus() == PositionStatus.CLOSED).mapToInt(p->(p.getActualOpenPrice() - p.getActualSellPrice())).sum();
         logger.info("Total SHORT Gains: " + totalShortGains);
+        lines.add("Total SHORT Gains: " + totalShortGains);
 
         OptionalDouble averageMsOpenShort = positions.stream().filter(p->p.isShortTrade() && p.getTimeClosed() != null).mapToLong(p->p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis()).average();
-        if (averageMsOpenShort.isPresent()) logger.info("Average length of short trade " + averageMsOpenShort + "s");
+        if (averageMsOpenShort.isPresent()) {
+            logger.info("Average length of short trade " + averageMsOpenShort + "s");
+            lines.add("Average length of short trade " + averageMsOpenShort + "s");
+        }
 
         logger.info("TOTAL GAINS: " + (totalLongGains + totalShortGains));
+        lines.add("TOTAL GAINS: " + (totalLongGains + totalShortGains));
+
+        if (resultsFilename != null) {
+            Path file = Paths.get(resultsFilename);
+            try {
+                Files.write(file, lines, Charset.forName("UTF-8"));
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.error("An error occurred writing out results.", e);
+            }
+        }
     }
 
     public void dumpToCsv(String filename) {
@@ -200,6 +231,15 @@ public class PositionsManager {
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
+    }
+
+    public int getTotalGains() {
+        int totalShortGains = positions.stream().filter(p -> p.isShortTrade() &&  p.getStatus() == PositionStatus.CLOSED).mapToInt(p->(p.getActualOpenPrice() - p.getActualSellPrice())).sum();
+
+        int totalLongGains = positions.stream().filter(p -> !p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).sum();
+
+        return totalLongGains + totalShortGains;
+
     }
 
     public void addExistingPosition(Position p) {

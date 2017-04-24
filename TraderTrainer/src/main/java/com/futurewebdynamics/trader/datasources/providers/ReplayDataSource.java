@@ -7,7 +7,7 @@ import com.futurewebdynamics.trader.common.TimeNormalisedDataCache;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import org.apache.log4j.Logger;
 
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -16,12 +16,11 @@ import java.util.Iterator;
  */
 public class ReplayDataSource implements IDataSource {
 
+    final static Logger logger = Logger.getLogger(ReplayDataSource.class);
+
     private TimeNormalisedDataCache dataCache;
 
     private int index = 0;
-
-    final static Logger logger = Logger.getLogger(ReplayDataSource.class);
-
     private String connectionString;
 
     private int intervalMs;
@@ -35,6 +34,14 @@ public class ReplayDataSource implements IDataSource {
         this.dateEndTimestampMs = dateEndTimestampMs;
     }
 
+    public ReplayDataSource(ReplayDataSource replayDataSource) {
+        this.intervalMs = replayDataSource.getIntervalMs();
+        this.dateStartTimestampMs = replayDataSource.getDateStartTimestampMs();
+        this.dateEndTimestampMs = replayDataSource.getDateEndTimestampMs();
+        ReplayDataSource dataSource = new ReplayDataSource(intervalMs, dateStartTimestampMs, dateEndTimestampMs);
+        this.dataCache = new TimeNormalisedDataCache(replayDataSource.getDataCache());
+    }
+
     public void init(String connectionString) throws Exception {
 
         this.connectionString = connectionString;
@@ -44,6 +51,36 @@ public class ReplayDataSource implements IDataSource {
 
         this.dataCache = new TimeNormalisedDataCache(databaseCache.getCache(), intervalMs);
         logger.debug("data cache object set: " + this.dataCache);
+    }
+
+    public void initFromFile(String filename) {
+        BufferedReader br = null;
+        String line = "";
+
+        ArrayList<PriceInformation> cache = new ArrayList<PriceInformation>();
+
+        try {
+            br = new BufferedReader(new FileReader(filename));
+            while ((line = br.readLine()) != null) {
+                // use comma as separator
+                String[] tokens = line.split(",");
+                cache.add(new PriceInformation(Long.parseLong(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])));
+            }
+
+            this.dataCache = new TimeNormalisedDataCache(cache, intervalMs);
+            logger.debug("data cache object set: " + this.dataCache);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public long getStartTime() {
@@ -56,14 +93,11 @@ public class ReplayDataSource implements IDataSource {
         return index < this.dataCache.getCacheSize();
     }
 
-    public NormalisedPriceInformation getTickData() throws Exception {
+    public NormalisedPriceInformation getTickData() {
         if (index >= dataCache.getCacheSize()) return null;
         NormalisedPriceInformation price = dataCache.getIntervalPrices()[index++];
 
         if (price != null && !price.isEmpty()) {
-            if (price.getAskPrice()==0) {
-                throw new Exception ("incorrect ask price at index " + index);
-            }
             logger.debug("index: " + index + ", ask price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
         } else {
             logger.debug("index: " + index + ", price is null");
@@ -89,6 +123,26 @@ public class ReplayDataSource implements IDataSource {
 
         }
 
+    }
+
+    public void setDataCache(TimeNormalisedDataCache dataCache) {
+        this.dataCache = dataCache;
+    }
+
+    public int getIntervalMs() {
+        return this.intervalMs;
+    }
+
+    public long getDateStartTimestampMs() {
+        return this.dateStartTimestampMs;
+    }
+
+    public long getDateEndTimestampMs() {
+        return this.dateEndTimestampMs;
+    }
+
+    public TimeNormalisedDataCache getDataCache() {
+        return this.dataCache;
     }
 
 }
