@@ -28,7 +28,7 @@ public class TimeNormalisedDataCache {
 
     }
 
-    public TimeNormalisedDataCache(ArrayList<PriceInformation> priceInformation, int intervalMs) throws Exception {
+    public TimeNormalisedDataCache(ArrayList<PriceInformation> priceInformation, int intervalMs) {
         this.intervalMs = intervalMs;
 
         init(priceInformation);
@@ -39,7 +39,7 @@ public class TimeNormalisedDataCache {
         return this.startTimeMs;
     }
 
-    private long init(ArrayList<PriceInformation> priceInformation) throws Exception {
+    private long init(ArrayList<PriceInformation> priceInformation) {
 
         //assume resolution of minutes for now
 
@@ -60,7 +60,9 @@ public class TimeNormalisedDataCache {
 
 
         if (numberOfElements > Integer.MAX_VALUE) {
-            throw new Exception("Too many elements");
+            logger.error("Too many elements");
+            intervalPrices = null;
+            return 0;
         }
 
         logger.debug("Number of elements: " + numberOfElements);
@@ -130,6 +132,24 @@ public class TimeNormalisedDataCache {
         return intervalPrices;
     }
 
+    public NormalisedPriceInformation[] getDataInRange(long startTimestampMs, long endTimestampMs) {
+        int i = 0;
+        for (i = 0; i < intervalPrices.length; i++) {
+            if (intervalPrices[i].getCorrectedTimestamp() >= startTimestampMs) break;
+        }
+
+        int j = 0;
+        for (j = i; j < intervalPrices.length; j++) {
+            if (intervalPrices[j].getCorrectedTimestamp() >= endTimestampMs) break;
+        }
+
+        NormalisedPriceInformation[] buffer  = new NormalisedPriceInformation[j-i + 1];
+        java.lang.System.arraycopy(intervalPrices, i, buffer, 0, j-i+1);
+
+        return buffer;
+
+    }
+
     public void setIntervalPrices(NormalisedPriceInformation[] intervalPrices) {
         this.intervalPrices = intervalPrices;
     }
@@ -137,5 +157,45 @@ public class TimeNormalisedDataCache {
     public int getCacheSize() {
         return this.intervalPrices.length;
     }
+
+    public PriceRange getPriceRange(long startTimeMs, long endTimeMs, PriceType priceType) {
+
+        int maxPrice = Integer.MIN_VALUE;
+        int minPrice = Integer.MAX_VALUE;
+        for (int i = 0; i < intervalPrices.length; i++) {
+
+            if (intervalPrices[i].isEmpty()) continue;
+
+            if (priceType == PriceType.BID_PRICE && intervalPrices[i].getBidPrice() == 0) continue;
+
+            if (priceType == PriceType.ASK_PRICE && intervalPrices[i].getAskPrice() == 0) continue;
+
+            if (intervalPrices[i].getCorrectedTimestamp() > startTimeMs) {
+                if (priceType == PriceType.BID_PRICE && intervalPrices[i].getBidPrice() > maxPrice) {
+                    maxPrice = intervalPrices[i].getBidPrice();
+                }
+
+                if (priceType == PriceType.ASK_PRICE && intervalPrices[i].getAskPrice() > maxPrice) {
+                    maxPrice = intervalPrices[i].getAskPrice();
+                }
+
+                if (priceType == PriceType.BID_PRICE && intervalPrices[i].getBidPrice() < minPrice) {
+                    minPrice = intervalPrices[i].getBidPrice();
+                }
+
+                if (priceType == PriceType.ASK_PRICE && intervalPrices[i].getAskPrice() < minPrice) {
+                    minPrice = intervalPrices[i].getAskPrice();
+                }
+            }
+
+            if (intervalPrices[i].getCorrectedTimestamp() > endTimeMs) break;
+
+        }
+
+        return new PriceRange(maxPrice, minPrice);
+
+    }
+
+
 
 }

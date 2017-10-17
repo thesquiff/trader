@@ -14,4 +14,7 @@ public class Trade {
     public String state;
     public double unrealizedPL;
     public String id;
+    public String[] closingTransactionIDs;
+    public String closeTime;
+    public String averageClosePrice;
 }

@@ -25,7 +25,7 @@ public class IsFalling extends IStatisticProvider {
         this.lookBack = lookBack;
     }
 
-    final static Logger logger = Logger.getLogger(IsRising.class);
+    final static Logger logger = Logger.getLogger(IsFalling.class);
 
 
     @Override
@@ -54,14 +54,16 @@ public class IsFalling extends IStatisticProvider {
     }
 
     @Override
+    //return false if at any stage in the lookback the value has risen from the previous at any point
     public Object getResult() {
-        int lastValue = dataWindow.get(dataWindow.getWindowSize()-1).getPrice(this.getPriceType());
-        logger.debug("Newest value: " + lastValue);
+        int newestValue = dataWindow.get(dataWindow.getWindowSize()-1).getPrice(this.getPriceType());
+        logger.debug("Newest value: " + newestValue);
 
         for (int i = 1; i <= lookBack; i++) {
             int testValue = dataWindow.get(dataWindow.getWindowSize()-1-i).getPrice(this.getPriceType());
-            if (testValue <= lastValue) return false;
-            lastValue = testValue;
+            logger.debug("Test value: " + testValue);
+            if (testValue <= newestValue) return false;
+            newestValue = testValue;
         }
 
         return true;

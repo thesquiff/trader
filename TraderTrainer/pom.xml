@@ -56,6 +56,18 @@
             <version>4.2</version>
 
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -79,7 +91,7 @@
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
-                            <mainClass>com.futurewebdynamics.trader.trainer.TraderTrainer</mainClass>
+                            <mainClass>com.futurewebdynamics.trader.runner.Trader</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

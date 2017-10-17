@@ -10,5 +10,4 @@ public class Trades {
     public String lastTransactionID;
     public List<Trade> trades;
 
-
 }

@@ -2,29 +2,50 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="438248f6-067b-47f8-bf9a-1d0bedbe2c58" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/IterationConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerResult.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/WorkerConfig.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/PriceRange.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryTradeExporter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/postanalysers/IPostAnalyser.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/postanalysers/providers/PositionLifetimeChart.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/NumberOfOpenTrades.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/AccountSummary.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/AccountSummaryResponse.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/postanalysers/PositionLifetimeChart.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/IsFallingTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/PercentageRiseTest.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/src/java/statistics/providers/IsFallingTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/test.iml" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/src/java/statistics/providers/IsRisingTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/IsRisingTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/src/java/statistics/providers/MaximumPriceTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/MaximumPriceTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/src/java/statistics/providers/MeanPriceTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/MeanPriceTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/src/java/statistics/providers/MinimumPriceTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/MinimumPriceTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/src/java/statistics/providers/PercentageDropTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/PercentageDropTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test/src/java/statistics/providers/PercentagerRiseTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/PercentagerRiseTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindow.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindowRegistry.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindowRegistry.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DatabaseCache.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DatabaseCache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/NormalisedPriceInformation.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/NormalisedPriceInformation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/RestHelper.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/RestHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TraderTrainer.iml" afterPath="$PROJECT_DIR$/TraderTrainer.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/TimeNormalisedDataCache.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/TimeNormalisedDataCache.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/ReplayDataSource.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/ReplayDataSource.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/TimeSinceLastBuy.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/TimeSinceLastBuy.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/StopLossPercentage.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/StopLossPercentage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfitPercentage.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfitPercentage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsFalling.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsFalling.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsRising.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsRising.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageDrop.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageDrop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageRise.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageRise.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Ask.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Ask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Bid.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Bid.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/QuoteHomeConversionFactors.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/QuoteHomeConversionFactors.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Trade.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Trade.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Trades.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Trades.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/UnitsAvailable.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/UnitsAvailable.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/GraphSurface.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/GraphSurface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/TrainerViewer.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/TrainerViewer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/WorkerConfig.java" afterPath="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/WorkerConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" />
     </list>
     <ignored path="TraderTrainer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,6 +60,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/TraderTrainer$TraderTrainer.coverage" NAME="TraderTrainer Coverage Results" MODIFIED="1495729146201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.futurewebdynamics.trader.trainer.*</FILTER>
+    </SUITE>
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -48,11 +74,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="TraderTrainer.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="131" column="157" selection-start-line="131" selection-start-column="157" selection-end-line="131" selection-end-column="157" />
+            <state relative-caret-position="268">
+              <caret line="89" column="34" selection-start-line="89" selection-start-column="34" selection-end-line="89" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Trader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="663">
+              <caret line="79" column="86" selection-start-line="79" selection-start-column="86" selection-end-line="79" selection-end-column="86" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NumberOfOpenTrades.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/NumberOfOpenTrades.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="700">
+              <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -60,54 +106,48 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OandaLiveDataSource.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java">
+      <file leaf-file-name="TimeSinceLastBuy.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/TimeSinceLastBuy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-666">
-              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="482">
+              <caret line="41" column="44" selection-start-line="41" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="OandaTrader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="81" column="89" selection-start-line="81" selection-start-column="89" selection-end-line="81" selection-end-column="89" />
+            <state relative-caret-position="475">
+              <caret line="232" column="0" selection-start-line="232" selection-start-column="0" selection-end-line="232" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrainerResult.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerResult.java">
+      <file leaf-file-name="TrainerWorker.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+            <state relative-caret-position="468">
+              <caret line="220" column="54" selection-start-line="220" selection-start-column="54" selection-end-line="220" selection-end-column="54" />
               <folding>
-                <element signature="e#248#249#0" expanded="false" />
-                <element signature="e#281#282#0" expanded="false" />
-                <element signature="e#414#415#0" expanded="false" />
-                <element signature="e#453#454#0" expanded="false" />
-                <element signature="e#514#515#0" expanded="false" />
-                <element signature="e#570#571#0" expanded="false" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataWindow.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindow.java">
+      <file leaf-file-name="WorkerConfig.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/WorkerConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1125">
-              <caret line="48" column="29" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
+            <state relative-caret-position="528">
+              <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1428#1429#0" expanded="false" />
-                <element signature="e#1468#1469#0" expanded="false" />
-                <element signature="e#1502#1503#0" expanded="false" />
-                <element signature="e#1535#1536#0" expanded="false" />
+                <element signature="e#5635#5636#0" expanded="true" />
+                <element signature="e#5671#5672#0" expanded="true" />
+                <element signature="e#5726#5727#0" expanded="true" />
+                <element signature="e#5776#5777#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -116,33 +156,8 @@
       <file leaf-file-name="PositionsManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="67" selection-end-column="24" />
-              <folding>
-                <element signature="e#2013#2014#0" expanded="true" />
-                <element signature="e#2084#2085#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TrainerWorker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3182">
-              <caret line="191" column="54" selection-start-line="191" selection-start-column="54" selection-end-line="191" selection-end-column="54" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="log4j.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state relative-caret-position="632">
+              <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -153,8 +168,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -170,29 +185,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/recorder/Recorder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/IRiskFilter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/UpperBuyLimit.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/LowerBuyLimit.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Prices.java" />
-        <option value="$PROJECT_DIR$/test/src/java/statistics/providers/PercentagerRiseTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Price.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/IDataSource.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/Viewer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/PlotType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/LongPoint.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/DataPlot.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/PriceType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/IStatisticProvider.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/PriceInformation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/PriceType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/analysers/providers/PercentageDropBounce.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/analysers/IAnalyserProvider.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/StopLoss.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/StopLossPercentage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfit.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfitPercentage.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/ISellConditionProvider.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java" />
@@ -201,26 +193,49 @@
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/TrainerViewer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/TimeSinceLastBuy.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/RestHelper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindowRegistry.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsFalling.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsRising.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageRise.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageDrop.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/NormalisedPriceInformation.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindow.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DatabaseCache.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/IterationConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/WorkerConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/TimeNormalisedDataCache.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/ReplayDataSource.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerResult.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Trades.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Trade.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryProcessor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryTradeExporter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/ReplayDataSource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/StopLossPercentage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/postanalysers/IPostAnalyser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/PriceRange.java" />
+        <option value="$PROJECT_DIR$/test/src/java/statistics/providers/IsFallingTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsFalling.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/IsFallingTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsRising.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/IsRisingTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageDrop.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/PercentageDropTest.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
+        <option value="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/postanalysers/PositionLifetimeChart.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/PercentageRiseTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/TimeNormalisedDataCache.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/postanalysers/providers/PositionLifetimeChart.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfitPercentage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/QuoteHomeConversionFactors.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/UnitsAvailable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Ask.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Bid.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/AccountSummaryResponse.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/AccountSummary.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/WorkerConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/NumberOfOpenTrades.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java" />
       </list>
     </option>
   </component>
@@ -336,9 +351,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -354,6 +366,66 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="statistics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="postanalysers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -499,44 +571,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="trader" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="providers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OandaTrader.java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TraderTrainer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TraderTrainer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="trader" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="statistics" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -598,6 +632,44 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sellconditions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sellconditions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="providers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -628,6 +700,160 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="runner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="riskfilters" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="riskfilters" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="providers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="postanalysers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TraderTrainer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="postanalysers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="providers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -839,6 +1065,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -854,33 +1083,16 @@
     <property name="full.screen.before.presentation.mode" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Charlie\IdeaProjects\trader\TraderTrainer\src\test\java\com\futurewebdynamics\trader\statistics" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.futurewebdynamics.trader.trainer.viewer" />
       <recent name="com.futurewebdynamics.trader.trader.providers.Oanda.data" />
       <recent name="com.futurewebdynamics.trader" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Trader">
-    <configuration default="false" name="TrainerViewer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="com.futurewebdynamics.trader.trainer.viewer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="com.futurewebdynamics.trader.trainer.viewer.TrainerViewer" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="C:\Users\Charlie\Documents\241" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="TraderTrainer" />
-      <envs />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.TraderTrainer">
     <configuration default="false" name="TraderTrainer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -901,21 +1113,108 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Trader" type="Application" factoryName="Application" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.futurewebdynamics.trader.runner.Trader" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="C:\Users\Charlie\IdeaProjects\Trader.properties" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/target" />
+    <configuration default="false" name="IsRisingTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.futurewebdynamics.trader.statistics.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="TraderTrainer" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="PACKAGE_NAME" value="com.futurewebdynamics.trader.statistics" />
+      <option name="MAIN_CLASS_NAME" value="com.futurewebdynamics.trader.statistics.IsRisingTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="TraderTrainer" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
       <envs />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="IsRisingTest.IsRisingReturnsCorrectResults" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.futurewebdynamics.trader.statistics.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="TraderTrainer" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.futurewebdynamics.trader.statistics" />
+      <option name="MAIN_CLASS_NAME" value="com.futurewebdynamics.trader.statistics.IsRisingTest" />
+      <option name="METHOD_NAME" value="IsRisingReturnsCorrectResults" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="PercentageDropTest.PercentageDropReturnsCorrectResults" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.futurewebdynamics.trader.statistics.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="TraderTrainer" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.futurewebdynamics.trader.statistics" />
+      <option name="MAIN_CLASS_NAME" value="com.futurewebdynamics.trader.statistics.PercentageDropTest" />
+      <option name="METHOD_NAME" value="PercentageDropReturnsCorrectResults" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="PercentageDropTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.futurewebdynamics.trader.statistics.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="TraderTrainer" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.futurewebdynamics.trader.statistics" />
+      <option name="MAIN_CLASS_NAME" value="com.futurewebdynamics.trader.statistics.PercentageDropTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -1173,17 +1472,21 @@
       <envs />
       <method />
     </configuration>
-    <list size="4">
+    <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Application.Recorder" />
-      <item index="1" class="java.lang.String" itemvalue="Application.TrainerViewer" />
-      <item index="2" class="java.lang.String" itemvalue="Application.TraderTrainer" />
-      <item index="3" class="java.lang.String" itemvalue="Application.Trader" />
+      <item index="1" class="java.lang.String" itemvalue="Application.TraderTrainer" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.IsRisingTest" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.IsRisingTest.IsRisingReturnsCorrectResults" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.PercentageDropTest.PercentageDropReturnsCorrectResults" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.PercentageDropTest" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Application.Trader" />
-        <item index="1" class="java.lang.String" itemvalue="Application.TraderTrainer" />
-        <item index="2" class="java.lang.String" itemvalue="Application.TrainerViewer" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Application.TraderTrainer" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.PercentageDropTest.PercentageDropReturnsCorrectResults" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.PercentageDropTest" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.IsRisingTest.IsRisingReturnsCorrectResults" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.IsRisingTest" />
       </list>
     </recent_temporary>
   </component>
@@ -1215,36 +1518,68 @@
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="PercentageDropTest - 2017.05.18 at 17h 22m 08s.xml">
+      <configuration name="PercentageDropTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.18 at 17h 22m 57s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.18 at 17h 24m 30s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.18 at 17h 25m 54s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.18 at 17h 28m 13s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.18 at 17h 28m 37s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.18 at 17h 29m 03s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.18 at 17h 32m 35s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.18 at 17h 32m 41s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PercentageDropTest_PercentageDropReturnsCorrectResults - 2017.05.19 at 06h 34m 39s.xml">
+      <configuration name="PercentageDropTest.PercentageDropReturnsCorrectResults" configurationId="JUnit" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="62045000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="2182" height="1402" extended-state="7" />
+    <frame x="-11" y="-11" width="2182" height="1402" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30193236" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13379629" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2212963" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42270532" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36070853" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24212962" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24027778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4573269" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36231884" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3164251" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32850242" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1256,7 +1591,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14027777" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13333334" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1264,18 +1599,18 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43880838" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4573269" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30193236" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4694042" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39855072" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22916667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902184" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2212963" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32850242" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32944298" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
@@ -1301,7 +1636,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java</url>
-          <line>209</line>
+          <line>220</line>
           <properties />
           <option name="timeStamp" value="61" />
         </line-breakpoint>
@@ -1313,43 +1648,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java</url>
-          <line>160</line>
+          <line>171</line>
           <properties />
           <option name="timeStamp" value="87" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java</url>
-          <line>159</line>
+          <line>182</line>
           <properties />
           <option name="timeStamp" value="89" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java</url>
-          <line>96</line>
+          <line>104</line>
           <properties />
           <option name="timeStamp" value="92" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java</url>
-          <line>98</line>
+          <line>106</line>
           <properties />
           <option name="timeStamp" value="93" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java</url>
-          <line>149</line>
+          <line>172</line>
           <properties />
           <option name="timeStamp" value="102" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java</url>
-          <line>36</line>
+          <line>40</line>
           <properties />
           <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java</url>
-          <line>83</line>
+          <line>94</line>
           <properties />
           <option name="timeStamp" value="160" />
         </line-breakpoint>
@@ -1360,13 +1695,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/TimeNormalisedDataCache.java</url>
-          <line>85</line>
+          <line>87</line>
           <properties />
           <option name="timeStamp" value="200" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java</url>
-          <line>229</line>
+          <line>245</line>
           <properties />
           <option name="timeStamp" value="202" />
         </line-breakpoint>
@@ -1411,12 +1746,6 @@
           <line>58</line>
           <properties />
           <option name="timeStamp" value="272" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java</url>
-          <line>67</line>
-          <properties />
-          <option name="timeStamp" value="285" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DatabaseCache.java</url>
@@ -1480,66 +1809,85 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java</url>
-          <line>97</line>
-          <properties />
-          <option name="timeStamp" value="300" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java</url>
           <line>197</line>
           <properties />
           <option name="timeStamp" value="301" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java</url>
-          <line>83</line>
-          <properties />
-          <option name="timeStamp" value="303" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java</url>
-          <line>173</line>
-          <properties />
-          <option name="timeStamp" value="306" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java</url>
-          <line>178</line>
-          <properties />
-          <option name="timeStamp" value="309" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java</url>
-          <line>182</line>
-          <properties />
-          <option name="timeStamp" value="310" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java</url>
-          <line>206</line>
+          <line>214</line>
           <properties />
           <option name="timeStamp" value="314" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java</url>
-          <line>86</line>
+          <line>94</line>
           <properties />
           <option name="timeStamp" value="315" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java</url>
-          <line>163</line>
-          <properties class="com.futurewebdynamics.trader.positions.Position" method="getSellConditionOfType" />
-          <option name="timeStamp" value="148" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryTradeExporter.java</url>
+          <line>42</line>
+          <properties />
+          <option name="timeStamp" value="318" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java</url>
+          <line>233</line>
+          <properties />
+          <option name="timeStamp" value="321" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/RestHelper.java</url>
+          <line>42</line>
+          <properties />
+          <option name="timeStamp" value="322" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryTradeExporter.java</url>
+          <line>57</line>
+          <properties />
+          <option name="timeStamp" value="323" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryTradeExporter.java</url>
+          <line>58</line>
+          <properties />
+          <option name="timeStamp" value="324" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryTradeExporter.java</url>
+          <line>53</line>
+          <properties />
+          <option name="timeStamp" value="325" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryTradeExporter.java</url>
+          <line>54</line>
+          <properties />
+          <option name="timeStamp" value="326" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsFalling.java</url>
+          <line>62</line>
+          <properties />
+          <option name="timeStamp" value="328" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/PercentageDropTest.java</url>
+          <line>34</line>
+          <properties />
+          <option name="timeStamp" value="333" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="316" />
+      <option name="time" value="377" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="analysisSleepMs" />
         <watch expression="analysisSleepMs" />
         <watch expression="pollIntervalMs" />
+        <watch expression="token" />
       </configuration>
     </watches-manager>
   </component>
@@ -1548,93 +1896,200 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/util/OptionalDouble.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="117" column="0" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionStatus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/PlotType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/LongPoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/IStatisticProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/PriceType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/MeanPrice.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/MaximumPrice.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/analysers/IAnalyserProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/StopLoss.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="37" column="31" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/StopLossPercentage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="37" column="31" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
-          <folding />
+        <state relative-caret-position="212">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfitPercentage.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/postanalysers/IPostAnalyser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="46" column="41" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
+        <state relative-caret-position="225">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/PriceRange.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/history/HistoryTradeExporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="44" column="28" selection-start-line="44" selection-start-column="28" selection-end-line="44" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/ISellConditionProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/MeanPriceTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+        <state relative-caret-position="125">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsFalling.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-322">
+          <caret line="19" column="15" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="15" />
+          <folding>
+            <element signature="e#558#559#0" expanded="false" />
+            <element signature="e#589#590#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsRising.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="63" column="55" selection-start-line="63" selection-start-column="55" selection-end-line="63" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-collections4/4.0/commons-collections4-4.0.jar!/org/apache/commons/collections4/queue/CircularFifoQueue.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/IsRisingTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="778">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/IStatisticProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="24" column="27" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="1" column="21" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-220">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/analysers/providers/PercentageDropBounce.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1178">
+          <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageDrop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/NormalisedPriceInformation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/javax/imageio/ImageIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="1537" column="0" selection-start-line="1537" selection-start-column="0" selection-end-line="1537" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/IsFallingTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/PercentageDropTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="64" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/postanalysers/PositionLifetimeChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/lang/Thread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="744" column="0" selection-start-line="744" selection-start-column="0" selection-end-line="744" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/futurewebdynamics/trader/statistics/PercentageRiseTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageRise.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="776">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/TimeNormalisedDataCache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3300">
+          <caret line="138" column="9" selection-start-line="138" selection-start-column="9" selection-end-line="138" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#821#822#0" expanded="false" />
+            <element signature="e#860#861#0" expanded="false" />
+            <element signature="e#4509#4510#0" expanded="false" />
+            <element signature="e#4546#4547#0" expanded="false" />
+            <element signature="e#5260#5261#0" expanded="false" />
+            <element signature="e#5312#5313#0" expanded="false" />
+            <element signature="e#5345#5346#0" expanded="false" />
+            <element signature="e#5394#5395#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/Position.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2550">
-          <caret line="160" column="57" selection-start-line="160" selection-start-column="57" selection-end-line="160" selection-end-column="57" />
+        <state relative-caret-position="2325">
+          <caret line="153" column="50" selection-start-line="153" selection-start-column="50" selection-end-line="153" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="false" />
             <element signature="e#1085#1086#0" expanded="false" />
@@ -1689,433 +2144,235 @@
             <element signature="e#3289#3290#0" expanded="false" />
             <element signature="e#3363#3364#0" expanded="false" />
             <element signature="e#3419#3420#0" expanded="false" />
+            <element signature="e#3452#3453#0" expanded="false" />
+            <element signature="e#3483#3484#0" expanded="false" />
             <element signature="e#3529#3530#0" expanded="false" />
             <element signature="e#3569#3570#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfit.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/postanalysers/providers/PositionLifetimeChart.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="36" column="37" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/ITrader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="15" column="86" selection-start-line="15" selection-start-column="86" selection-end-line="15" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/EToroTrader.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/PseudoTrader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1800">
-          <caret line="90" column="8" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/DataPlot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="40" column="52" selection-start-line="40" selection-start-column="52" selection-end-line="40" selection-end-column="52" />
+        <state relative-caret-position="819">
+          <caret line="73" column="99" selection-start-line="73" selection-start-column="99" selection-end-line="73" selection-end-column="99" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/GraphSurface.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DatabaseCache.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-202">
-          <caret line="99" column="8" selection-start-line="99" selection-start-column="8" selection-end-line="99" selection-end-column="8" />
+        <state relative-caret-position="741">
+          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/viewer/TrainerViewer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/sellconditions/providers/TakeProfitPercentage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3029">
-          <caret line="136" column="35" selection-start-line="136" selection-start-column="35" selection-end-line="136" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state relative-caret-position="253">
+          <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Price.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/QuoteHomeConversionFactors.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="11" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        <state relative-caret-position="225">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Prices.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="27" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/TimeSinceLastBuy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+          <caret line="10" column="38" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/RestHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Bid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1900">
-          <caret line="83" column="40" selection-start-line="83" selection-start-column="40" selection-end-line="83" selection-end-column="40" />
+        <state relative-caret-position="375">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/UnitsAvailable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Price.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2658#2659#0" expanded="false" />
+            <element signature="e#2705#2706#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1825">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Positions.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        <state relative-caret-position="175">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindowRegistry.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Position.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        <state relative-caret-position="175">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsRising.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageRise.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1000">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#597#598#0" expanded="false" />
-            <element signature="e#641#642#0" expanded="false" />
-            <element signature="e#691#692#0" expanded="false" />
-            <element signature="e#715#716#0" expanded="false" />
-            <element signature="e#765#766#0" expanded="false" />
-            <element signature="e#789#790#0" expanded="false" />
-            <element signature="e#834#835#0" expanded="false" />
-            <element signature="e#873#874#0" expanded="false" />
-            <element signature="e#928#929#0" expanded="false" />
-            <element signature="e#972#973#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/analysers/providers/PercentageDropBounce.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="217" column="0" selection-start-line="217" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/IsFalling.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1000">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#558#559#0" expanded="false" />
-            <element signature="e#589#590#0" expanded="false" />
-            <element signature="e#634#635#0" expanded="false" />
-            <element signature="e#674#675#0" expanded="false" />
-            <element signature="e#793#794#0" expanded="false" />
-            <element signature="e#817#818#0" expanded="false" />
-            <element signature="e#867#868#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#936#937#0" expanded="false" />
-            <element signature="e#963#964#0" expanded="false" />
-            <element signature="e#1018#1019#0" expanded="false" />
-            <element signature="e#1062#1063#0" expanded="false" />
-            <element signature="e#1132#1133#0" expanded="false" />
-            <element signature="e#1179#1180#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/NormalisedPriceInformation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
-          <folding>
-            <element signature="e#637#638#0" expanded="false" />
-            <element signature="e#667#668#0" expanded="false" />
-            <element signature="e#710#711#0" expanded="false" />
-            <element signature="e#741#742#0" expanded="false" />
-            <element signature="e#784#785#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#951#952#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/net/SocketInputStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="93" column="23" selection-start-line="93" selection-start-column="23" selection-end-line="93" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DatabaseCache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/PriceInformation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/IterationConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="55">
-          <caret line="11" column="15" selection-start-line="11" selection-start-column="15" selection-end-line="11" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/TimeNormalisedDataCache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/common/DataWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1125">
-          <caret line="48" column="29" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1428#1429#0" expanded="false" />
-            <element signature="e#1468#1469#0" expanded="false" />
-            <element signature="e#1502#1503#0" expanded="false" />
-            <element signature="e#1535#1536#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/WorkerConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="725">
-          <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
-          <folding>
-            <element signature="e#990#991#0" expanded="false" />
-            <element signature="e#1031#1032#0" expanded="false" />
-            <element signature="e#1096#1097#0" expanded="false" />
-            <element signature="e#1156#1157#0" expanded="false" />
-            <element signature="e#1191#1192#0" expanded="false" />
-            <element signature="e#1225#1226#0" expanded="false" />
-            <element signature="e#1276#1277#0" expanded="false" />
-            <element signature="e#1322#1323#0" expanded="false" />
-            <element signature="e#1367#1368#0" expanded="false" />
-            <element signature="e#1408#1409#0" expanded="false" />
-            <element signature="e#1476#1477#0" expanded="false" />
-            <element signature="e#1536#1537#0" expanded="false" />
-            <element signature="e#1579#1580#0" expanded="false" />
-            <element signature="e#1618#1619#0" expanded="false" />
-            <element signature="e#1682#1683#0" expanded="false" />
-            <element signature="e#1738#1739#0" expanded="false" />
-            <element signature="e#1781#1782#0" expanded="false" />
-            <element signature="e#1823#1824#0" expanded="false" />
-            <element signature="e#1890#1891#0" expanded="false" />
-            <element signature="e#1952#1953#0" expanded="false" />
-            <element signature="e#1993#1994#0" expanded="false" />
-            <element signature="e#2033#2034#0" expanded="false" />
-            <element signature="e#2096#2097#0" expanded="false" />
-            <element signature="e#2154#2155#0" expanded="false" />
-            <element signature="e#2196#2197#0" expanded="false" />
-            <element signature="e#2237#2238#0" expanded="false" />
-            <element signature="e#2302#2303#0" expanded="false" />
-            <element signature="e#2362#2363#0" expanded="false" />
-            <element signature="e#2404#2405#0" expanded="false" />
-            <element signature="e#2442#2443#0" expanded="false" />
-            <element signature="e#2504#2505#0" expanded="false" />
-            <element signature="e#2558#2559#0" expanded="false" />
-            <element signature="e#2598#2599#0" expanded="false" />
-            <element signature="e#2634#2635#0" expanded="false" />
-            <element signature="e#2692#2693#0" expanded="false" />
-            <element signature="e#2742#2743#0" expanded="false" />
-            <element signature="e#2784#2785#0" expanded="false" />
-            <element signature="e#2822#2823#0" expanded="false" />
-            <element signature="e#2884#2885#0" expanded="false" />
-            <element signature="e#2938#2939#0" expanded="false" />
-            <element signature="e#2978#2979#0" expanded="false" />
-            <element signature="e#3014#3015#0" expanded="false" />
-            <element signature="e#3072#3073#0" expanded="false" />
-            <element signature="e#3122#3123#0" expanded="false" />
-            <element signature="e#3160#3161#0" expanded="false" />
-            <element signature="e#3194#3195#0" expanded="false" />
-            <element signature="e#3248#3249#0" expanded="false" />
-            <element signature="e#3294#3295#0" expanded="false" />
-            <element signature="e#3334#3335#0" expanded="false" />
-            <element signature="e#3370#3371#0" expanded="false" />
-            <element signature="e#3428#3429#0" expanded="false" />
-            <element signature="e#3478#3479#0" expanded="false" />
-            <element signature="e#3515#3516#0" expanded="false" />
-            <element signature="e#3551#3552#0" expanded="false" />
-            <element signature="e#3606#3607#0" expanded="false" />
-            <element signature="e#3656#3657#0" expanded="false" />
-            <element signature="e#3693#3694#0" expanded="false" />
-            <element signature="e#3729#3730#0" expanded="false" />
-            <element signature="e#3784#3785#0" expanded="false" />
-            <element signature="e#3834#3835#0" expanded="false" />
-            <element signature="e#3885#3886#0" expanded="false" />
-            <element signature="e#3934#3935#0" expanded="false" />
-            <element signature="e#4141#4142#0" expanded="false" />
-            <element signature="e#4188#4189#0" expanded="false" />
-            <element signature="e#4388#4389#0" expanded="false" />
-            <element signature="e#4436#4437#0" expanded="false" />
-            <element signature="e#4624#4625#0" expanded="false" />
-            <element signature="e#4657#4658#0" expanded="false" />
-            <element signature="e#4706#4707#0" expanded="false" />
-            <element signature="e#4750#4751#0" expanded="false" />
-            <element signature="e#4793#4794#0" expanded="false" />
-            <element signature="e#4832#4833#0" expanded="false" />
-            <element signature="e#4897#4898#0" expanded="false" />
-            <element signature="e#4953#4954#0" expanded="false" />
-            <element signature="e#4995#4996#0" expanded="false" />
-            <element signature="e#5033#5034#0" expanded="false" />
-            <element signature="e#5096#5097#0" expanded="false" />
-            <element signature="e#5150#5151#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerResult.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/Ask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-          <folding>
-            <element signature="e#248#249#0" expanded="false" />
-            <element signature="e#281#282#0" expanded="false" />
-            <element signature="e#414#415#0" expanded="false" />
-            <element signature="e#453#454#0" expanded="false" />
-            <element signature="e#514#515#0" expanded="false" />
-            <element signature="e#570#571#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/ReplayDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2350">
-          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#2251#2269#0" expanded="false" />
-            <element signature="e#3795#3796#0" expanded="false" />
-            <element signature="e#3820#3821#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/HistoricalData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        <state relative-caret-position="175">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/statistics/providers/PercentageDrop.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/AccountUnits.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        <state relative-caret-position="125">
+          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/lang/AbstractStringBuilder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/AccountSummaryResponse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="417" column="0" selection-start-line="417" selection-start-column="0" selection-end-line="417" selection-end-column="0" />
+        <state relative-caret-position="300">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/Oanda/data/AccountSummary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/util/function/Predicate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="48" column="12" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/positions/PositionsManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="67" selection-end-column="24" />
+        <state relative-caret-position="632">
+          <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trader/providers/OandaTrader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="232" column="0" selection-start-line="232" selection-start-column="0" selection-end-line="232" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/WorkerConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
           <folding>
-            <element signature="e#2013#2014#0" expanded="true" />
-            <element signature="e#2084#2085#0" expanded="true" />
+            <element signature="e#5635#5636#0" expanded="true" />
+            <element signature="e#5671#5672#0" expanded="true" />
+            <element signature="e#5726#5727#0" expanded="true" />
+            <element signature="e#5776#5777#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/TimeSinceLastBuy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3182">
-          <caret line="191" column="54" selection-start-line="191" selection-start-column="54" selection-end-line="191" selection-end-column="54" />
+        <state relative-caret-position="482">
+          <caret line="41" column="44" selection-start-line="41" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/riskfilters/providers/NumberOfOpenTrades.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/datasources/providers/OandaLiveDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-666">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="81" column="89" selection-start-line="81" selection-start-column="89" selection-end-line="81" selection-end-column="89" />
+        <state relative-caret-position="268">
+          <caret line="89" column="34" selection-start-line="89" selection-start-column="34" selection-end-line="89" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TraderTrainer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/runner/Trader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="131" column="157" selection-start-line="131" selection-start-column="157" selection-end-line="131" selection-end-column="157" />
+        <state relative-caret-position="663">
+          <caret line="79" column="86" selection-start-line="79" selection-start-column="86" selection-end-line="79" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/futurewebdynamics/trader/trainer/TrainerWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="220" column="54" selection-start-line="220" selection-start-column="54" selection-end-line="220" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

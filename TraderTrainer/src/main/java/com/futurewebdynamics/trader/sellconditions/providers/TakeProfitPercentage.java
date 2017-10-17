@@ -16,16 +16,24 @@ public class TakeProfitPercentage extends ISellConditionProvider {
     private double increasePercentage;
     private boolean waitForFall;
     private IStatisticProvider isRisingOrFalling;
+    private int minAgeOfTradeSeconds;
 
-    public TakeProfitPercentage(double increasePercentage, boolean waitForFall, IStatisticProvider isRisingOrFalling, boolean isShortTrade) {
+    public TakeProfitPercentage(double increasePercentage, int minAgeOfTradeSeconds, boolean waitForFall, IStatisticProvider isRisingOrFalling, boolean isShortTrade) {
         this.increasePercentage = increasePercentage;
         this.waitForFall = waitForFall;
         this.isRisingOrFalling = isRisingOrFalling;
+        this.minAgeOfTradeSeconds = minAgeOfTradeSeconds;
         super.setShortTradeCondition(isShortTrade);
-
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
+
+        if (System.currentTimeMillis() - position.getTimeOpened().getTimeInMillis() < minAgeOfTradeSeconds*1000) {
+
+            logger.debug("Trade is not old enough for this takeprofitpercentage condition.");
+            return;
+        }
+
 
         int buyPrice = position.getActualOpenPrice();
         if (!this.isShortTradeCondition()) {
@@ -80,7 +88,7 @@ public class TakeProfitPercentage extends ISellConditionProvider {
     }
 
     public TakeProfitPercentage makeCopy() {
-        TakeProfitPercentage percentage = new TakeProfitPercentage(this.increasePercentage, this.waitForFall, isRisingOrFalling, super.isShortTradeCondition());
+        TakeProfitPercentage percentage = new TakeProfitPercentage(this.increasePercentage, this.minAgeOfTradeSeconds, this.waitForFall, isRisingOrFalling, super.isShortTradeCondition());
         return percentage;
     }
 

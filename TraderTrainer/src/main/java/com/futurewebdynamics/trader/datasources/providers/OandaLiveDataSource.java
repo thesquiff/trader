@@ -22,10 +22,14 @@ public class OandaLiveDataSource implements IDataSource {
     private String token;
     private GetLiveData runner;
 
-    public OandaLiveDataSource(String accountId, String token, int pollIntervalMs) {
+    private final static String practiceUrl = "https://api-fxpractice.oanda.com";
+
+    private final static String prodUrl = "https://api-fxtrade.oanda.com";
+
+    public OandaLiveDataSource(String accountId, String token, int pollIntervalMs, boolean production) {
         this.accountId = accountId;
         this.token = token;
-        this.runner = new GetLiveData(accountId, token, pollIntervalMs);
+        this.runner = new GetLiveData(accountId, token, pollIntervalMs, production ? prodUrl : practiceUrl);
     }
 
     @Override
@@ -57,12 +61,16 @@ public class OandaLiveDataSource implements IDataSource {
         private String token;
         private int pollIntervalMs;
 
-        public GetLiveData(String accountId, String token, int pollIntervalMs) {
+        private String apiUrl;
+
+        public GetLiveData(String accountId, String token, int pollIntervalMs, String apiUrl) {
             logger.info("accountid: " + accountId);
             logger.info("token: " + token);
             this.accountId = accountId;
             this.token = token;
             this.pollIntervalMs = pollIntervalMs;
+
+            this.apiUrl = apiUrl;
         }
 
         public PriceInformation getLatestPrice() {
@@ -77,7 +85,7 @@ public class OandaLiveDataSource implements IDataSource {
 
                     Prices prices = null;
 
-                    String jsonResult = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts/" + this.accountId + "/pricing?instruments=BCO_USD", token);
+                    String jsonResult = RestHelper.GetJson(this.apiUrl + "/v3/accounts/" + this.accountId + "/pricing?instruments=BCO_USD", token);
                     ObjectMapper jsonDeseserialiser = new ObjectMapper();
 
                     prices = jsonDeseserialiser.readValue(jsonResult, Prices.class);

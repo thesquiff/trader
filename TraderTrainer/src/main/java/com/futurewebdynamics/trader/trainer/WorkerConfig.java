@@ -28,6 +28,7 @@ public class WorkerConfig {
     private boolean enableLongTrade;
     private String masterOutputFolder;
     private boolean createTickerFile;
+    private int maxOpenTrades;
 
     public int getAnalysisIntervalMs() {
         return analysisIntervalMs;
@@ -211,5 +212,13 @@ public class WorkerConfig {
 
     public void setCreateTickerFile(boolean createTickerFile) {
         this.createTickerFile = createTickerFile;
+    }
+
+    public int getMaxOpenTrades() {
+        return maxOpenTrades;
+    }
+
+    public void setMaxOpenTrades(int maxOpenTrades) {
+        this.maxOpenTrades = maxOpenTrades;
     }
 }

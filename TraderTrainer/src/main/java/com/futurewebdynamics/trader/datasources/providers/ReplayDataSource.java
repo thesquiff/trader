@@ -98,7 +98,7 @@ public class ReplayDataSource implements IDataSource {
         NormalisedPriceInformation price = dataCache.getIntervalPrices()[index++];
 
         if (price != null && !price.isEmpty()) {
-            logger.debug("index: " + index + ", ask price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
+            logger.debug("index: " + index + ", timestamp: " + price.getTimestamp() + ", corrected: " + price.getCorrectedTimestamp() + ", ask.price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
         } else {
             logger.debug("index: " + index + ", price is null");
         }

@@ -1,6 +1,7 @@
 package com.futurewebdynamics.trader.positions;
 
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
+import com.futurewebdynamics.trader.postanalysers.IPostAnalyser;
 import com.futurewebdynamics.trader.riskfilters.IRiskFilter;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.trader.ITrader;
@@ -11,6 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,16 +28,18 @@ public class PositionsManager {
     private ITrader trader;
     private ExecutorService executor;
     private boolean isReplayMode;
+    private IPostAnalyser postAnalyser;
 
     private int balanceOfOpenTrades;
 
     final static Logger logger = Logger.getLogger(PositionsManager.class);
 
-    public PositionsManager(boolean isReplayMode) {
+    public PositionsManager(boolean isReplayMode, IPostAnalyser analyser) {
         positions = Collections.synchronizedList(new ArrayList<Position>());
         riskFilters = Collections.synchronizedList(new ArrayList<IRiskFilter>());
         executor = Executors.newCachedThreadPool();
         this.isReplayMode = isReplayMode;
+        this.postAnalyser = analyser;
     }
 
     public ITrader getTrader() {
@@ -63,11 +67,13 @@ public class PositionsManager {
         {
             Position position = this.positions.get(i);
             if (position.getStatus() == PositionStatus.OPEN) {
-                this.executor.execute(new Runnable() {
-                    public void run() {
-                        position.tick(tickData);
-                    }
-                });
+                //this.executor.execute(new Runnable() {
+                //    public void run() {
+
+                //    }
+                //});
+
+                position.tick(tickData);
 
                 if (position.isShortTrade()) {
                     liveBalance += (position.getActualOpenPrice() - tickData.getAskPrice()) * position.getUnits() * position.getLeverage();
@@ -125,11 +131,12 @@ public class PositionsManager {
             position = null;
             logger.info("Purchase was not successful");
         }
-
     }
 
 
     public void sellPosition(Position position, NormalisedPriceInformation tickData) {
+
+        position.setStatus(PositionStatus.SELLING);
 
         int targetPrice = position.isShortTrade() ? tickData.getAskPrice() : tickData.getBidPrice();
 
@@ -141,12 +148,15 @@ public class PositionsManager {
         }
         position.setTimeClosed(cal);
 
-        position.setStatus(PositionStatus.SELLING);
         position.setTargetSellPrice(targetPrice);
         if (!this.trader.closePosition(position, tickData.getCorrectedTimestamp(), targetPrice)) {
             //closing the trade failed
             position.setStatus(PositionStatus.OPEN);
             position.setTargetSellPrice(0);
+        } else {
+            if (this.postAnalyser != null) {
+                this.postAnalyser.AnalysePosition(position);
+            }
         }
     }
 
@@ -216,14 +226,20 @@ public class PositionsManager {
     }
 
     public void dumpToCsv(String filename) {
+
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+
         try {
             List<String> lines = new ArrayList<String>();
-            lines.add("id, type, timeOpened, openPricePence, timeClosed, closePricePence, units, leverage, profitPence");
+            lines.add("id, type, timeOpened, timeOpened, openPricePence, timeClosed, timeClosed, closePricePence, units, leverage, profitUsCents");
             for (Position p: this.positions) {
 
                 int profit = p.getStatus() == PositionStatus.CLOSED ?  p.isShortTrade() ? (p.getActualOpenPrice() - p.getActualSellPrice()) * p.getUnits() * p.getLeverage() : (p.getActualSellPrice() - p.getActualOpenPrice()) * p.getUnits() * p.getLeverage() : 0;
 
-                lines.add(String.format("%d,%s,%d,%d,%d,%d,%d,%d,%d", p.getUniqueId(), p.isShortTrade() ? "SHORT" : "LONG", p.getTimeOpened().getTimeInMillis(), p.getActualOpenPrice(), p.getTimeClosed() == null ? 0 : p.getTimeClosed().getTimeInMillis(), p.getActualSellPrice(), p.getUnits(), p.getLeverage(), profit));
+                String opened = p.getTimeOpened() !=null ? format1.format(p.getTimeOpened()) : "";
+                String closed = p.getTimeClosed() != null ? format1.format(p.getTimeClosed()) : "";
+
+                lines.add(String.format("%d,%s,%d,%s,%d,%d,%s,%d,%d,%d,%d", p.getUniqueId(), p.isShortTrade() ? "SHORT" : "LONG", p.getTimeOpened().getTimeInMillis(), opened, p.getActualOpenPrice(), p.getTimeClosed() == null ? 0 : p.getTimeClosed().getTimeInMillis(), closed, p.getActualSellPrice(), p.getUnits(), p.getLeverage(), profit));
             }
 
             Path file = Paths.get(filename);
@@ -239,11 +255,22 @@ public class PositionsManager {
         int totalLongGains = positions.stream().filter(p -> !p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).sum();
 
         return totalLongGains + totalShortGains;
-
     }
 
     public void addExistingPosition(Position p) {
         p.setPositionsManager(this);
         this.positions.add(p);
+    }
+
+    public void runPostAnalysersForOpenTrades() {
+        for (Position p: this.positions) {
+            if (p.getStatus() == PositionStatus.OPEN) {
+                postAnalyser.AnalysePosition(p);
+            }
+        }
+    }
+
+    public long getOpenTradesCount() {
+        return positions.stream().filter(p -> p.getStatus() == PositionStatus.OPEN).count();
     }
 }

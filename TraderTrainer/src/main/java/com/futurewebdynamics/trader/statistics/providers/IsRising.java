@@ -54,14 +54,15 @@ public class IsRising extends IStatisticProvider {
     }
 
     @Override
+    //return false if at any time the test value has fallen or remained the same as the previous value
     public Object getResult() {
-        int lastValue = dataWindow.get(dataWindow.getWindowSize()-1).getPrice(this.getPriceType());
-        logger.debug("Newest value: " + lastValue);
+        int newestValue = dataWindow.get(dataWindow.getWindowSize()-1).getPrice(this.getPriceType());
+        logger.debug("Newest value: " + newestValue);
 
         for (int i = 1; i <= lookBack; i++) {
             int testValue = dataWindow.get(dataWindow.getWindowSize()-1-i).getPrice(this.getPriceType());
-            if (testValue >= lastValue) return false;
-            lastValue = testValue;
+            if (testValue >= newestValue) return false;
+            newestValue = testValue;
         }
 
         return true;

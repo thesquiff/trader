@@ -54,7 +54,7 @@ public class PercentageDrop extends IStatisticProvider {
     public Object getResult() {
 
         double greatestDrop = 0.0;
-        for (int lookback = 1; lookback <= oldestWindowSize; lookback++) {
+        for (int lookback = 1; lookback < oldestWindowSize; lookback++) {
             double drop = 0.0;
 
             NormalisedPriceInformation oldestTick = dataWindow.get(dataWindow.getWindowSize() - 1 - lookback);
@@ -73,6 +73,7 @@ public class PercentageDrop extends IStatisticProvider {
             if (drop > greatestDrop) greatestDrop = drop;
         }
 
+        logger.debug("Percentage drop: " + greatestDrop);
         return greatestDrop;
 
     }

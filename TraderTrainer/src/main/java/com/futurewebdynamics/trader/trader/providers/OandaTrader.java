@@ -1,5 +1,6 @@
 package com.futurewebdynamics.trader.trader.providers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.futurewebdynamics.trader.common.RestHelper;
 import com.futurewebdynamics.trader.positions.Position;
@@ -24,7 +25,6 @@ public class OandaTrader implements ITrader {
 
     final static Logger logger = Logger.getLogger(OandaTrader.class);
 
-    private String baseUrl;
     private String accountId;
     private String token;
 
@@ -33,10 +33,21 @@ public class OandaTrader implements ITrader {
     private int units;
     private int leverage;
 
-    public OandaTrader(int units, int leverage) {
+    public OandaTrader(int units, int leverage, boolean prod) {
         this.units = units;
         this.leverage = leverage;
+        if (prod) {
+            apiUrl = prodUrl;
+        } else {
+            apiUrl = practiceUrl;
+        }
     }
+
+    private final static String practiceUrl = "https://api-fxpractice.oanda.com";
+
+    private final static String prodUrl = "https://api-fxtrade.oanda.com";
+
+    private String apiUrl;
 
     @Override
     public int getStandardUnits() {
@@ -61,7 +72,7 @@ public class OandaTrader implements ITrader {
         logger.debug("Creating order: " + marketOrderJson);
 
         try {
-            String orderResponseJson = RestHelper.PostJson("https://api-fxpractice.oanda.com/v3/accounts/" + this.accountId + "/orders", token, marketOrderJson);
+            String orderResponseJson = RestHelper.PostJson(apiUrl + "/v3/accounts/" + this.accountId + "/orders", token, marketOrderJson);
 
             if (orderResponseJson == null) {
                 //http response was not 200
@@ -106,7 +117,7 @@ public class OandaTrader implements ITrader {
         logger.debug("Close trade: " + position.getUniqueId() + " json:" + closePositionJson);
 
         try {
-            String closeResponseJson = RestHelper.PutJson("https://api-fxpractice.oanda.com/v3/accounts/" + this.accountId + "/trades/" + position.getUniqueId() + "/close", token, closePositionJson);
+            String closeResponseJson = RestHelper.PutJson(apiUrl + "/v3/accounts/" + this.accountId + "/trades/" + position.getUniqueId() + "/close", token, closePositionJson);
 
             if (closePositionJson == null) {
                 //response code was not 200
@@ -129,7 +140,7 @@ public class OandaTrader implements ITrader {
     public void getPositions(PositionsManager manager, Collection<ISellConditionProvider> templateSellConditions) {
         Trades trades = null;
         try {
-            String jsonResult = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts/" + this.accountId + "/openTrades", token);
+            String jsonResult = RestHelper.GetJson(apiUrl + "/v3/accounts/" + this.accountId + "/openTrades", token);
             ObjectMapper jsonDeseserialiser = new ObjectMapper();
 
             trades = jsonDeseserialiser.readValue(jsonResult, Trades.class);
@@ -192,7 +203,7 @@ public class OandaTrader implements ITrader {
 
         Prices prices = null;
         try {
-            String jsonResult = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts/" + this.accountId + "/pricing?instruments=BCO_USD", token);
+            String jsonResult = RestHelper.GetJson(apiUrl + "/v3/accounts/" + this.accountId + "/pricing?instruments=BCO_USD", token);
             ObjectMapper jsonDeseserialiser = new ObjectMapper();
 
             prices = jsonDeseserialiser.readValue(jsonResult, Prices.class);
@@ -206,38 +217,45 @@ public class OandaTrader implements ITrader {
     public void getAllInstruments() {
        //BCO_USD
 
-        String jsonResult = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts/" + this.accountId + "/instruments", token);
+        String jsonResult = RestHelper.GetJson(apiUrl + "/v3/accounts/" + this.accountId + "/instruments", token);
     }
 
     public Accounts getAccounts(){
         Accounts accounts = null;
         try {
-            String accountsJson = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts", token);
-
+            String accountsJson = RestHelper.GetJson(apiUrl + "/v3/accounts", token);
+            logger.debug("Accounts json: " + accountsJson);
             ObjectMapper jsonDeseserialiser = new ObjectMapper();
             accounts = jsonDeseserialiser.readValue(accountsJson, Accounts.class);
         } catch (IOException ex) {
             ex.printStackTrace();
+            logger.error("Unable to retrieve accounts. ", ex);
         }
         return accounts;
     }
+
+
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Account {
     public String id;
     public  Collection<String> tags;
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Accounts {
     public Collection<Account> accounts;
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Instruments {
 
     public Collection<Instrument> instruments;
 
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Instrument {
     public String displayName;
     public int displayPrecision;

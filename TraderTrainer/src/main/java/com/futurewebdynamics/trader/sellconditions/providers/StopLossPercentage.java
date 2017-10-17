@@ -25,12 +25,25 @@ public class StopLossPercentage extends ISellConditionProvider{
 
         if (position.isShortTrade() != super.isShortTradeCondition()) {
             //quit as this sell condition is not compatible
+            logger.debug("INCOMPATIBLE EVALUATION");
             return;
         }
 
-        if (!super.isShortTradeCondition() && tick.getBidPrice() <= (buyPrice * (100-decreasePercentage)/100)) {
-            logger.debug("STOP LOSS LONG TRADE tickPrice:" + tick.getBidPrice() + " buy price:" + buyPrice + " targetSellPrice:" + (buyPrice * (100 - decreasePercentage) / 100));
-            sell(position, tick);
+        logger.debug("Evaluating StopLossPercentage condition");
+
+        if (!super.isShortTradeCondition()) {
+
+            double targetSellPrice = buyPrice * (100 - decreasePercentage) / 100;
+
+            logger.debug("STOP LOSS LONG TRADE tickPrice:" + tick.getBidPrice() + " buy price:" + buyPrice + " targetSellPrice:" + targetSellPrice);
+
+            double drop = ((double)(buyPrice - tick.getBidPrice()) / buyPrice) * 100.0;
+            if (drop > 1.0) logger.debug("% drop is " + drop + " at tick time: " + tick.getTimestamp());
+
+            if (tick.getBidPrice() <= targetSellPrice) {
+                logger.debug("Decided to sell based on stop loss percentage");
+                sell(position, tick);
+            }
         }
 
         if (super.isShortTradeCondition() && tick.getAskPrice() >= (buyPrice * (100+decreasePercentage)/100)) {
