@@ -7,6 +7,8 @@ import com.futurewebdynamics.trader.common.DataWindowRegistry;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.common.PriceType;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
+import com.futurewebdynamics.trader.positions.Position;
+import com.futurewebdynamics.trader.positions.PositionStatus;
 import com.futurewebdynamics.trader.positions.PositionsManager;
 import com.futurewebdynamics.trader.postanalysers.providers.PositionLifetimeChart;
 import com.futurewebdynamics.trader.riskfilters.providers.NumberOfOpenTrades;
@@ -16,7 +18,6 @@ import com.futurewebdynamics.trader.sellconditions.providers.StopLossPercentage;
 import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentage;
 import com.futurewebdynamics.trader.statistics.providers.IsFalling;
 import com.futurewebdynamics.trader.statistics.providers.IsRising;
-import com.futurewebdynamics.trader.trader.providers.Oanda.data.Position;
 import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -24,13 +25,14 @@ import org.apache.log4j.PropertyConfigurator;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 
 /**
  * Created by Charlie on 06/04/2017.
  */
-public class TrainerWorker  implements Callable<TrainerResult>{
+public class TrainerWorker  implements Callable<TrainerWorkerResult>{
 
     private Logger logger;
 
@@ -40,8 +42,7 @@ public class TrainerWorker  implements Callable<TrainerResult>{
     private ReplayDataSource dataSource;
 
     private boolean isComplete;
-    private int totalGains;
-    private List<Position> finalPositions;
+    private TrainerWorkerResult result;
 
     public TrainerWorker (int iterationNumber, WorkerConfig workerConfig, IterationConfig iterationConfig, ReplayDataSource dataSource) {
 
@@ -69,19 +70,16 @@ public class TrainerWorker  implements Callable<TrainerResult>{
     }
 
     @Override
-    public TrainerResult call() {
+    public TrainerWorkerResult call() {
         isComplete = false;
         System.out.println(Thread.currentThread().getName()+" Start. iterationNumber = " + iterationNumber);
         logger.info(Thread.currentThread().getName()+" Start. iterationNumber = " + iterationNumber);
         executeTrainingRun();
         logger.info(Thread.currentThread().getName()+" End. iterationNumber = " + iterationNumber);
 
-        TrainerResult result = new TrainerResult();
-        result.setTotalGains(this.totalGains);
-        result.setIterationCounter(this.iterationNumber);
-        result.setComplete(isComplete);
+        isComplete = true;
 
-        return result;
+        return this.result;
     }
 
     public void executeTrainingRun() {
@@ -100,12 +98,11 @@ public class TrainerWorker  implements Callable<TrainerResult>{
                 logger.error(e.getMessage(), e);
             }
         }
-
         try {
             PrintWriter writer = new PrintWriter(outputFolder + File.separator + "metadata.txt", "UTF-8");
             writer.println("analysisIntervalMs=" + workerConfig.getAnalysisIntervalMs());
             writer.println("tickSleepMs=" + workerConfig.getTickSleepMs());
-            writer.println("bounceTriggerStart=" + workerConfig.getBounceLookbackStart());
+            writer.println("bounceTriggerStart=" + workerConfig.getBounceTriggerStart());
             writer.println("bounceTriggerEnd=" + workerConfig.getBounceTriggerEnd());
             writer.println("bounceTrigger=" + iterationConfig.getBounceTrigger());
             writer.println("bounceLookbackStart=" + workerConfig.getBounceLookbackStart());
@@ -129,7 +126,7 @@ public class TrainerWorker  implements Callable<TrainerResult>{
             writer.println("windowSize=" + workerConfig.getWindowSize());
             writer.println("enableLongTrade=" + workerConfig.isEnableLongTrade());
             writer.println("enableShortTrade=" + workerConfig.isEnableShortTrade());
-            writer.println("maxopentrades=" + workerConfig.getMaxOpenTrades());
+            writer.println("maxOpenTrades=" + workerConfig.getMaxOpenTrades());
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -216,18 +213,46 @@ public class TrainerWorker  implements Callable<TrainerResult>{
         positionsManager.dumpToCsv(outputFolder + File.separator + "activity.csv");
 
 
-        isComplete = true;
-        totalGains = positionsManager.getTotalGains();
-        finalPositions = position.getFinalPositions();
-    }
+        List<Position> positions = positionsManager.getPositions();
 
-    public double getResult() {
-        return totalGains;
-    }
+        result = new TrainerWorkerResult();
+        OptionalDouble overallAverage = positions.stream().filter(p-> p.getStatus() == PositionStatus.CLOSED).mapToLong(p->p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis()).average();
+        if (overallAverage.isPresent()) result.averageLengthOfTrade = overallAverage.getAsDouble();
 
-    public boolean isComplete() {
-        return isComplete;
-    }
+        OptionalDouble longAverage = positions.stream().filter(p-> !p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToLong(p->p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis()).average();
+        if (longAverage.isPresent()) result.averageLengthOfTradeLong = longAverage.getAsDouble();
 
+        OptionalDouble shortAverage = positions.stream().filter(p-> p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToLong(p->p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis()).average();
+        if (shortAverage.isPresent()) result.averageLengthOfTradeShort = shortAverage.getAsDouble();
+
+        result.numberOfClosedTradesLong = (int)positions.stream().filter(p -> !p.isShortTrade() &&  p.getStatus() == PositionStatus.CLOSED).count();
+        result.numberOfClosedTradesShort = (int)positions.stream().filter(p -> p.isShortTrade() &&  p.getStatus() == PositionStatus.CLOSED).count();
+        result.numberOfClosedTrades = result.numberOfClosedTradesShort + result.numberOfClosedTradesLong;
+
+        result.realisedProfitLossLong = positions.stream().filter(p -> !p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).sum();
+        result.realisedProfitLossShort = positions.stream().filter(p -> p.isShortTrade() &&  p.getStatus() == PositionStatus.CLOSED).mapToInt(p->(p.getActualOpenPrice() - p.getActualSellPrice())).sum();
+        result.realisedProfitLoss = result.realisedProfitLossLong + result.realisedProfitLossShort;
+
+        OptionalDouble averageProfitShort = positions.stream().filter(p->p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average();
+        OptionalDouble averageProfitLong = positions.stream().filter(p->!p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average();
+
+        if (averageProfitLong.isPresent()) result.averageProfitLong = averageProfitLong.getAsDouble();
+        if (averageProfitShort.isPresent()) result.averageProfitShort = averageProfitShort.getAsDouble();
+
+        OptionalDouble averageLossLong = positions.stream().filter(p->!p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() < p.getActualOpenPrice()).mapToInt(p->p.getActualOpenPrice() - p.getActualSellPrice()).average();
+        OptionalDouble averageLossShort = positions.stream().filter(p->p.isShortTrade() && p.getStatus()==PositionStatus.CLOSED && p.getActualSellPrice() > p.getActualOpenPrice()).mapToInt(p->p.getActualSellPrice() - p.getActualOpenPrice()).average();
+
+        if (averageLossLong.isPresent()) result.averageLossLong = averageLossLong.getAsDouble();
+        if (averageLossShort.isPresent()) result.averageLossShort = averageLossShort.getAsDouble();
+
+        result.totalNumberOfOpenedTrades = (int)positions.stream().filter(p->p.getStatus() == PositionStatus.CLOSED || p.getStatus() == PositionStatus.OPEN).count();
+        result.numberOfUnclosedTrades = (int)positions.stream().filter(p->p.getStatus() == PositionStatus.OPEN).count();
+
+        result.balanceOfOpenTrades = positionsManager.getBalanceOfOpenTrades();
+
+        result.iteration = iterationNumber;
+        result.isComplete = true;
+
+    }
 
 }

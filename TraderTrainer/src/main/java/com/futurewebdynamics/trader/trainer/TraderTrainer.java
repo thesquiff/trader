@@ -5,9 +5,16 @@ import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
 import org.apache.log4j.Logger;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -90,6 +97,7 @@ public class TraderTrainer {
         workerConfig.setWindowSize(Integer.parseInt(prop.getProperty("windowSize")));
         workerConfig.setEnableShortTrade(Integer.parseInt(prop.getProperty("enableShortTrade")) == 1);
         workerConfig.setEnableLongTrade(Integer.parseInt(prop.getProperty("enableLongTrade")) == 1);
+        workerConfig.setMaxOpenTrades(Integer.parseInt(prop.getProperty("maxOpenTrades")));
 
         boolean createTickerFile = false;
 
@@ -125,8 +133,8 @@ public class TraderTrainer {
 
             logger.debug("Starting sweep...");
 
-            Collection<Future<TrainerResult>> results = new ArrayList<Future<TrainerResult>>();
-            ExecutorService workers = Executors.newFixedThreadPool(4);
+            Collection<Future<TrainerWorkerResult>> results = new ArrayList<Future<TrainerWorkerResult>>();
+            ExecutorService workers = Executors.newFixedThreadPool(8);
 
 
             for (long timeSinceLastBuyLimit = workerConfig.getTimeSinceLastBuyLimitStart(); timeSinceLastBuyLimit <= workerConfig.getTimeSinceLastBuyLimitEnd(); timeSinceLastBuyLimit+=workerConfig.getTimeSinceLastBuyLimitStep()) {
@@ -158,9 +166,9 @@ public class TraderTrainer {
                                 iterationConfig.setBounceLookback(bounceLookback);
                                 iterationConfig.setBounceTrigger(bounceTrigger);
 
-                                Callable<TrainerResult> worker = new TrainerWorker(iterationCounter, workerConfig, iterationConfig, new ReplayDataSource((ReplayDataSource)dataSource));
+                                Callable<TrainerWorkerResult> worker = new TrainerWorker(iterationCounter, workerConfig, iterationConfig, new ReplayDataSource((ReplayDataSource)dataSource));
 
-                                Future<TrainerResult> result = workers.submit(worker);
+                                Future<TrainerWorkerResult> result = workers.submit(worker);
 
                                 results.add(result);
 
@@ -176,21 +184,55 @@ public class TraderTrainer {
 
             logger.info("Size of results set " + results.size());
 
-            for (Future<TrainerResult> f : results) {
+            List<String> lines = new ArrayList<String>();
+            lines.add("i,openedTrades,closedTrades,closedTradesLong,closedTradesShort,unclosedTrades,profitLoss,profitLossLong,profitLossShort,balanceOfOpenTrades,avProfitLong,avProfitShort,avLossLong,avLossShort,avLength,avLengthLong,avLengthShort");
+
+            for (Future<TrainerWorkerResult> f : results) {
                 logger.info("Going to get result for iteration");
-                TrainerResult result = f.get();
+                TrainerWorkerResult result = f.get();
 
-                int gains = result.getTotalGains();
+                int gains = result.realisedProfitLoss;
 
-                logger.info("Result for iteration " + result.getIterationCounter() + " is " + result.getTotalGains() + ". Complete? " + String.valueOf(result.isComplete()));
+                logger.info("Result for iteration " + result.iteration + " is " + gains + ". Complete? " + String.valueOf(result.isComplete));
                 if (gains > bestTotalGains) {
                     bestTotalGains = gains;
-                    bestIterationNumber = result.getIterationCounter();
+                    bestIterationNumber = result.iteration;
                 }
+
+                lines.add(Integer.toString(result.iteration) + "," +
+                        Integer.toString(result.totalNumberOfOpenedTrades) + "," +
+                        Integer.toString(result.numberOfClosedTrades) + "," +
+                        Integer.toString(result.numberOfClosedTradesLong) + "," +
+                        Integer.toString(result.numberOfClosedTradesShort) + "," +
+                        Integer.toString(result.numberOfUnclosedTrades) + "," +
+                        Integer.toString(result.realisedProfitLoss) + "," +
+                        Integer.toString(result.realisedProfitLossLong) + "," +
+                        Integer.toString(result.realisedProfitLossShort) + "," +
+                        Double.toString(result.balanceOfOpenTrades) + "," +
+                        Double.toString(result.averageProfitLong) + "," +
+                        Double.toString(result.averageProfitShort) + "," +
+                        Double.toString(result.averageLossLong) + "," +
+                        Double.toString(result.averageLossShort) + "," +
+                        Double.toString(result.averageLengthOfTrade) + "," +
+                        Double.toString(result.averageLengthOfTradeLong) + "," +
+                        Double.toString(result.averageLengthOfTradeShort));
             }
 
             logger.info("Best total gains: " + bestTotalGains);
             logger.info("Path to best total gains: " + bestIterationNumber);
+
+            logger.info("Writing iteration file");
+
+
+
+            Path file = Paths.get(masterOutputFolder + File.separator + "iterations.csv");
+            try {
+                Files.write(file, lines, Charset.forName("UTF-8"));
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.error("An error occurred writing out results.", e);
+            }
+
 
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);

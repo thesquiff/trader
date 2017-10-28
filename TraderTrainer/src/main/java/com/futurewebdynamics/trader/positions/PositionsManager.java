@@ -29,8 +29,7 @@ public class PositionsManager {
     private ExecutorService executor;
     private boolean isReplayMode;
     private IPostAnalyser postAnalyser;
-
-    private int balanceOfOpenTrades;
+    private NormalisedPriceInformation currentTickData;
 
     final static Logger logger = Logger.getLogger(PositionsManager.class);
 
@@ -56,38 +55,18 @@ public class PositionsManager {
 
     public void tick(NormalisedPriceInformation tickData) {
         logger.trace("Calling tick() on " + this.positions.size() + " positions");
+        currentTickData = tickData;
         if (tickData.isEmpty()) {
             logger.trace("tick data is empty");
             return;
         }
-
-        int liveBalance = 0;
-
-        for (int i = 0; i < this.positions.size(); i++)
-        {
-            Position position = this.positions.get(i);
-            if (position.getStatus() == PositionStatus.OPEN) {
-                //this.executor.execute(new Runnable() {
-                //    public void run() {
-
-                //    }
-                //});
-
-                position.tick(tickData);
-
-                if (position.isShortTrade()) {
-                    liveBalance += (position.getActualOpenPrice() - tickData.getAskPrice()) * position.getUnits() * position.getLeverage();
-                } else {
-                    liveBalance += (tickData.getBidPrice() - position.getActualOpenPrice()) * position.getUnits() * position.getLeverage();
-                }
-            }
-        }
-
-        this.balanceOfOpenTrades = liveBalance;
     }
 
     public int getBalanceOfOpenTrades() {
-        return balanceOfOpenTrades;
+        int balanceOfOpenTradesLong  = (int)positions.stream().filter(p->!p.isShortTrade()).mapToInt(p->currentTickData.getBidPrice() - p.getActualOpenPrice()).sum();
+        int balanceOfOpenTradesShort  = (int)positions.stream().filter(p->p.isShortTrade()).mapToInt(p->p.getActualOpenPrice() - currentTickData.getAskPrice()).sum();
+
+        return balanceOfOpenTradesLong + balanceOfOpenTradesShort;
     }
 
     public void openPosition(NormalisedPriceInformation tickData, Collection<ISellConditionProvider> templateSellConditions, boolean isShortTrade) {
@@ -227,7 +206,7 @@ public class PositionsManager {
 
     public void dumpToCsv(String filename) {
 
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
             List<String> lines = new ArrayList<String>();
@@ -236,8 +215,8 @@ public class PositionsManager {
 
                 int profit = p.getStatus() == PositionStatus.CLOSED ?  p.isShortTrade() ? (p.getActualOpenPrice() - p.getActualSellPrice()) * p.getUnits() * p.getLeverage() : (p.getActualSellPrice() - p.getActualOpenPrice()) * p.getUnits() * p.getLeverage() : 0;
 
-                String opened = p.getTimeOpened() !=null ? format1.format(p.getTimeOpened()) : "";
-                String closed = p.getTimeClosed() != null ? format1.format(p.getTimeClosed()) : "";
+                String opened = p.getTimeOpened() !=null ? format1.format(p.getTimeOpened().getTime()) : "";
+                String closed = p.getTimeClosed() != null ? format1.format(p.getTimeClosed().getTime()) : "";
 
                 lines.add(String.format("%d,%s,%d,%s,%d,%d,%s,%d,%d,%d,%d", p.getUniqueId(), p.isShortTrade() ? "SHORT" : "LONG", p.getTimeOpened().getTimeInMillis(), opened, p.getActualOpenPrice(), p.getTimeClosed() == null ? 0 : p.getTimeClosed().getTimeInMillis(), closed, p.getActualSellPrice(), p.getUnits(), p.getLeverage(), profit));
             }
@@ -272,5 +251,9 @@ public class PositionsManager {
 
     public long getOpenTradesCount() {
         return positions.stream().filter(p -> p.getStatus() == PositionStatus.OPEN).count();
+    }
+
+    public List<Position> getPositions() {
+        return this.positions;
     }
 }

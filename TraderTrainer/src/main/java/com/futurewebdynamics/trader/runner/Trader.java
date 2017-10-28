@@ -51,17 +51,16 @@ public class Trader {
         try {
 
             String takeProfitOptions = prop.getProperty("takeprofit");
+            String takeProfitOptionsDelays = prop.getProperty("takeprofitdelays");
             String takeProfitOptionsShort = prop.getProperty("takeprofitshort");
+            String takeProfitOptionsShortDelays = prop.getProperty("takeprofitshortdelays");
+
 
             String[] takeProfitTokens = takeProfitOptions.split(",");
-            double targetTakeProfit = Double.parseDouble(takeProfitTokens[0]);
-            double oneHourTakeProfit = Double.parseDouble(takeProfitTokens[1]);
-            double ninetyMinutesTakeProfit = Double.parseDouble(takeProfitTokens[2]);
+            String[] takeProfitTokensDelays = takeProfitOptionsDelays.split(",");
 
             String[] takeProfitTokensShort = takeProfitOptionsShort.split(",");
-            double targetTakeProfitShort = Double.parseDouble(takeProfitTokensShort[0]);
-            double oneHourTakeProfitShort = Double.parseDouble(takeProfitTokensShort[1]);
-            double ninetyMinutesTakeProfitShort = Double.parseDouble(takeProfitTokensShort[2]);
+            String[] takeProfitTokensShortDelays = takeProfitOptionsShortDelays.split(",");
 
             boolean enableShortTrade = Integer.parseInt(prop.getProperty("enableShortTrade")) == 1;
             boolean enableLongTrade = Integer.parseInt(prop.getProperty("enableLongTrade")) == 1;
@@ -92,9 +91,11 @@ public class Trader {
 
             if (enableShortTrade) {
                 sellConditions.add(new StopLossPercentage(Double.parseDouble(prop.getProperty("stoplossshort")),true));
-                sellConditions.add(new TakeProfitPercentage(targetTakeProfitShort, 0, false, null, true));
-                sellConditions.add(new TakeProfitPercentage(oneHourTakeProfitShort, 120*60, false, null, true));
-                sellConditions.add(new TakeProfitPercentage(ninetyMinutesTakeProfitShort, 180*60, false, null, true));
+
+                for (int i = 0; i < takeProfitTokensShortDelays.length; i++)
+                {
+                    sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokensShort[i]), Integer.parseInt(takeProfitTokensShortDelays[0]), false, null, true));
+                }
                 analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, Double.parseDouble(prop.getProperty("bouncetriggershort")), Integer.parseInt(prop.getProperty("bouncelookback")), sellConditions, true));
             }
 
@@ -103,10 +104,11 @@ public class Trader {
                 fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
 
                 sellConditions.add(new StopLossPercentage(Double.parseDouble(prop.getProperty("stoploss")),false));
-                sellConditions.add(new TakeProfitPercentage(targetTakeProfit, 0, false, fallingStatistic, false));
-                sellConditions.add(new TakeProfitPercentage(oneHourTakeProfit, 120*60, false, fallingStatistic, false));
-                sellConditions.add(new TakeProfitPercentage(ninetyMinutesTakeProfit, 180*60, false, fallingStatistic, false));
 
+                for (int i = 0; i < takeProfitTokensDelays.length; i++)
+                {
+                    sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokens[i]), Integer.parseInt(takeProfitTokensDelays[0]), false, fallingStatistic, true));
+                }
                 analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, Double.parseDouble(prop.getProperty("bouncetrigger")), Integer.parseInt(prop.getProperty("bouncelookback")), sellConditions, false));
             }
 
