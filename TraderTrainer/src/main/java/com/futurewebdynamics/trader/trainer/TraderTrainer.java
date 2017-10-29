@@ -29,6 +29,9 @@ public class TraderTrainer {
         InputStream input = null;
 
         try {
+
+            System.out.println("props file: " + args[0]);
+
             input = new FileInputStream(args[0]);
             prop.load(input);
         } catch (FileNotFoundException e) {
@@ -134,7 +137,7 @@ public class TraderTrainer {
             logger.debug("Starting sweep...");
 
             Collection<Future<TrainerWorkerResult>> results = new ArrayList<Future<TrainerWorkerResult>>();
-            ExecutorService workers = Executors.newFixedThreadPool(8);
+            ExecutorService workers = Executors.newFixedThreadPool(16);
 
 
             for (long timeSinceLastBuyLimit = workerConfig.getTimeSinceLastBuyLimitStart(); timeSinceLastBuyLimit <= workerConfig.getTimeSinceLastBuyLimitEnd(); timeSinceLastBuyLimit+=workerConfig.getTimeSinceLastBuyLimitStep()) {

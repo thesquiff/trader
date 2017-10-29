@@ -17,22 +17,14 @@ public class TimeNormalisedDataCache {
 
     private int intervalMs;
 
-
-    public TimeNormalisedDataCache() {
-
-    }
-
     public TimeNormalisedDataCache(TimeNormalisedDataCache timeNormalisedDataCache) {
-
         this.setIntervalPrices(timeNormalisedDataCache.getIntervalPrices());
-
     }
 
     public TimeNormalisedDataCache(ArrayList<PriceInformation> priceInformation, int intervalMs) {
         this.intervalMs = intervalMs;
 
         init(priceInformation);
-
     }
 
     public long getStartTime() {
@@ -195,7 +187,4 @@ public class TimeNormalisedDataCache {
         return new PriceRange(maxPrice, minPrice);
 
     }
-
-
-
 }

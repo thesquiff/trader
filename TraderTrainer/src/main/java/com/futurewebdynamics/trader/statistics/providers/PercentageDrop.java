@@ -53,12 +53,14 @@ public class PercentageDrop extends IStatisticProvider {
     @Override
     public Object getResult() {
 
+        int windowSize = dataWindow.getWindowSize();
+
         double greatestDrop = 0.0;
         for (int lookback = 1; lookback < oldestWindowSize; lookback++) {
             double drop = 0.0;
 
-            NormalisedPriceInformation oldestTick = dataWindow.get(dataWindow.getWindowSize() - 1 - lookback);
-            NormalisedPriceInformation newestTick = dataWindow.get(dataWindow.getWindowSize() - 1);
+            NormalisedPriceInformation oldestTick = dataWindow.get(windowSize - 1 - lookback);
+            NormalisedPriceInformation newestTick = dataWindow.get(windowSize - 1);
 
             int newestValue = newestTick.getPrice(this.getPriceType());
             int oldestValue = oldestTick.getPrice(this.getPriceType());
@@ -68,12 +70,19 @@ public class PercentageDrop extends IStatisticProvider {
             if (newestValue >= oldestValue) continue;
 
             drop = (newestValue - oldestValue) / (double) oldestValue * -100.0; //make this a positive value even though we are calculating a percentage drop
-            logger.trace("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %drop: " + drop);
+
+            if (logger.isTraceEnabled()) {
+                logger.trace("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %drop: " + drop);
+            }
 
             if (drop > greatestDrop) greatestDrop = drop;
         }
 
-        logger.debug("Percentage drop: " + greatestDrop);
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("Percentage drop: " + greatestDrop);
+        }
+
         return greatestDrop;
 
     }
