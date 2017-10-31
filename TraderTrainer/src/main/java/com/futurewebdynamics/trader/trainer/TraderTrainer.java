@@ -47,24 +47,25 @@ public class TraderTrainer {
         long dateStartTimestampMs = Long.parseLong(prop.getProperty("starttimestampms"));
         long dateEndTimestampMs = Long.parseLong(prop.getProperty("endtimestampms"));
 
-        String dbDriver = prop.getProperty("dbdriver");
-        String connectionString = prop.getProperty("dbconnectionstring");
-
-        logger.info("loading db driver");
-        try {
-            Class.forName(dbDriver).newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
 
         IDataSource dataSource = new ReplayDataSource(500, dateStartTimestampMs, dateEndTimestampMs);
         try {
             if (Integer.valueOf(prop.getProperty("importdata")) == 0) {
+
+                String dbDriver = prop.getProperty("dbdriver");
+                String connectionString = prop.getProperty("dbconnectionstring");
+
+                logger.info("loading db driver");
+                try {
+                    Class.forName(dbDriver).newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
 
                 dataSource.init(connectionString);
             } else {
