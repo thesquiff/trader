@@ -54,11 +54,25 @@ public class PositionsManager {
     }
 
     public void tick(NormalisedPriceInformation tickData) {
-        logger.trace("Calling tick() on " + this.positions.size() + " positions");
+        //logger.trace("Calling tick() on " + this.positions.size() + " positions");
         currentTickData = tickData;
         if (tickData.isEmpty()) {
-            logger.trace("tick data is empty");
+            //logger.trace("tick data is empty");
             return;
+        }
+
+        for (int i = 0; i < this.positions.size(); i++)
+        {
+            Position position = this.positions.get(i);
+            if (position.getStatus() == PositionStatus.OPEN) {
+                //this.executor.execute(new Runnable() {
+                //    public void run() {
+
+                //    }
+                //});
+
+                position.tick(tickData);
+            }
         }
     }
 
@@ -134,7 +148,7 @@ public class PositionsManager {
             position.setTargetSellPrice(0);
         } else {
             if (this.postAnalyser != null) {
-                this.postAnalyser.AnalysePosition(position);
+                //this.postAnalyser.AnalysePosition(position);
             }
         }
     }

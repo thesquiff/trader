@@ -150,7 +150,7 @@ public class Position {
 
     public void tick(NormalisedPriceInformation tickData) {
         if (tickData.isEmpty()) return;
-        logger.debug("Evaluating sell conditions for " + this.uniqueId);
+        //logger.debug("Evaluating sell conditions for " + this.uniqueId);
         Iterator izzy = sellConditions.iterator();
         while(izzy.hasNext()) {
             ((ISellConditionProvider)izzy.next()).tick(this, tickData);

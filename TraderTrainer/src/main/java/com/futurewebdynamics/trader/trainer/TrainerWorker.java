@@ -142,7 +142,7 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
 
         PositionsManager positionsManager = new PositionsManager(true, new PositionLifetimeChart(dataSource.getDataCache(), 20*60, 500, 0.1, outputFolder, iterationConfig.getTakeProfit(), iterationConfig.getStopLoss()));
         positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager, iterationConfig.getTimeSinceLastBuyLimit()));
-        //positionsManager.riskFilters.add(new NumberOfOpenTrades(positionsManager,workerConfig.getMaxOpenTrades()));
+        positionsManager.riskFilters.add(new NumberOfOpenTrades(positionsManager,workerConfig.getMaxOpenTrades()));
 
         LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
         AnalyserRegistry analysers = new AnalyserRegistry();
