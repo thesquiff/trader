@@ -60,10 +60,12 @@ public class PercentageDropBounce extends IAnalyserProvider {
 
         Boolean isRisingOrFalling = (Boolean)isRisingOrFallingStatistic.getResult();
 
-        if (isShortTrade) {
-            logger.debug("% drop: " + drop + ", isFalling: " + isRisingOrFalling);
-        } else {
-            logger.debug("% drop: " + drop + ", isRising: " + isRisingOrFalling);
+        if (logger.isDebugEnabled()) {
+            if (isShortTrade) {
+                logger.debug("% drop: " + drop + ", isFalling: " + isRisingOrFalling);
+            } else {
+                logger.debug("% drop: " + drop + ", isRising: " + isRisingOrFalling);
+            }
         }
 
         if (drop >= triggerPercentage && isRisingOrFalling) {

@@ -54,14 +54,12 @@ public class PositionsManager {
     }
 
     public void tick(NormalisedPriceInformation tickData) {
-        logger.trace("Calling tick() on " + this.positions.size() + " positions");
+        //logger.trace("Calling tick() on " + this.positions.size() + " positions");
         currentTickData = tickData;
         if (tickData.isEmpty()) {
-            logger.trace("tick data is empty");
+            //logger.trace("tick data is empty");
             return;
         }
-
-        int liveBalance = 0;
 
         for (int i = 0; i < this.positions.size(); i++)
         {
@@ -74,15 +72,8 @@ public class PositionsManager {
                 //});
 
                 position.tick(tickData);
-
-                if (position.isShortTrade()) {
-                    liveBalance += (position.getActualOpenPrice() - tickData.getAskPrice()) * position.getUnits() * position.getLeverage();
-                } else {
-                    liveBalance += (tickData.getBidPrice() - position.getActualOpenPrice()) * position.getUnits() * position.getLeverage();
-                }
             }
         }
-
     }
 
     public int getBalanceOfOpenTrades() {
@@ -116,6 +107,7 @@ public class PositionsManager {
             cal.setTimeInMillis(tickData.getCorrectedTimestamp());
         }
         position.setTimeOpened(cal);
+
 
         for (ISellConditionProvider sellPosition : templateSellConditions) {
             if (sellPosition.isShortTradeCondition() != isShortTrade) continue;
@@ -156,7 +148,7 @@ public class PositionsManager {
             position.setTargetSellPrice(0);
         } else {
             if (this.postAnalyser != null) {
-                this.postAnalyser.AnalysePosition(position);
+                //this.postAnalyser.AnalysePosition(position);
             }
         }
     }

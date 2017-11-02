@@ -208,7 +208,7 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
             }
         }
 
-        positionsManager.runPostAnalysersForOpenTrades();
+        //positionsManager.runPostAnalysersForOpenTrades();
         positionsManager.printStats(outputFolder + File.separator + "results.csv");
         positionsManager.dumpToCsv(outputFolder + File.separator + "activity.csv");
 

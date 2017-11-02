@@ -19,6 +19,7 @@ public class ReplayDataSource implements IDataSource {
     final static Logger logger = Logger.getLogger(ReplayDataSource.class);
 
     private TimeNormalisedDataCache dataCache;
+    private int dataCacheSize;
 
     private int index = 0;
     private String connectionString;
@@ -40,6 +41,7 @@ public class ReplayDataSource implements IDataSource {
         this.dateEndTimestampMs = replayDataSource.getDateEndTimestampMs();
         ReplayDataSource dataSource = new ReplayDataSource(intervalMs, dateStartTimestampMs, dateEndTimestampMs);
         this.dataCache = new TimeNormalisedDataCache(replayDataSource.getDataCache());
+        this.dataCacheSize = this.dataCache.getCacheSize();
     }
 
     public void init(String connectionString) throws Exception {
@@ -50,6 +52,7 @@ public class ReplayDataSource implements IDataSource {
         databaseCache.loadData();
 
         this.dataCache = new TimeNormalisedDataCache(databaseCache.getCache(), intervalMs);
+        this.dataCacheSize = this.dataCache.getCacheSize();
         logger.debug("data cache object set: " + this.dataCache);
     }
 
@@ -68,6 +71,7 @@ public class ReplayDataSource implements IDataSource {
             }
 
             this.dataCache = new TimeNormalisedDataCache(cache, intervalMs);
+            this.dataCacheSize = this.dataCache.getCacheSize();
             logger.debug("data cache object set: " + this.dataCache);
 
         } catch (Exception e) {
@@ -90,17 +94,19 @@ public class ReplayDataSource implements IDataSource {
 
 
     public boolean hasMoreData() {
-        return index < this.dataCache.getCacheSize();
+        return index < this.dataCacheSize;
     }
 
     public NormalisedPriceInformation getTickData() {
-        if (index >= dataCache.getCacheSize()) return null;
+        if (index >= this.dataCacheSize) return null;
         NormalisedPriceInformation price = dataCache.getIntervalPrices()[index++];
 
-        if (price != null && !price.isEmpty()) {
-            logger.debug("index: " + index + ", timestamp: " + price.getTimestamp() + ", corrected: " + price.getCorrectedTimestamp() + ", ask.price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
-        } else {
-            logger.debug("index: " + index + ", price is null");
+        if (logger.isDebugEnabled()) {
+            if (price != null && !price.isEmpty()) {
+                logger.debug("index: " + index + ", timestamp: " + price.getTimestamp() + ", corrected: " + price.getCorrectedTimestamp() + ", ask.price: " + price.getAskPrice() + " Bid price:" + price.getBidPrice());
+            } else {
+                logger.debug("index: " + index + ", price is null");
+            }
         }
 
         return price;
@@ -122,7 +128,6 @@ public class ReplayDataSource implements IDataSource {
             writer.println(String.format("%d,%d,%d", price.getTimestamp(), price.getAskPrice(), price.getBidPrice()));
 
         }
-
     }
 
     public void setDataCache(TimeNormalisedDataCache dataCache) {
