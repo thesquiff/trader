@@ -2,6 +2,8 @@ package com.futurewebdynamics.trader.trainer;
 
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
+import com.futurewebdynamics.trader.notifications.EmailNotifier;
+import com.futurewebdynamics.trader.notifications.INotifier;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -43,6 +45,13 @@ public class TraderTrainer {
             e.printStackTrace();
             System.exit(1);
         }
+
+        String smtpServer = prop.getProperty("smtpServer");
+        int smtpPort = Integer.parseInt(prop.getProperty("smtpPort"));
+        String smtpUsername = prop.getProperty("smtpUsername");
+        String smtpPassword = prop.getProperty("smtpPassword");
+
+        INotifier emailNotifier = new EmailNotifier(smtpServer, smtpPort, smtpUsername, smtpPassword);
 
         long dateStartTimestampMs = Long.parseLong(prop.getProperty("starttimestampms"));
         long dateEndTimestampMs = Long.parseLong(prop.getProperty("endtimestampms"));
@@ -233,9 +242,16 @@ public class TraderTrainer {
                 logger.error("An error occurred writing out results.", e);
             }
 
+            ((EmailNotifier)emailNotifier).setFromEmailAddress("charlie@asqcomputing.co.uk");
+            ((EmailNotifier)emailNotifier).setToEmailAddress("charlie@asqcomputing.co.uk");
+
+            emailNotifier.SendNotification("Training Run Complete", "Best gains " + bestTotalGains + " @ iteration" + bestIterationNumber);
+
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
+
+        System.exit(0);
 
     }
 }
