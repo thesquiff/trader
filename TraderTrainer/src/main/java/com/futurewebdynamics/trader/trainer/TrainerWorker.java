@@ -216,13 +216,13 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
         List<Position> positions = positionsManager.getPositions();
 
         result = new TrainerWorkerResult();
-        OptionalDouble overallAverage = positions.stream().filter(p-> p.getStatus() == PositionStatus.CLOSED).mapToLong(p->p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis()).average();
+        OptionalDouble overallAverage = positions.stream().filter(p-> p.getStatus() == PositionStatus.CLOSED).mapToDouble(p->(p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis())/60000).average();
         if (overallAverage.isPresent()) result.averageLengthOfTrade = overallAverage.getAsDouble();
 
-        OptionalDouble longAverage = positions.stream().filter(p-> !p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToLong(p->p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis()).average();
+        OptionalDouble longAverage = positions.stream().filter(p-> !p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToDouble(p->(p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis())/60000).average();
         if (longAverage.isPresent()) result.averageLengthOfTradeLong = longAverage.getAsDouble();
 
-        OptionalDouble shortAverage = positions.stream().filter(p-> p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToLong(p->p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis()).average();
+        OptionalDouble shortAverage = positions.stream().filter(p-> p.isShortTrade() && p.getStatus() == PositionStatus.CLOSED).mapToDouble(p->(p.getTimeClosed().getTimeInMillis() - p.getTimeOpened().getTimeInMillis())/60000).average();
         if (shortAverage.isPresent()) result.averageLengthOfTradeShort = shortAverage.getAsDouble();
 
         result.numberOfClosedTradesLong = (int)positions.stream().filter(p -> !p.isShortTrade() &&  p.getStatus() == PositionStatus.CLOSED).count();

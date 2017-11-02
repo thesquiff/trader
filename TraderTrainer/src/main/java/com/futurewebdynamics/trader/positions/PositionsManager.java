@@ -77,8 +77,8 @@ public class PositionsManager {
     }
 
     public int getBalanceOfOpenTrades() {
-        int balanceOfOpenTradesLong  = (int)positions.stream().filter(p->!p.isShortTrade()).mapToInt(p->currentTickData.getBidPrice() - p.getActualOpenPrice()).sum();
-        int balanceOfOpenTradesShort  = (int)positions.stream().filter(p->p.isShortTrade()).mapToInt(p->p.getActualOpenPrice() - currentTickData.getAskPrice()).sum();
+        int balanceOfOpenTradesLong  = (int)positions.stream().filter(p->!p.isShortTrade() && p.getStatus() == PositionStatus.OPEN).mapToInt(p->currentTickData.getBidPrice() - p.getActualOpenPrice()).sum();
+        int balanceOfOpenTradesShort  = (int)positions.stream().filter(p->p.isShortTrade() && p.getStatus() == PositionStatus.OPEN).mapToInt(p->p.getActualOpenPrice() - currentTickData.getAskPrice()).sum();
 
         return balanceOfOpenTradesLong + balanceOfOpenTradesShort;
     }
