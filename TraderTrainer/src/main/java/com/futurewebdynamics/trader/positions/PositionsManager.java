@@ -60,6 +60,29 @@ public class PositionsManager {
             logger.trace("tick data is empty");
             return;
         }
+
+        int liveBalance = 0;
+
+        for (int i = 0; i < this.positions.size(); i++)
+        {
+            Position position = this.positions.get(i);
+            if (position.getStatus() == PositionStatus.OPEN) {
+                //this.executor.execute(new Runnable() {
+                //    public void run() {
+
+                //    }
+                //});
+
+                position.tick(tickData);
+
+                if (position.isShortTrade()) {
+                    liveBalance += (position.getActualOpenPrice() - tickData.getAskPrice()) * position.getUnits() * position.getLeverage();
+                } else {
+                    liveBalance += (tickData.getBidPrice() - position.getActualOpenPrice()) * position.getUnits() * position.getLeverage();
+                }
+            }
+        }
+
     }
 
     public int getBalanceOfOpenTrades() {
@@ -93,7 +116,6 @@ public class PositionsManager {
             cal.setTimeInMillis(tickData.getCorrectedTimestamp());
         }
         position.setTimeOpened(cal);
-
 
         for (ISellConditionProvider sellPosition : templateSellConditions) {
             if (sellPosition.isShortTradeCondition() != isShortTrade) continue;

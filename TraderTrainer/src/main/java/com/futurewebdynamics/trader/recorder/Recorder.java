@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.futurewebdynamics.trader.common.DatabaseUtils;
 import com.futurewebdynamics.trader.common.RestHelper;
 import com.futurewebdynamics.trader.common.StatementBuffer;
+import com.futurewebdynamics.trader.trader.providers.Oanda.data.Price;
 import com.futurewebdynamics.trader.trader.providers.Oanda.data.Prices;
 import org.apache.log4j.Logger;
 
@@ -41,7 +42,6 @@ public class Recorder {
             System.exit(1);
         }
 
-
         (new Thread() {
             public void run() {
 
@@ -49,26 +49,49 @@ public class Recorder {
                 String token = prop.getProperty("token");
                 int tickIntervalMs = Integer.parseInt(prop.getProperty("tickintervalms"));
 
-
                 //record data indefinitely
                 while (true) {
 
-                    String jsonResult = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts/" + accountId + "/pricing?instruments=BCO_USD", token);
+                    String jsonResult = RestHelper.GetJson("https://api-fxpractice.oanda.com/v3/accounts/" + accountId + "/pricing?instruments=BCO_USD,GBP_JPY", token);
 
                     long timestamp = System.currentTimeMillis();
                     ObjectMapper jsonDeseserialiser = new ObjectMapper();
                     try {
                         Prices prices = jsonDeseserialiser.readValue(jsonResult, Prices.class);
 
-                        if (prices.prices.size() <= 0 || prices.prices.get(0).asks.size() <= 0 || prices.prices.get(0).bids.size() <= 0) {
+                        if (prices.prices.size() <= 0 ) {
                             logger.debug("Time: " + Long.toString(System.currentTimeMillis()) + " Price: NULL");
                         } else {
 
-                            double askPrice = Double.parseDouble(prices.prices.get(0).asks.get(0).price);
-                            double bidPrice = Double.parseDouble(prices.prices.get(0).bids.get(0).price);
+                            String bcoAskPrice = null;
+                            String bcoBidPrice = null;
 
-                            String sql = "INSERT INTO price (timestamp, askprice, bidprice) VALUES(" + timestamp + ", " + askPrice + ", " + bidPrice + ")";
+                            String gpbjpyAskPrice = null;
+                            String gpbjpyBidPrice = null;
 
+                            for (Price price : prices.prices) {
+                                try {
+                                    if (price.instrument.equals("BCO_USD")) {
+                                        bcoAskPrice = price.asks.get(0).price;
+                                        bcoBidPrice = price.bids.get(0).price;
+                                    }
+                                } catch (Exception e) {
+                                    logger.error(e.getMessage(), e);
+                                }
+
+                                try {
+                                    if (price.instrument.equals("GBP_JPY")) {
+                                        gpbjpyAskPrice = price.asks.get(0).price;
+                                        gpbjpyBidPrice = price.bids.get(0).price;
+                                    }
+                                } catch (Exception e) {
+                                    logger.error(e.getMessage(), e);
+                                }
+                            }
+
+                            String sql = "INSERT INTO price (timestamp, askprice, bidprice, askgbpjpy, bidgbpjpy) VALUES(" + timestamp + ", " + (bcoAskPrice == null? "NULL" : bcoAskPrice) + ", " + (bcoBidPrice == null ? "NULL" : bcoBidPrice) + ", " + (gpbjpyAskPrice == null ? "NULL": gpbjpyAskPrice) + ", " + (gpbjpyBidPrice == null ? "NULL": gpbjpyBidPrice) + ")";
+
+                            logger.debug("SQL statement: " + sql);
                             statementBuffer.AddToBuffer(sql);
                         }
                     } catch (Exception e) {

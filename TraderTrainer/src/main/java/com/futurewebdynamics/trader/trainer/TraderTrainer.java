@@ -58,7 +58,6 @@ public class TraderTrainer {
             e.printStackTrace();
         }
 
-
         IDataSource dataSource = new ReplayDataSource(500, dateStartTimestampMs, dateEndTimestampMs);
         try {
             if (Integer.valueOf(prop.getProperty("importdata")) == 0) {
@@ -110,7 +109,6 @@ public class TraderTrainer {
         workerConfig.setMasterOutputFolder(masterOutputFolder);
 
         workerConfig.setCreateTickerFile(Integer.valueOf(prop.getProperty("createtickerfile")) == 1);
-
 
         //if required, export data set to csv file
         if (Integer.valueOf(prop.getProperty("exportdata")) == 1) {
@@ -223,8 +221,6 @@ public class TraderTrainer {
 
             logger.info("Writing iteration file");
 
-
-
             Path file = Paths.get(masterOutputFolder + File.separator + "iterations.csv");
             try {
                 Files.write(file, lines, Charset.forName("UTF-8"));
@@ -233,11 +229,9 @@ public class TraderTrainer {
                 logger.error("An error occurred writing out results.", e);
             }
 
-
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
-
 
     }
 }
