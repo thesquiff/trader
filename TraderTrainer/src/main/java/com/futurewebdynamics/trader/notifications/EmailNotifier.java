@@ -10,7 +10,6 @@ import org.simplejavamail.mailer.Mailer;
  */
 public class EmailNotifier implements INotifier{
 
-
     private String toEmailAddress;
     private String fromEmailAddress;
 
@@ -36,6 +35,7 @@ public class EmailNotifier implements INotifier{
         for (int i = 1; i <= maxAttempts; i++) {
             try {
                 mailer.sendMail(email);
+                break;
             } catch (Exception ex) {
                 if (i < maxAttempts) {
                     logger.warn("An exception occurred sending a notification to " + toEmailAddress, ex);

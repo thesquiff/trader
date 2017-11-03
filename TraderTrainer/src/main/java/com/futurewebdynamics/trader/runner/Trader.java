@@ -94,7 +94,7 @@ public class Trader {
 
                 for (int i = 0; i < takeProfitTokensShortDelays.length; i++)
                 {
-                    sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokensShort[i]), Integer.parseInt(takeProfitTokensShortDelays[0]), false, null, true));
+                    sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokensShort[i]), Integer.parseInt(takeProfitTokensShortDelays[i]), false, null, true));
                 }
                 analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, Double.parseDouble(prop.getProperty("bouncetriggershort")), Integer.parseInt(prop.getProperty("bouncelookback")), sellConditions, true));
             }
@@ -107,7 +107,8 @@ public class Trader {
 
                 for (int i = 0; i < takeProfitTokensDelays.length; i++)
                 {
-                    sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokens[i]), Integer.parseInt(takeProfitTokensDelays[0]), false, fallingStatistic, true));
+                    logger.info("Take profit @ " + takeProfitTokens[i] + " after delay of " + takeProfitTokensDelays[i]);
+                    sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokens[i]), Integer.parseInt(takeProfitTokensDelays[i]), false, fallingStatistic, true));
                 }
                 analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, Double.parseDouble(prop.getProperty("bouncetrigger")), Integer.parseInt(prop.getProperty("bouncelookback")), sellConditions, false));
             }

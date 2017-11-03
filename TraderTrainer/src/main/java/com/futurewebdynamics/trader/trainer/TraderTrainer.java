@@ -245,8 +245,7 @@ public class TraderTrainer {
             ((EmailNotifier)emailNotifier).setFromEmailAddress("charlie@asqcomputing.co.uk");
             ((EmailNotifier)emailNotifier).setToEmailAddress("charlie@asqcomputing.co.uk");
 
-            emailNotifier.SendNotification("Training Run Complete", "Best gains " + bestTotalGains + " @ iteration" + bestIterationNumber);
-
+            emailNotifier.SendNotification("Training Run Complete", "Best gains " + bestTotalGains + " @ iteration " + bestIterationNumber);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
