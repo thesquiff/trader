@@ -96,7 +96,7 @@
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
-                            <mainClass>com.futurewebdynamics.trader.recorder.Recorder</mainClass>
+                            <mainClass>com.futurewebdynamics.trader.runner.Trader</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

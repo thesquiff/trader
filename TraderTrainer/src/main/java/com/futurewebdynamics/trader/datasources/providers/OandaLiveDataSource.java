@@ -26,10 +26,10 @@ public class OandaLiveDataSource implements IDataSource {
 
     private final static String prodUrl = "https://api-fxtrade.oanda.com";
 
-    public OandaLiveDataSource(String accountId, String token, int pollIntervalMs, boolean production) {
+    public OandaLiveDataSource(String accountId, String token, int pollIntervalMs, boolean production, String instrument) {
         this.accountId = accountId;
         this.token = token;
-        this.runner = new GetLiveData(accountId, token, pollIntervalMs, production ? prodUrl : practiceUrl);
+        this.runner = new GetLiveData(accountId, token, pollIntervalMs, production ? prodUrl : practiceUrl, instrument);
     }
 
     @Override
@@ -40,7 +40,8 @@ public class OandaLiveDataSource implements IDataSource {
         if (latestPrice == null || (System.currentTimeMillis()/1000 - latestPrice.getTimestamp()) > 1000)
             return null;
 
-        NormalisedPriceInformation priceInformation = new NormalisedPriceInformation(latestPrice.getTimestamp(), latestPrice.getAskPrice(),latestPrice.getBidPrice(),latestPrice.getTimestamp());        priceInformation.setCorrectedTimestamp(latestPrice.getTimestamp());
+        NormalisedPriceInformation priceInformation = new NormalisedPriceInformation(latestPrice.getTimestamp(), latestPrice.getAskPrice(),latestPrice.getBidPrice(),latestPrice.getTimestamp());
+        priceInformation.setCorrectedTimestamp(latestPrice.getTimestamp());
 
         return priceInformation;
 
@@ -60,15 +61,17 @@ public class OandaLiveDataSource implements IDataSource {
         private String accountId;
         private String token;
         private int pollIntervalMs;
+        private String instrument;
 
         private String apiUrl;
 
-        public GetLiveData(String accountId, String token, int pollIntervalMs, String apiUrl) {
+        public GetLiveData(String accountId, String token, int pollIntervalMs, String apiUrl, String instrument) {
             logger.info("accountid: " + accountId);
             logger.info("token: " + token);
             this.accountId = accountId;
             this.token = token;
             this.pollIntervalMs = pollIntervalMs;
+            this.instrument = instrument;
 
             this.apiUrl = apiUrl;
         }
@@ -85,7 +88,7 @@ public class OandaLiveDataSource implements IDataSource {
 
                     Prices prices = null;
 
-                    String jsonResult = RestHelper.GetJson(this.apiUrl + "/v3/accounts/" + this.accountId + "/pricing?instruments=BCO_USD", token);
+                    String jsonResult = RestHelper.GetJson(this.apiUrl + "/v3/accounts/" + this.accountId + "/pricing?instruments=" + this.instrument, token);
                     ObjectMapper jsonDeseserialiser = new ObjectMapper();
 
                     prices = jsonDeseserialiser.readValue(jsonResult, Prices.class);

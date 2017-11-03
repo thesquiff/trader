@@ -50,6 +50,8 @@ public class Trader {
 
         try {
 
+            String instrument = prop.getProperty("instrument");
+
             String takeProfitOptions = prop.getProperty("takeprofit");
             String takeProfitOptionsDelays = prop.getProperty("takeprofitdelays");
             String takeProfitOptionsShort = prop.getProperty("takeprofitshort");
@@ -69,7 +71,7 @@ public class Trader {
             trader.init();
 
             int pollIntervalMs = Integer.parseInt(prop.getProperty("pollintervalms"));
-            IDataSource dataSource = new OandaLiveDataSource(trader.getAccountId(), trader.getToken(), pollIntervalMs, isProd);
+            IDataSource dataSource = new OandaLiveDataSource(trader.getAccountId(), trader.getToken(), pollIntervalMs, isProd, instrument);
             dataSource.init(args[0]);
 
             DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
