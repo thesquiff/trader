@@ -150,8 +150,8 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
         if (workerConfig.isEnableShortTrade()) {
             sellConditions.add(new StopLossPercentage(iterationConfig.getStopLoss(), true));
 
-            IsRising risingStatistic = new IsRising(1, PriceType.ASK_PRICE);
-            risingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
+            IsRising risingStatistic; //= //new IsRising(1, PriceType.ASK_PRICE);
+            //risingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
 
             sellConditions.add(new TakeProfitPercentage(iterationConfig.getTakeProfit(), 0, false, null, true));
 
@@ -161,8 +161,8 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
         if (workerConfig.isEnableLongTrade()) {
             sellConditions.add(new StopLossPercentage(iterationConfig.getStopLoss(), false));
 
-            IsFalling fallingStatistic = new IsFalling(1, PriceType.BID_PRICE);
-            fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
+            IsFalling fallingStatistic = null;//new IsFalling(1, PriceType.BID_PRICE);
+            //fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
 
             sellConditions.add(new TakeProfitPercentage(iterationConfig.getTakeProfit(), 0, false, null, false));
 
