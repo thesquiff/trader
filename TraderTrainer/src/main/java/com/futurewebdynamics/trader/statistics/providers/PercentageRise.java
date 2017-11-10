@@ -66,7 +66,9 @@ public class PercentageRise extends IStatisticProvider {
             if (newestValue <= oldestValue) continue;
 
             rise = (newestValue - oldestValue) / (double) oldestValue * 100.0;
-            logger.trace("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %rise: " + rise);
+            if (logger.isTraceEnabled()) {
+                logger.trace("OldestValue: " + oldestValue + ", NewestValue: " + newestValue + ", %rise: " + rise);
+            }
 
             if (rise > greatestRise) greatestRise = rise;
         }

@@ -3,6 +3,7 @@ package com.futurewebdynamics.trader.trader.providers;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.futurewebdynamics.trader.common.RestHelper;
+import com.futurewebdynamics.trader.notifications.Notification;
 import com.futurewebdynamics.trader.positions.Position;
 import com.futurewebdynamics.trader.positions.PositionStatus;
 import com.futurewebdynamics.trader.positions.PositionsManager;
@@ -17,6 +18,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by Charlie on 22/08/2016.
@@ -33,7 +35,9 @@ public class OandaTrader implements ITrader {
     private int units;
     private int leverage;
 
-    public OandaTrader(int units, int leverage, boolean prod) {
+    private BlockingQueue<Notification> notificationsQueue;
+
+    public OandaTrader(int units, int leverage, boolean prod, BlockingQueue<Notification> notificationsQueue) {
         this.units = units;
         this.leverage = leverage;
         if (prod) {
@@ -41,6 +45,8 @@ public class OandaTrader implements ITrader {
         } else {
             apiUrl = practiceUrl;
         }
+
+        this.notificationsQueue = notificationsQueue;
     }
 
     private final static String practiceUrl = "https://api-fxpractice.oanda.com";
@@ -92,11 +98,12 @@ public class OandaTrader implements ITrader {
             System.out.println("tradeID" + tradeId);
 
             position.setStatus(PositionStatus.OPEN);
-            logger.debug("Setting actual open price on poisition to: " + (int)(Double.parseDouble(price)*100.0));
+            logger.debug("Setting actual open price on position to: " + (int)(Double.parseDouble(price)*100.0));
             position.setActualOpenPrice((int)(Double.parseDouble(price)*100.0));
             position.setUniqueId(Long.parseLong(tradeId));
             //@TODO: Use dateTime above
             position.setTimeOpened(Calendar.getInstance());
+            notificationsQueue.add(new Notification("New " + (position.isShortTrade() ? "SHORT": "LONG") + " opened at price " + Integer.toString(position.getActualOpenPrice()) + " @ " + dateTime, orderResponseJson));
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -128,6 +135,9 @@ public class OandaTrader implements ITrader {
             logger.debug("Close response: " + closePositionJson);
             position.setStatus(PositionStatus.CLOSED);
             position.setActualSellPrice(targetSellPrice);
+
+            notificationsQueue.add(new Notification("CLOSE " + (position.isShortTrade() ? "SHORT": "LONG") + " trade opened at price " + Integer.toString(position.getActualOpenPrice()) + " for " +  Integer.toString(position.getActualSellPrice()), closeResponseJson));
+
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
             ex.printStackTrace();

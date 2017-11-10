@@ -8,6 +8,8 @@ import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.common.PriceType;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.OandaLiveDataSource;
+import com.futurewebdynamics.trader.notifications.EmailNotifier;
+import com.futurewebdynamics.trader.notifications.Notification;
 import com.futurewebdynamics.trader.positions.PositionsManager;
 import com.futurewebdynamics.trader.riskfilters.providers.NumberOfOpenTrades;
 import com.futurewebdynamics.trader.riskfilters.providers.TimeSinceLastBuy;
@@ -22,6 +24,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.Properties;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by 52con on 14/04/2016.
@@ -33,6 +37,18 @@ public class Trader {
     public static void main(String args[]) {
 
         Properties prop = new Properties();
+
+
+        String smtpServer = prop.getProperty("smtpServer");
+        int smtpPort = Integer.parseInt(prop.getProperty("smtpPort"));
+        String smtpUsername = prop.getProperty("smtpUsername");
+        String smtpPassword = prop.getProperty("smtpPassword");
+
+        EmailNotifier emailNotifier = new EmailNotifier(smtpServer, smtpPort, smtpUsername, smtpPassword);
+
+        emailNotifier.setFromEmailAddress("charlie@asqcomputing.co.uk");
+        emailNotifier.setToEmailAddress("charlie@asqcomputing.co.uk");
+
 
         try {
             InputStream input = null;
@@ -46,7 +62,20 @@ public class Trader {
         }
 
         boolean isProd = Boolean.parseBoolean(prop.getProperty("production"));
-        OandaTrader trader = new OandaTrader(100,100, isProd);
+
+        BlockingQueue<Notification> notificationsQueue = new LinkedBlockingDeque<>() ;
+
+        (new Thread() {
+            public void run() {
+                while (true) {
+                    for ( Notification n : notificationsQueue) {
+
+                    }
+                }
+            }
+        }).start();
+
+        OandaTrader trader = new OandaTrader(100,100, isProd, notificationsQueue);
 
         try {
 
