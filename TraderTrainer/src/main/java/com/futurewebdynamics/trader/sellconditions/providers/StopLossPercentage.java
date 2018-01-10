@@ -20,12 +20,20 @@ public class StopLossPercentage extends ISellConditionProvider{
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
+        tick(position, tick, -1);
+    }
+
+    public void tick(Position position, NormalisedPriceInformation tick, long testTime) {
 
         int buyPrice = position.getActualOpenPrice();
 
         if (position.isShortTrade() != super.isShortTradeCondition()) {
             //quit as this sell condition is not compatible
-            logger.debug("INCOMPATIBLE EVALUATION");
+            if (position.isShortTrade()) {
+                logger.debug("INCOMPATIBLE EVALUATION - is short trade");
+            } else {
+                logger.debug("INCOMPATIBLE EVALUATION - is long trade");
+            }
             return;
         }
 

@@ -19,6 +19,8 @@ public abstract class ISellConditionProvider  {
 
     public abstract void tick(Position position, NormalisedPriceInformation tickData);
 
+    public abstract void tick(Position position, NormalisedPriceInformation tickData, long testTime);
+
     public void sell(Position position, NormalisedPriceInformation tickData) {
 
 

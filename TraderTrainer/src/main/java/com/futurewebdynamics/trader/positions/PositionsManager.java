@@ -70,8 +70,11 @@ public class PositionsManager {
 
                 //    }
                 //});
-
-                position.tick(tickData);
+                if (isReplayMode) {
+                    position.tick(tickData, tickData.getTimestamp());
+                } else {
+                    position.tick(tickData);
+                }
             }
         }
     }
@@ -107,7 +110,6 @@ public class PositionsManager {
             cal.setTimeInMillis(tickData.getCorrectedTimestamp());
         }
         position.setTimeOpened(cal);
-
 
         for (ISellConditionProvider sellPosition : templateSellConditions) {
             if (sellPosition.isShortTradeCondition() != isShortTrade) continue;

@@ -5,5 +5,5 @@ package com.futurewebdynamics.trader.notifications;
  */
 public interface INotifier {
 
-    boolean SendNotification(String subject, String message);
+    boolean SendNotification(Notification notification);
 }

@@ -23,13 +23,13 @@ public class EmailNotifier implements INotifier{
         mailer = new Mailer(smtpServer, 25, username, password);
     }
 
-    public boolean SendNotification(String subject, String message) {
+    public boolean SendNotification(Notification n) {
 
         Email email = new EmailBuilder()
                 .from("Trader App", fromEmailAddress)
                 .to("", toEmailAddress)
-                .subject(subject)
-                .text(message)
+                .subject(n.getSubject())
+                .text(n.getMessage())
                 .build();
 
         for (int i = 1; i <= maxAttempts; i++) {

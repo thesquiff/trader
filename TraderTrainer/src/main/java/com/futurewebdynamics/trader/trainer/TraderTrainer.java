@@ -4,6 +4,7 @@ import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
 import com.futurewebdynamics.trader.notifications.EmailNotifier;
 import com.futurewebdynamics.trader.notifications.INotifier;
+import com.futurewebdynamics.trader.notifications.Notification;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -110,6 +111,7 @@ public class TraderTrainer {
         workerConfig.setEnableShortTrade(Integer.parseInt(prop.getProperty("enableShortTrade")) == 1);
         workerConfig.setEnableLongTrade(Integer.parseInt(prop.getProperty("enableLongTrade")) == 1);
         workerConfig.setMaxOpenTrades(Integer.parseInt(prop.getProperty("maxOpenTrades")));
+        workerConfig.setTakeProfitDelays(prop.getProperty("takeProfitDelays"));
 
         boolean createTickerFile = false;
 
@@ -172,7 +174,8 @@ public class TraderTrainer {
 
                                 IterationConfig iterationConfig = new IterationConfig();
                                 iterationConfig.setTimeSinceLastBuyLimit(timeSinceLastBuyLimit);
-                                iterationConfig.setTakeProfit(takeProfit);
+                                iterationConfig.setTakeProfit(takeProfit + "," + takeProfit*0.5 + "," + "0.01");
+                                iterationConfig.setTakeProfitDelays(workerConfig.getTakeProfitDelays());
                                 iterationConfig.setStopLoss(stopLoss);
                                 iterationConfig.setBounceLookback(bounceLookback);
                                 iterationConfig.setBounceTrigger(bounceTrigger);
@@ -245,7 +248,7 @@ public class TraderTrainer {
             ((EmailNotifier)emailNotifier).setFromEmailAddress("charlie@asqcomputing.co.uk");
             ((EmailNotifier)emailNotifier).setToEmailAddress("charlie@asqcomputing.co.uk");
 
-            emailNotifier.SendNotification("Training Run Complete", "Best gains " + bestTotalGains + " @ iteration " + bestIterationNumber);
+            emailNotifier.SendNotification(new Notification("Training Run Complete", "Best gains " + bestTotalGains + " @ iteration " + bestIterationNumber));
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }

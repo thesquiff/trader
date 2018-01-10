@@ -7,10 +7,11 @@ public class IterationConfig {
 
 
     private long timeSinceLastBuyLimit;
-    private double takeProfit;
+    private String takeProfit;
     private double stopLoss;
     private int bounceLookback;
     private double bounceTrigger;
+    private String takeProfitDelays;
 
 
     public long getTimeSinceLastBuyLimit() {
@@ -21,11 +22,11 @@ public class IterationConfig {
         this.timeSinceLastBuyLimit = timeSinceLastBuyLimit;
     }
 
-    public double getTakeProfit() {
+    public String getTakeProfit() {
         return takeProfit;
     }
 
-    public void setTakeProfit(double takeProfit) {
+    public void setTakeProfit(String takeProfit) {
         this.takeProfit = takeProfit;
     }
 
@@ -51,5 +52,13 @@ public class IterationConfig {
 
     public void setBounceTrigger(double bounceTrigger) {
         this.bounceTrigger = bounceTrigger;
+    }
+
+    public String getTakeProfitDelays() {
+        return takeProfitDelays;
+    }
+
+    public void setTakeProfitDelays(String takeProfitDelays) {
+        this.takeProfitDelays = takeProfitDelays;
     }
 }

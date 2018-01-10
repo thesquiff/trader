@@ -8,6 +8,7 @@ import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
 import com.futurewebdynamics.trader.common.PriceType;
 import com.futurewebdynamics.trader.datasources.IDataSource;
 import com.futurewebdynamics.trader.datasources.providers.OandaLiveDataSource;
+import com.futurewebdynamics.trader.notifications.DiafaanSmsViaMySqlNotifier;
 import com.futurewebdynamics.trader.notifications.EmailNotifier;
 import com.futurewebdynamics.trader.notifications.Notification;
 import com.futurewebdynamics.trader.positions.PositionsManager;
@@ -38,18 +39,6 @@ public class Trader {
 
         Properties prop = new Properties();
 
-
-        String smtpServer = prop.getProperty("smtpServer");
-        int smtpPort = Integer.parseInt(prop.getProperty("smtpPort"));
-        String smtpUsername = prop.getProperty("smtpUsername");
-        String smtpPassword = prop.getProperty("smtpPassword");
-
-        EmailNotifier emailNotifier = new EmailNotifier(smtpServer, smtpPort, smtpUsername, smtpPassword);
-
-        emailNotifier.setFromEmailAddress("charlie@asqcomputing.co.uk");
-        emailNotifier.setToEmailAddress("charlie@asqcomputing.co.uk");
-
-
         try {
             InputStream input = null;
 
@@ -61,21 +50,53 @@ public class Trader {
             ex.printStackTrace();
         }
 
+        String smtpServer = prop.getProperty("smtpServer");
+        int smtpPort = Integer.parseInt(prop.getProperty("smtpPort"));
+        String smtpUsername = prop.getProperty("smtpUsername");
+        String smtpPassword = prop.getProperty("smtpPassword");
+
+        String mysqlHost = prop.getProperty("mysqlHost");
+        String mysqlUsername = prop.getProperty("mysqlUsername");
+        String mysqlDatabase = prop.getProperty("mysqlDatabase");
+        String mysqlPassword = prop.getProperty("mysqlPassword");
+        String smsTo = prop.getProperty("smsTo");
+
+        EmailNotifier emailNotifier = new EmailNotifier(smtpServer, smtpPort, smtpUsername, smtpPassword);
+        DiafaanSmsViaMySqlNotifier smsNotifier = new DiafaanSmsViaMySqlNotifier(mysqlHost, mysqlUsername, mysqlPassword, mysqlDatabase, smsTo);
+        emailNotifier.setFromEmailAddress("charlie@asqcomputing.co.uk");
+        emailNotifier.setToEmailAddress("charlie@asqcomputing.co.uk");
+
+
+
+
         boolean isProd = Boolean.parseBoolean(prop.getProperty("production"));
 
         BlockingQueue<Notification> notificationsQueue = new LinkedBlockingDeque<>() ;
+
+
+        notificationsQueue.add(new Notification("App started", "App started"));
 
         (new Thread() {
             public void run() {
                 while (true) {
                     for ( Notification n : notificationsQueue) {
-
+                        if (n != null) {
+                            emailNotifier.SendNotification(n);
+                            smsNotifier.SendNotification(n);
+                            notificationsQueue.remove(n);
+                        }
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
         }).start();
 
         OandaTrader trader = new OandaTrader(100,100, isProd, notificationsQueue);
+
 
         try {
 
@@ -139,7 +160,7 @@ public class Trader {
                 for (int i = 0; i < takeProfitTokensDelays.length; i++)
                 {
                     logger.info("Take profit @ " + takeProfitTokens[i] + " after delay of " + takeProfitTokensDelays[i]);
-                    sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokens[i]), Integer.parseInt(takeProfitTokensDelays[i]), false, fallingStatistic, true));
+                    sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokens[i]), Integer.parseInt(takeProfitTokensDelays[i]), false, fallingStatistic, false));
                 }
                 analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(windowSize), windowSize, positionsManager, Double.parseDouble(prop.getProperty("bouncetrigger")), Integer.parseInt(prop.getProperty("bouncelookback")), sellConditions, false));
             }

@@ -35,6 +35,8 @@ public class OandaTrader implements ITrader {
     private int units;
     private int leverage;
 
+    private boolean isProd;
+
     private BlockingQueue<Notification> notificationsQueue;
 
     public OandaTrader(int units, int leverage, boolean prod, BlockingQueue<Notification> notificationsQueue) {
@@ -45,6 +47,7 @@ public class OandaTrader implements ITrader {
         } else {
             apiUrl = practiceUrl;
         }
+        this.isProd = prod;
 
         this.notificationsQueue = notificationsQueue;
     }
@@ -82,6 +85,7 @@ public class OandaTrader implements ITrader {
 
             if (orderResponseJson == null) {
                 //http response was not 200
+                notificationsQueue.add(new Notification((isProd ? "PROD " : "") + "Order failed", orderResponseJson));
                 return false;
             }
 
@@ -103,9 +107,9 @@ public class OandaTrader implements ITrader {
             position.setUniqueId(Long.parseLong(tradeId));
             //@TODO: Use dateTime above
             position.setTimeOpened(Calendar.getInstance());
-            notificationsQueue.add(new Notification("New " + (position.isShortTrade() ? "SHORT": "LONG") + " opened at price " + Integer.toString(position.getActualOpenPrice()) + " @ " + dateTime, orderResponseJson));
+            notificationsQueue.add(new Notification((isProd ? "PROD " : "") + "New " + (position.isShortTrade() ? "SHORT": "LONG") + " opened at price " + Integer.toString(position.getActualOpenPrice()) + " @ " + dateTime, orderResponseJson));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("An error occurred opening a position", ex);
             return false;
         }
 
@@ -136,7 +140,7 @@ public class OandaTrader implements ITrader {
             position.setStatus(PositionStatus.CLOSED);
             position.setActualSellPrice(targetSellPrice);
 
-            notificationsQueue.add(new Notification("CLOSE " + (position.isShortTrade() ? "SHORT": "LONG") + " trade opened at price " + Integer.toString(position.getActualOpenPrice()) + " for " +  Integer.toString(position.getActualSellPrice()), closeResponseJson));
+            notificationsQueue.add(new Notification((isProd ? "PROD " : "") + "CLOSE " + (position.isShortTrade() ? "SHORT": "LONG") + " trade opened at price " + Integer.toString(position.getActualOpenPrice()) + " for " +  Integer.toString(position.getActualSellPrice()), closeResponseJson));
 
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
@@ -159,7 +163,14 @@ public class OandaTrader implements ITrader {
                 Trade trade = trades.trades.get(pIndex);
 
                 Position internalPosition = new Position(trade.currentUnits, getStandardLeverage());
-                internalPosition.setQuantity(trade.currentUnits);
+
+                if (trade.currentUnits < 0) {
+                    internalPosition.setQuantity(-trade.currentUnits);
+                    internalPosition.setShortTrade(true);
+                } else {
+                    internalPosition.setQuantity(trade.currentUnits);
+                    internalPosition.setShortTrade(false);
+                }
                 internalPosition.setActualOpenPrice((int)(trade.price*100));
                 internalPosition.setUniqueId(Long.parseLong(trade.id));
                 internalPosition.setTimeOpened(javax.xml.bind.DatatypeConverter.parseDateTime(trade.openTime));

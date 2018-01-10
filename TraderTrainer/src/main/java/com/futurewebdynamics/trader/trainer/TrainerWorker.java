@@ -5,19 +5,16 @@ import com.futurewebdynamics.trader.analysers.providers.PercentageDropBounce;
 import com.futurewebdynamics.trader.common.AnalyserRegistry;
 import com.futurewebdynamics.trader.common.DataWindowRegistry;
 import com.futurewebdynamics.trader.common.NormalisedPriceInformation;
-import com.futurewebdynamics.trader.common.PriceType;
 import com.futurewebdynamics.trader.datasources.providers.ReplayDataSource;
 import com.futurewebdynamics.trader.positions.Position;
 import com.futurewebdynamics.trader.positions.PositionStatus;
 import com.futurewebdynamics.trader.positions.PositionsManager;
-import com.futurewebdynamics.trader.postanalysers.providers.PositionLifetimeChart;
 import com.futurewebdynamics.trader.riskfilters.providers.NumberOfOpenTrades;
 import com.futurewebdynamics.trader.riskfilters.providers.TimeSinceLastBuy;
 import com.futurewebdynamics.trader.sellconditions.ISellConditionProvider;
 import com.futurewebdynamics.trader.sellconditions.providers.StopLossPercentage;
 import com.futurewebdynamics.trader.sellconditions.providers.TakeProfitPercentage;
 import com.futurewebdynamics.trader.statistics.providers.IsFalling;
-import com.futurewebdynamics.trader.statistics.providers.IsRising;
 import com.futurewebdynamics.trader.trader.providers.PseudoTrader;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -140,14 +137,15 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
 
         DataWindowRegistry dataWindowRegistry = new DataWindowRegistry();
 
-        PositionsManager positionsManager = new PositionsManager(true, new PositionLifetimeChart(dataSource.getDataCache(), 20*60, 500, 0.1, outputFolder, iterationConfig.getTakeProfit(), iterationConfig.getStopLoss()));
+        //PositionsManager positionsManager = new PositionsManager(true, new PositionLifetimeChart(dataSource.getDataCache(), 20*60, 500, 0.1, outputFolder, iterationConfig.getTakeProfit(), iterationConfig.getStopLoss()));
+        PositionsManager positionsManager = new PositionsManager(true, null);
         positionsManager.riskFilters.add(new TimeSinceLastBuy(positionsManager, iterationConfig.getTimeSinceLastBuyLimit()));
         positionsManager.riskFilters.add(new NumberOfOpenTrades(positionsManager,workerConfig.getMaxOpenTrades()));
 
         LinkedList<ISellConditionProvider> sellConditions = new LinkedList<ISellConditionProvider>();
         AnalyserRegistry analysers = new AnalyserRegistry();
 
-        if (workerConfig.isEnableShortTrade()) {
+        /*if (workerConfig.isEnableShortTrade()) {
             sellConditions.add(new StopLossPercentage(iterationConfig.getStopLoss(), true));
 
             IsRising risingStatistic; //= //new IsRising(1, PriceType.ASK_PRICE);
@@ -156,7 +154,7 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
             sellConditions.add(new TakeProfitPercentage(iterationConfig.getTakeProfit(), 0, false, null, true));
 
             analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(workerConfig.getWindowSize()), workerConfig.getWindowSize(), positionsManager, iterationConfig.getBounceTrigger(), iterationConfig.getBounceLookback(), sellConditions, true));
-        }
+        }*/
 
         if (workerConfig.isEnableLongTrade()) {
             sellConditions.add(new StopLossPercentage(iterationConfig.getStopLoss(), false));
@@ -164,7 +162,19 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
             IsFalling fallingStatistic = null;//new IsFalling(1, PriceType.BID_PRICE);
             //fallingStatistic.setDataWindow(dataWindowRegistry.getWindowOfLength(2));
 
-            sellConditions.add(new TakeProfitPercentage(iterationConfig.getTakeProfit(), 0, false, null, false));
+            String takeProfitOptions = iterationConfig.getTakeProfit();
+            String takeProfitOptionsDelays = iterationConfig.getTakeProfitDelays();
+
+            String[] takeProfitTokens = takeProfitOptions.split(",");
+            String[] takeProfitTokensDelays = takeProfitOptionsDelays.split(",");
+
+            for (int i = 0; i < takeProfitTokensDelays.length; i++)
+            {
+                logger.info("Take profit @ " + takeProfitTokens[i] + " after delay of " + takeProfitTokensDelays[i]);
+                sellConditions.add(new TakeProfitPercentage(Double.parseDouble(takeProfitTokens[i]), Integer.parseInt(takeProfitTokensDelays[i]), false, null, false));
+            }
+
+            //sellConditions.add(new TakeProfitPercentage(iterationConfig.getTakeProfit(), 0, false, null, false));
 
             analysers.addAnalyser(new PercentageDropBounce(dataWindowRegistry.createWindowOfLength(workerConfig.getWindowSize()), workerConfig.getWindowSize(), positionsManager, iterationConfig.getBounceTrigger(), iterationConfig.getBounceLookback(), sellConditions, false));
         }
@@ -182,7 +192,7 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
         NormalisedPriceInformation tickData = null;
 
         while (((ReplayDataSource) dataSource).hasMoreData()) {
-            //read data and evaulate current positions
+            //read data and evaluate current positions
             for (int adv = 0; adv < workerConfig.getAnalysisIntervalMs() / workerConfig.getTickSleepMs(); adv++) {
                 tickData = dataSource.getTickData();
 
@@ -211,7 +221,6 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
         //positionsManager.runPostAnalysersForOpenTrades();
         positionsManager.printStats(outputFolder + File.separator + "results.csv");
         positionsManager.dumpToCsv(outputFolder + File.separator + "activity.csv");
-
 
         List<Position> positions = positionsManager.getPositions();
 
@@ -252,7 +261,5 @@ public class TrainerWorker  implements Callable<TrainerWorkerResult>{
 
         result.iteration = iterationNumber;
         result.isComplete = true;
-
     }
-
 }

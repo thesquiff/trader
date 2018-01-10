@@ -27,8 +27,15 @@ public class TakeProfitPercentage extends ISellConditionProvider {
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
+        tick(position, tick, -1);
+    }
 
-        if (System.currentTimeMillis() - position.getTimeOpened().getTimeInMillis() < minAgeOfTradeSeconds*1000) {
+    public void tick(Position position, NormalisedPriceInformation tick, long testTime) {
+
+
+        long currentTime = testTime > 0 ? testTime : System.currentTimeMillis();
+
+        if (currentTime - position.getTimeOpened().getTimeInMillis() < minAgeOfTradeSeconds*1000) {
 
             logger.debug("Trade is not old enough for this takeprofitpercentage condition.");
             return;

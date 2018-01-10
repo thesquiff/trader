@@ -148,6 +148,15 @@ public class Position {
         this.uniqueId = uniqueId;
     }
 
+    public void tick(NormalisedPriceInformation tickData, long testTime) {
+        if (tickData.isEmpty()) return;
+        //logger.debug("Evaluating sell conditions for " + this.uniqueId);
+        Iterator izzy = sellConditions.iterator();
+        while(izzy.hasNext()) {
+            ((ISellConditionProvider)izzy.next()).tick(this, tickData, testTime);
+        }
+    }
+
     public void tick(NormalisedPriceInformation tickData) {
         if (tickData.isEmpty()) return;
         //logger.debug("Evaluating sell conditions for " + this.uniqueId);

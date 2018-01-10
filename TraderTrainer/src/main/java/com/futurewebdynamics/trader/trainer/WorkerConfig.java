@@ -29,6 +29,7 @@ public class WorkerConfig {
     private String masterOutputFolder;
     private boolean createTickerFile;
     private int maxOpenTrades;
+    private String takeProfitDelays;
 
     public int getAnalysisIntervalMs() {
         return analysisIntervalMs;
@@ -220,5 +221,13 @@ public class WorkerConfig {
 
     public void setMaxOpenTrades(int maxOpenTrades) {
         this.maxOpenTrades = maxOpenTrades;
+    }
+
+    public String getTakeProfitDelays() {
+        return takeProfitDelays;
+    }
+
+    public void setTakeProfitDelays(String takeProfitDelays) {
+        this.takeProfitDelays = takeProfitDelays;
     }
 }

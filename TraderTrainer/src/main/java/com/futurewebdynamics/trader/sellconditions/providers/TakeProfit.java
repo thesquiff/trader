@@ -25,6 +25,10 @@ public class TakeProfit extends ISellConditionProvider {
     }
 
     public void tick(Position position, NormalisedPriceInformation tick) {
+        tick(position, tick, -1);
+    }
+
+    public void tick(Position position, NormalisedPriceInformation tick, long testTime) {
         int buyPrice = position.getActualOpenPrice();
 
         if (position.isShortTrade() != super.isShortTradeCondition()) {

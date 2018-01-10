@@ -83,16 +83,18 @@ public class RestHelper {
             int code = conn.getResponseCode();
             if (code !=200 && code !=201) {
                 logger.warn("Response code " + code + " was received from HTTP POST");
-                return null;
-
+                logger.info("Content was: " + result.toString());
+                return result.toString();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.error("An error occured making HTTP POST", e);
 
+            return result.toString();
+
+        } catch (Exception e) {
+            logger.error("An error occurred making HTTP POST", e);
+            e.printStackTrace();
         }
 
-        return result.toString();
+        return null;
     }
 
     public static String PutJson(String targetUrl, String token, String payload) {
